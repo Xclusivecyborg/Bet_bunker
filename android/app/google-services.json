@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "349754972153",
+    "project_id": "spinchat-3c35b",
+    "storage_bucket": "spinchat-3c35b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:349754972153:android:4859816165ab28a2130f28",
+        "android_client_info": {
+          "package_name": "com.xclusivecyborg.spinchat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "349754972153-qjhnqpt5e6a4u1qi8ebr4vf2r8cjqh2e.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.xclusivecyborg.spinchat",
+            "certificate_hash": "37e8619090a874846ecf2a16449485c4ddd3e8e4"
+          }
+        },
+        {
+          "client_id": "349754972153-4kqooh414leugs7r61lkfbdeqp53ntkm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBuny0dJDG7FN2aXePXSZ_n5DftcGiMmVs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "349754972153-4kqooh414leugs7r61lkfbdeqp53ntkm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
