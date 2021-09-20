@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:spinchat/Screens/loginScreen/loginScreen.dart';
+import 'package:spinchat/Screens/registrationPage/registrationPage.dart';
 import 'package:spinchat/utils/constants.dart';
 import 'package:spinchat/widgets/roundedButton.dart';
 
@@ -49,7 +50,9 @@ class _LandingPageState extends State<LandingPage> {
                 SizedBox(height: 80),
                 CustomButton(
                   label: 'Register',
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.pushNamed(context, Regiistration.id);
+                  },
                   color: kMynaveyBlue,
                 ),
                 SizedBox(height: 20),

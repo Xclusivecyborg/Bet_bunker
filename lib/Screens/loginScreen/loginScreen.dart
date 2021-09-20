@@ -70,31 +70,31 @@ class _LoginScreenState extends State<LoginScreen> {
                         color: kMynaveyBlue,
                         onTap: () async {
                           if (_resetForm.currentState!.validate()) {
-                            if (isLoading == true) {
-                              showDialog(
-                                context: context,
-                                builder: (context) {
-                                  return LoadingDialog();
-                                },
-                              );
-                            }
-                            final createdUser = await _auth.login(
-                                emailController.text, passwordController.text);
-                            print('${model.loggedInUSer!.uid}');
+                            //   if (isLoading == true) {
+                            //     showDialog(
+                            //       context: context,
+                            //       builder: (context) {
+                            //         return LoadingDialog();
+                            //       },
+                            //     );
+                            //   }
+                            //   final createdUser = await _auth.login(
+                            //       emailController.text, passwordController.text);
+                            //   print('${model.loggedInUSer!.uid}');
 
-                            if (createdUser != null) {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (_) => ChatView(),
-                                ),
-                              );
-                            }
-                          } else {
-                            return showDialog<String>(
-                              context: context,
-                              builder: (BuildContext context) => AlertWidget(),
+                            //   if (createdUser != null) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => ChatView(),
+                              ),
                             );
+                            //   }
+                            // } else {
+                            //   return showDialog<String>(
+                            //     context: context,
+                            //     builder: (BuildContext context) => AlertWidget(),
+                            //   );
                           }
                         },
                       ),

@@ -18,8 +18,10 @@ class CustomTextField extends StatefulWidget {
   final VoidCallback? submitAction;
   final bool? enableErrorMessage;
   final void Function(String)? onFieldSubmitted;
-  final IconData? suffixIcon;
-  final IconData? prefixIcon;
+  final Icon? suffixIcon;
+  final Icon? prefixIcon;
+  final Color? bordercolor;
+  final bool? autofocus;
 
   const CustomTextField({
     Key? key,
@@ -43,6 +45,8 @@ class CustomTextField extends StatefulWidget {
     this.onFieldSubmitted,
     this.suffixIcon,
     this.prefixIcon,
+    this.bordercolor,
+    this.autofocus,
   }) : super(key: key);
 
   @override
@@ -66,7 +70,9 @@ class _CustomTextFieldState extends State<CustomTextField> {
           width: widget.width ?? MediaQuery.of(context).size.width,
           decoration: BoxDecoration(
             border: Border.all(
-              color: Colors.indigo[900]!,
+              color: widget.bordercolor == null
+                  ? kMynaveyBlue
+                  : widget.bordercolor!,
             ),
             borderRadius: BorderRadius.all(
               Radius.circular(15),
@@ -76,6 +82,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
             padding: const EdgeInsets.only(left: 15.0, right: 10),
             child: Center(
               child: TextFormField(
+                autofocus: widget.autofocus == null ? false : widget.autofocus!,
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 textCapitalization: TextCapitalization.sentences,
                 enabled: widget.enabled,
@@ -108,21 +115,8 @@ class _CustomTextFieldState extends State<CustomTextField> {
                 focusNode: widget.focusNode,
                 onFieldSubmitted: widget.onFieldSubmitted,
                 decoration: InputDecoration(
-                  prefixIcon: widget.prefixIcon == null
-                      ? null
-                      : Icon(
-                          widget.prefixIcon,
-                          size: 15.0,
-                        ),
-                  suffixIcon: widget.suffixIcon == null
-                      ? null
-                      : InkWell(
-                          child: Icon(
-                            widget.suffixIcon,
-                            size: 22.0,
-                            color: myLightGreen,
-                          ),
-                        ),
+                  prefixIcon: widget.prefixIcon,
+                  suffixIcon: widget.suffixIcon,
                   filled: false,
                   hintText: widget.hintText,
                   hintStyle: TextStyle(

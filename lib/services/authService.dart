@@ -42,6 +42,10 @@ class AuthService {
       Failure(message: e.toString());
     }
   }
+
+  void logout() {
+    _auth.signOut();
+  }
 }
 
 class Failure {

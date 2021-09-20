@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:spinchat/Screens/chatscreen/chatScreenViewmodel.dart';
+import 'package:spinchat/Screens/chatView/chatViewScreen_viewModel.dart';
+import 'package:spinchat/Screens/registrationPage/registrationPage.dart';
 import 'package:spinchat/Screens/searchScreen/searchScreen.dart';
 import 'package:spinchat/utils/constants.dart';
 import 'package:stacked/stacked.dart';
@@ -10,24 +11,44 @@ class ChatView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ViewModelBuilder<ChatScreenViewmodel>.reactive(
-      viewModelBuilder: () => ChatScreenViewmodel(),
+    return ViewModelBuilder<ChatViewModel>.reactive(
+      viewModelBuilder: () => ChatViewModel(),
       builder: (context, model, child) => Scaffold(
         appBar: AppBar(
+          backgroundColor: KMyWhite,
           actions: [
             IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => SearchScreen(),
+                    ),
+                  );
+                },
                 icon: Icon(Icons.search, color: kMynaveyBlue)),
             IconButton(
-                onPressed: () {}, icon: Icon(Icons.menu, color: kMynaveyBlue)),
+                onPressed: () {
+                  model.authService.logout();
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => Regiistration(),
+                    ),
+                  );
+                },
+                icon: Icon(Icons.logout, color: kMynaveyBlue)),
           ],
           elevation: 1,
           title: Text(
             'SpinChat',
-            style: GoogleFonts.spinnaker(),
+            style: GoogleFonts.spinnaker(
+              color: kMynaveyBlue,
+            ),
           ),
         ),
         floatingActionButton: FloatingActionButton(
+          backgroundColor: kMynaveyBlue,
           onPressed: () {
             Navigator.push(context,
                 MaterialPageRoute(builder: (context) => SearchScreen()));
