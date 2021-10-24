@@ -1,13 +1,17 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:spinchat/Screens/chatscreen/chatScreen.dart';
-import 'package:spinchat/Screens/landingPage/landingPage.dart';
-import 'package:spinchat/Screens/loginScreen/loginScreen.dart';
-import 'package:spinchat/Screens/registrationPage/registrationPage.dart';
+import 'package:spinchat/app/app.locator.dart';
+import 'package:spinchat/widgets/custom_snackbar.dart';
+import 'package:spinchat/widgets/setup_ui_dialog.dart';
+import 'package:stacked_services/stacked_services.dart';
+import 'app/app.router.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  await setupLocator();
+  setupDialogUi();
+  AppSnackBar.setupSnackbarUi();
   runApp(MyApp());
 }
 
@@ -17,13 +21,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: LandingPage.id,
-      routes: {
-        LandingPage.id: (_) => LandingPage(),
-        ChatScreen.id: (_) => ChatScreen(),
-        LoginScreen.id: (_) => LoginScreen(),
-        Regiistration.id: (_) => Regiistration(),
-      },
+      navigatorKey: StackedService.navigatorKey,
+      onGenerateRoute: StackedRouter().onGenerateRoute,
+      initialRoute: Routes.landingPage,
     );
   }
 }

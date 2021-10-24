@@ -44,11 +44,13 @@ class CustomButton extends StatelessWidget {
   final String? label;
   final Function()? onTap;
   final Color? color;
+  final double? width;
   const CustomButton({
     Key? key,
     this.label = 'Label',
     this.onTap,
     @required this.color,
+    this.width,
   }) : super(key: key);
 
   @override
@@ -57,7 +59,7 @@ class CustomButton extends StatelessWidget {
       onTap: onTap,
       child: Container(
         height: 48,
-        width: MediaQuery.of(context).size.width / 2,
+        width: width == null ? MediaQuery.of(context).size.width / 2 : width,
         decoration: BoxDecoration(
           color: color,
           borderRadius: BorderRadius.all(

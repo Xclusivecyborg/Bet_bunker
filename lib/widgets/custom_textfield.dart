@@ -62,11 +62,6 @@ class _CustomTextFieldState extends State<CustomTextField> {
       children: [
         Container(
           height: widget.height,
-          // height: widget.maxLines != 1
-          //     ? widget.maxLines!.toDouble() *
-          //         MediaQuery.of(context).size.height /
-          //         35
-          //     : widget.height,
           width: widget.width ?? MediaQuery.of(context).size.width,
           decoration: BoxDecoration(
             border: Border.all(
@@ -91,7 +86,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
                       ? error = widget.validateFunction!(val)
                       : error = null;
                   setState(() {});
-                  // widget.onSaved(val);
+                  widget.onChange!(val);
                 },
                 style: TextStyle(
                   fontSize: 15.0,

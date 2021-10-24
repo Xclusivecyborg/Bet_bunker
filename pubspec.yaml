@@ -21,26 +21,27 @@ environment:
   sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
+  cloud_firestore: ^2.5.0
+  cupertino_icons: ^1.0.2
+  firebase_auth: ^3.0.2
+  firebase_core: ^1.5.0
   flutter:
     sdk: flutter
-
-
-  # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.2
-  firebase_core: ^1.5.0
-  firebase_auth: ^3.0.2
-  cloud_firestore: ^2.5.0
   google_fonts: ^2.1.0
+  shared_preferences: any
+  # Stacked architecture
   stacked: ^2.2.5
+  stacked_services: ^0.8.15
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  stacked_generator:    
+  build_runner: 
+      
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
-
 # The following section is specific to Flutter.
 flutter:
 
@@ -53,13 +54,10 @@ flutter:
   assets:
     - assets/
   #   - images/a_dot_ham.jpeg
-
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
-
   # For details regarding adding assets from package dependencies, see
   # https://flutter.dev/assets-and-images/#from-packages
-
   # To add custom fonts to your application, add a fonts section here,
   # in this "flutter" section. Each entry in this list should have a
   # "family" key with the font family name, and a "fonts" key with a

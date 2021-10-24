@@ -1,67 +1,47 @@
 import 'package:flutter/material.dart';
-import 'package:spinchat/utils/constants.dart';
+import 'package:spinchat/widgets/text_styles.dart';
 
-class AlertWidget extends StatelessWidget {
-  final String? text;
-  const AlertWidget({
-    Key? key,
-    this.text,
-  }) : super(key: key);
+import 'package:stacked_services/stacked_services.dart';
+
+class SignOutDialog extends StatelessWidget {
+  final DialogRequest request;
+  final Function(DialogResponse) completer;
+
+  const SignOutDialog(
+      {Key? key, required this.request, required this.completer})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(50),
+    return AlertDialog(
+      title: Text(
+       'Logging in',
+        style: AppTextStyle.darkGreySize20Bold,
       ),
-      child: AlertDialog(
-        insetPadding: EdgeInsets.symmetric(
-            horizontal: 20.0, vertical: MediaQuery.of(context).size.height / 3),
-        content: Center(
+      content: Text(
+        "You can sign back in anytime by tapping \n\"Add a workspace\"",
+        style: AppTextStyle.darkGreySize14,
+      ),
+      actions: [
+        TextButton(
           child: Text(
-            "\nPlease fill the required fields",
+            'Cancel',
+            style: AppTextStyle.darkGreySize16,
           ),
+          onPressed: () {
+            completer(DialogResponse(confirmed: false));
+          },
         ),
-        actions: <Widget>[
-          Center(
-            child: ElevatedButton(
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(kMyBlue),
-              ),
-              onPressed: () {
-                return Navigator.pop(context);
-              },
-              child: Text(
-                "Click to go back",
-              ),
-            ),
+        TextButton(
+          child: Text(
+            'Sign Out',
+            style: AppTextStyle.darkGreySize16,
           ),
-        ],
-      ),
-    );
-  }
-}
-
-class LoadingDialog extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: AlertDialog(
-        content: Container(
-          height: MediaQuery.of(context).size.height / 7,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Center(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 0.0),
-                  child: CircularProgressIndicator(),
-                ),
-              ),
-            ],
-          ),
+          onPressed: () {
+            completer(DialogResponse(confirmed: true));
+          },
         ),
-      ),
+      ],
     );
   }
 }

@@ -29,7 +29,7 @@ class ChatView extends StatelessWidget {
                 icon: Icon(Icons.search, color: kMynaveyBlue)),
             IconButton(
                 onPressed: () {
-                  model.authService.logout();
+                  // model.authService.logout();
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(

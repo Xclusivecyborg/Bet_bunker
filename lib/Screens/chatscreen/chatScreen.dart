@@ -1,13 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:spinchat/Screens/chatscreen/chatScreenViewmodel.dart';
-// import 'package:spinchat/services/authService.dart';
 import 'package:spinchat/utils/constants.dart';
 import 'package:spinchat/widgets/customListViewChildren.dart';
 import 'package:stacked/stacked.dart';
 
 class ChatScreen extends StatefulWidget {
-  static final String id = 'chatScreen';
   ChatScreen({Key? key}) : super(key: key);
 
   @override
@@ -15,7 +13,6 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> {
-  // AuthService _auth = new AuthService();
   String? messageText;
   TextEditingController messageController = new TextEditingController();
 

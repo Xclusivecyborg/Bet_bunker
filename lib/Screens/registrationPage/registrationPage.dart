@@ -1,31 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:spinchat/Screens/chatscreen/chatScreen.dart';
 import 'package:spinchat/Screens/registrationPage/registrationPageViewModel.dart';
-import 'package:spinchat/Screens/searchScreen/searchScreen.dart';
-import 'package:spinchat/services/authService.dart';
 import 'package:spinchat/utils/constants.dart';
 import 'package:spinchat/utils/validations.dart';
-import 'package:spinchat/widgets/alertDialog.dart';
 import 'package:spinchat/widgets/custom_textfield.dart';
 import 'package:spinchat/widgets/roundedButton.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:stacked/stacked.dart';
 
-class Regiistration extends StatefulWidget {
-  static final String id = 'registration';
-  const Regiistration({Key? key}) : super(key: key);
-
-  @override
-  _RegiistrationState createState() => _RegiistrationState();
-}
-
-class _RegiistrationState extends State<Regiistration> {
-  AuthService _auth = AuthService();
-  GlobalKey<FormState> _resetForm = GlobalKey<FormState>();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
-  TextEditingController confirmPassword = TextEditingController();
-  TextEditingController userNameController = TextEditingController();
+class Regiistration extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
@@ -51,68 +32,41 @@ class _RegiistrationState extends State<Regiistration> {
                 ),
                 SizedBox(height: 30),
                 Form(
-                  key: _resetForm,
+                  key: model.resetForm,
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   child: Column(
                     children: [
                       CustomTextField(
                         hintText: 'Username',
-                        controller: userNameController,
+                        controller: model.userNameController,
                         validateFunction: Validations.validateName,
                       ),
                       SizedBox(height: 10),
                       CustomTextField(
                         hintText: 'Email',
-                        controller: emailController,
+                        controller: model.emailController,
                         validateFunction: Validations.validateEmail,
                       ),
                       SizedBox(height: 10),
                       CustomTextField(
                         validateFunction: Validations.validatePassword,
                         hintText: 'Password',
-                        controller: passwordController,
+                        controller: model.passwordController,
                       ),
                       SizedBox(height: 10),
                       CustomTextField(
                         obscureText: true,
                         hintText: "Confirm Password",
-                        controller: confirmPassword,
+                        controller: model.confirmPassword,
                         keyboardType: TextInputType.visiblePassword,
-                        validateFunction: (String? value) {
-                          if (passwordController.text != confirmPassword.text) {
-                            return 'Passwords do not match!.';
-                          } else {
-                            return null;
-                          }
-                        },
+                        validateFunction: model.confirmPasswordFields
                       ),
                       SizedBox(height: 30),
                       CustomButton(
                         label: 'Register',
                         color: kMynaveyBlue,
                         onTap: () async {
-                          if (_resetForm.currentState!.validate()) {
-                            final registeredUSer = await _auth.signUp(
-                                emailController.text, passwordController.text);
-                            Map<String, dynamic> userMap = {
-                              'email': emailController.text,
-                              'name': userNameController.text
-                            };
-                            model.updateUserinfo(userDetails: userMap);
-                            if (registeredUSer != null) {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (_) => SearchScreen(),
-                                ),
-                              );
-                            }
-                          } else {
-                            return showDialog<String>(
-                              context: context,
-                              builder: (BuildContext context) => AlertWidget(),
-                            );
-                          }
+                    
                         },
                       ),
                     ],
