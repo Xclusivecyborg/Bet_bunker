@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:spinchat/utils/constants.dart';
 import 'package:spinchat/widgets/text_styles.dart';
 
 import 'package:stacked_services/stacked_services.dart';
@@ -14,34 +15,36 @@ class SignOutDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
+      
       title: Text(
-       'Logging in',
+        'Logging in',
         style: AppTextStyle.darkGreySize20Bold,
       ),
-      content: Text(
-        "You can sign back in anytime by tapping \n\"Add a workspace\"",
-        style: AppTextStyle.darkGreySize14,
+      content: Center(
+        child: CircularProgressIndicator(
+          color: kMynaveyBlue,
+        ),
       ),
-      actions: [
-        TextButton(
-          child: Text(
-            'Cancel',
-            style: AppTextStyle.darkGreySize16,
-          ),
-          onPressed: () {
-            completer(DialogResponse(confirmed: false));
-          },
-        ),
-        TextButton(
-          child: Text(
-            'Sign Out',
-            style: AppTextStyle.darkGreySize16,
-          ),
-          onPressed: () {
-            completer(DialogResponse(confirmed: true));
-          },
-        ),
-      ],
+      // actions: [
+      //   TextButton(
+      //     child: Text(
+      //       'Cancel',
+      //       style: AppTextStyle.darkGreySize16,
+      //     ),
+      //     onPressed: () {
+      //       completer(DialogResponse(confirmed: false));
+      //     },
+      //   ),
+      //   TextButton(
+      //     child: Text(
+      //       'Sign Out',
+      //       style: AppTextStyle.darkGreySize16,
+      //     ),
+      //     onPressed: () {
+      //       completer(DialogResponse(confirmed: true));
+      //     },
+      //   ),
+      // ],
     );
   }
 }

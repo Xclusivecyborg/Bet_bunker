@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:spinchat/Screens/chatView/chatViewScreen_viewModel.dart';
 import 'package:spinchat/Screens/registrationPage/registrationPage.dart';
 import 'package:spinchat/Screens/searchScreen/searchScreen.dart';
+import 'package:spinchat/app/services/storage_keys.dart';
 import 'package:spinchat/utils/constants.dart';
+import 'package:spinchat/widgets/custom_tile.dart';
 import 'package:stacked/stacked.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -12,6 +14,7 @@ class ChatView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<ChatViewModel>.reactive(
+      onModelReady: (model) => model.initialise(),
       viewModelBuilder: () => ChatViewModel(),
       builder: (context, model, child) => Scaffold(
         appBar: AppBar(
@@ -55,6 +58,32 @@ class ChatView extends StatelessWidget {
           },
           child: Icon(Icons.message),
         ),
+        body: model.snapshot == null
+            ? Center(child: CircularProgressIndicator())
+            : Padding(
+                padding: const EdgeInsets.only(top: 15.0),
+                child: ListView.separated(
+                  separatorBuilder: (context, index) => Divider(
+                    thickness: 2,
+                  ),
+                  shrinkWrap: true,
+                  itemCount: model.snapshot!.length,
+                  itemBuilder: (context, index) => CustomTile(
+                    chatPage: true,
+                    isUserLoggedIn: true,
+                    username: model.snapshot![index].data()['name'] ?? 'No data',
+                    ontap: () {
+                      // ignore: unused_element
+                      startConversation(String username) {
+                        List<String> users = [
+                          username,
+                        ];
+                        // model.chatRoomCreate(chatRoomId, data)
+                      }
+                    },
+                  ),
+                ),
+              ),
       ),
     );
   }

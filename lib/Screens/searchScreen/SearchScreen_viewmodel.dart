@@ -18,17 +18,20 @@ class SearchScreenViewmodel extends BaseViewModel {
   TextEditingController searchResults = new TextEditingController();
 
   void getUSersByUsername() async {
-    await _fireStore.getUSersByUsername(
-        username: searchResults.text , snapshot: snapshot);
+    await _fireStore
+        .getUSersByUsername(username: searchResults.text)!
+        .then((value) {
+      snapshot = value.docs;
+    });
     notifyListeners();
   }
 
-  void getUsers ({String? val})async{
-     await _fireStore.getUSersByUsername(
-        username: searchResults.text , snapshot: snapshot);
+  void getUsers({String? val}) async {
+    _fireStore.getUSersByUsername(username: val)!.then((value) {
+      snapshot = value.docs;
+    });
     notifyListeners();
   }
-
 
   // chatRoomCreate(String chatRoomId, data) {
   //   try {

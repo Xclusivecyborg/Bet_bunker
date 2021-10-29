@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:spinchat/utils/constants.dart';
 
-
 class AppTextStyle {
   // static const double _size10 = 11;
   static const double _size12 = 13;
@@ -20,12 +19,10 @@ class AppTextStyle {
 
   //?Text Styles go below
   //colorSizeFontWeight
-  static TextStyle darkGreySize12 =
-      _base(_size12, _normalWeight, kMyLightGrey);
+  static TextStyle darkGreySize12 = _base(_size12, _normalWeight, kMyLightGrey);
 
   ///Note: This is the normal text used in the app
-  static TextStyle darkGreySize14 =
-      _base(_size14, _normalWeight, kMyLightGrey);
+  static TextStyle darkGreySize14 = _base(_size14, _normalWeight, KmyGreen);
 
   static TextStyle darkGreySize16 = _base(
     _size16,
@@ -56,23 +53,18 @@ class AppTextStyle {
   static TextStyle darkGreySize18Bold =
       _base(_size18, _boldWeight, kMyMediumGrey);
 
-  static TextStyle blackSize18Bold =
-      _base(_size18, _boldWeight, kMyMediumGrey);
+  static TextStyle blackSize18Bold = _base(_size18, _boldWeight, kMyMediumGrey);
 
   static TextStyle darkGreySize20Bold =
-      _base(_size20, _boldWeight, kMyMediumGrey);
+      _base(_size20, _boldWeight, kMynaveyBlue);
 
-  static TextStyle errorSize14 =
-      _base(_size14, _normalWeight, kMyMediumGrey);
+  static TextStyle errorSize14 = _base(_size14, _normalWeight, kMyMediumGrey);
 
-  static TextStyle whiteSize14Bold =
-      _base(_size14, _boldWeight, kMyMediumGrey);
+  static TextStyle whiteSize14Bold = _base(_size14, _boldWeight, kMyMediumGrey);
 
-  static TextStyle whiteSize18Bold =
-      _base(_size18, _boldWeight, kMyMediumGrey);
+  static TextStyle whiteSize18Bold = _base(_size18, _boldWeight, kMyMediumGrey);
 
-  static TextStyle whiteSize20Bold =
-      _base(_size20, _boldWeight, kMyMediumGrey);
+  static TextStyle whiteSize20Bold = _base(_size20, _boldWeight, kMyMediumGrey);
 
   //!End
 

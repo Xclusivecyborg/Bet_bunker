@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:spinchat/utils/constants.dart';
@@ -8,10 +6,13 @@ import 'package:spinchat/widgets/roundedButton.dart';
 class CustomTile extends StatelessWidget {
   final String? username;
   final Function()? ontap;
+  final bool? chatPage;
+  final bool? isUserLoggedIn;
   CustomTile({
     Key? key,
     this.username,
     this.ontap,
+    @required this.chatPage, @required this.isUserLoggedIn,
   }) : super(key: key);
 
   @override
@@ -30,12 +31,12 @@ class CustomTile extends StatelessWidget {
               fontSize: 20.0,
             ),
           ),
-          trailing: CustomButton(
+          trailing: chatPage! ? Column():CustomButton(
             width: MediaQuery.of(context).size.width / 5,
             label: 'Message',
             onTap: ontap,
             color: kMynaveyBlue,
-          )),
+          ) ) ,
     );
   }
 }

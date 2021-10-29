@@ -11,17 +11,23 @@ class FirestoreService {
     return _instance!;
   }
 
-  getUSersByUsername({required String? username, required snapshot}) async {
+  Future<QuerySnapshot<Map<String, dynamic>>>? getUSersByUsername(
+      {required String? username}) {
     try {
-      await _fireStore!
+      final snapshots = _fireStore!
           .collection('users')
           .where('name', isLessThanOrEqualTo: username)
-          .get()
-          .then((value) {
-        snapshot = value.docs;
-      });
+          .get();
+      return snapshots;
+    } catch (e) {
+      print(Failure(message: e.toString()));
+    }
+  }
 
-      print(snapshot!.first.id);
+  Future<QuerySnapshot<Map<String, dynamic>>>? getUSers() {
+    try {
+      final snapshots = _fireStore!.collection('users').get();
+      return snapshots;
     } catch (e) {
       print(Failure(message: e.toString()));
     }

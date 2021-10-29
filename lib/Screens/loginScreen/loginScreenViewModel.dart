@@ -1,11 +1,13 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'package:spinchat/app/app.locator.dart';
 import 'package:spinchat/app/app.router.dart';
 import 'package:spinchat/app/services/authService.dart';
+import 'package:spinchat/app/services/firestore_service.dart';
 import 'package:spinchat/app/services/localdatabase.dart';
 import 'package:spinchat/app/services/storage_keys.dart';
 import 'package:spinchat/widgets/custom_snackbar.dart';
@@ -24,6 +26,8 @@ class LoginScreenViewModel extends FormViewModel {
   bool isLoading = true;
   TextEditingController newEmailController = TextEditingController();
   TextEditingController newPasswordController = TextEditingController();
+ 
+  List<QueryDocumentSnapshot<Map<String, dynamic>>>? snapshot;
 
   Future<UserCredential?> login() async {
     try {
@@ -36,11 +40,11 @@ class LoginScreenViewModel extends FormViewModel {
         if (createdUser != null) {
           _storage.setString(StorageKeys.userEmailKey, loggedInUSer!.email!);
           _navigation.back();
+          _navigation.navigateTo(Routes.chatView);
           _snackbar.showCustomSnackBar(
               variant: SnackBarType.Success,
-              duration: const Duration(seconds: 2),
+              duration: const Duration(seconds: 4),
               message: 'Loggin Successful for ${loggedInUSer!.email!}');
-          _navigation.navigateTo(Routes.chatView);
           print(loggedInUSer!.uid);
           return createdUser;
         }
@@ -65,6 +69,8 @@ class LoginScreenViewModel extends FormViewModel {
 
     notifyListeners();
   }
+
+  
 
   @override
   void setFormStatus() {}
