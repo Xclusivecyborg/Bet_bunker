@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:spinchat/utils/constants.dart';
+import 'package:spinchat/utils/constants/color_constants.dart';
 import 'package:stacked_services/stacked_services.dart';
 
 import '../app/app.locator.dart';
@@ -11,14 +11,14 @@ class AppSnackBar {
     service.registerCustomSnackbarConfig(
       variant: SnackBarType.Success,
       config: SnackbarConfig(
-        backgroundColor: kMynaveyBlue,
-        textColor: KmyGreen,
+        backgroundColor: AppColors.naveyBlue,
+        textColor: AppColors.myGreen,
         borderRadius: 1,
         dismissDirection: SnackDismissDirection.HORIZONTAL,
         // animationDuration: const Duration(seconds: 3),
         margin: const EdgeInsets.only(bottom: 0, right: 0, left: 0),
         barBlur: 0.6,
-        messageColor: KmyGreen,
+        messageColor: AppColors.myGreen,
         snackPosition: SnackPosition.BOTTOM,
         snackStyle: SnackStyle.FLOATING,
       ),
@@ -27,14 +27,14 @@ class AppSnackBar {
     service.registerCustomSnackbarConfig(
       variant: SnackBarType.Failure,
       config: SnackbarConfig(
-        backgroundColor: kMyRed,
-        textColor: KMyWhite,
+        backgroundColor: AppColors.myRed,
+        textColor: AppColors.white,
         borderRadius: 1,
         dismissDirection: SnackDismissDirection.HORIZONTAL,
         // animationDuration: const Duration(seconds: 3),
         margin: const EdgeInsets.only(bottom: 0, right: 0, left: 0),
         barBlur: 0.6,
-        messageColor: KMyWhite,
+        messageColor: AppColors.white,
         snackPosition: SnackPosition.BOTTOM,
         snackStyle: SnackStyle.FLOATING,
       ),

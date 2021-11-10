@@ -1,7 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:spinchat/Screens/chatscreen/chatScreenViewmodel.dart';
+import 'package:spinchat/view/chatscreen/chatScreenViewmodel.dart';
 import 'package:spinchat/utils/constants.dart';
+import 'package:spinchat/utils/constants/textstyle_constants.dart';
 import 'package:spinchat/widgets/customListViewChildren.dart';
 import 'package:stacked/stacked.dart';
 
@@ -97,7 +98,7 @@ class _ChatScreenState extends State<ChatScreen> {
                       },
                       child: Text(
                         'Send',
-                        style: kSendButtonTextStyle,
+                        style: AppTextStyles.kSendButtonTextStyle,
                       ),
                     ),
                   ],

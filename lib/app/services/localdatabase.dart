@@ -44,36 +44,4 @@ class SharedPreferenceLocalStorage {
   }
 
 }
-// class LocalDataBase {
 
-//   static Future<bool> saveUserLoggedIn(bool isUserLoggedIn) async {
-//     final _sharedPreference = await SharedPreferences.getInstance();
-//     return await _sharedPreference.setBool(StorageKeys.userLoggedInKey, isUserLoggedIn);
-//   }
-
-//   static Future<bool> saveUsername(String username) async {
-//     final _sharedPreference = await SharedPreferences.getInstance();
-//     return await _sharedPreference.setString(StorageKeys.usernameKey, username);
-//   }
-
-//   static Future<bool> saveUserEmail(String email) async {
-//     final _sharedPreference = await SharedPreferences.getInstance();
-//     return await _sharedPreference.setString(StorageKeys.userEmailKey, email);
-//   }
-
-//   //Gettng data method
-//   static Future<bool?> getUSerLoggedIn() async {
-//     final _sharedPreference = await SharedPreferences.getInstance();
-//     return _sharedPreference.getBool(StorageKeys.userLoggedInKey);
-//   }
-
-//   static Future<String?> getUsername() async {
-//     final _sharedPreference = await SharedPreferences.getInstance();
-//     return _sharedPreference.getString(StorageKeys.usernameKey);
-//   }
-
-//   static Future<String?> getUserEmail() async {
-//     final _sharedPreference = await SharedPreferences.getInstance();
-//     return _sharedPreference.getString(StorageKeys.userEmailKey);
-//   }
-// }

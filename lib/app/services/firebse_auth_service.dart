@@ -29,7 +29,7 @@ class FirebaseAuthService {
           variant: SnackBarType.Failure,
           message: 'Please check your internet connection');
     } catch (e) {
-      Failure(message: e.toString());
+     throw Failure(message: e.toString());
     }
   }
 
@@ -39,7 +39,7 @@ class FirebaseAuthService {
           _auth!.signInWithEmailAndPassword(email: email!, password: password!);
       return newUSer;
     } catch (e) {
-      Failure(message: e.toString());
+     throw Failure(message: e.toString());
     }
   }
 
@@ -53,11 +53,12 @@ class FirebaseAuthService {
           variant: SnackBarType.Failure,
           message: 'Please check your internet connection');
     } catch (e) {
-      Failure(message: e.toString());
+     throw Failure(message: e.toString());
     }
   }
 
   User? getCurrentUSer() {
+    
     try {
       final user = _auth!.currentUser;
       return user;

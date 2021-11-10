@@ -8,7 +8,8 @@ void setupDialogUi() {
   final dialogService = locator<DialogService>();
 
   final builders = {
-      DialogType.signOut: (context, request, completer) =>  SignOutDialog(request: request, completer: completer),
+      DialogType.login: (context, request, completer) =>  SignOutDialog(request: request, completer: completer, title: 'Logging In',),
+     DialogType.register: (context, request, completer) =>  SignOutDialog(request: request, completer: completer, title: 'Signing Up',),  
   };
 
   dialogService.registerCustomDialogBuilders(builders);
@@ -18,5 +19,7 @@ void setupDialogUi() {
 
 
 enum DialogType {
+  login,
+  register,
   signOut
 }

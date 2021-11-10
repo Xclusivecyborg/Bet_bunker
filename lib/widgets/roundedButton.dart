@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:spinchat/utils/constants.dart';
+import 'package:spinchat/utils/constants/color_constants.dart';
 
 // class RoundedButton extends StatefulWidget {
 //   final String? title;
@@ -69,7 +69,7 @@ class CustomButton extends StatelessWidget {
         child: Center(
           child: Text(
             label!,
-            style: TextStyle(color: KmyGreen),
+            style: TextStyle(color: AppColors.myGreen),
           ),
         ),
       ),

@@ -7,15 +7,18 @@
 // ignore_for_file: public_member_api_docs
 
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:stacked/stacked.dart';
+import 'package:stacked/stacked_annotations.dart';
 
-import '../Screens/chatView/chatViewScreen.dart';
-import '../Screens/chatscreen/chatScreen.dart';
-import '../Screens/landingPage/landingPage.dart';
-import '../Screens/loginScreen/loginScreen.dart';
-import '../Screens/registrationPage/registrationPage.dart';
-import '../Screens/searchScreen/searchScreen.dart';
+import '../view/chatView/chatViewScreen.dart';
+import '../view/chatscreen/chatScreen.dart';
+import '../view/landingPage/landingPage.dart';
+import '../view/loginScreen/loginScreen.dart';
+import '../view/registrationPage/registrationPage.dart';
+import '../view/searchScreen/searchScreen.dart';
+import '../view/settings/settings.dart';
+import '../widgets/bottom_nav_bar.dart';
 
 class Routes {
   static const String landingPage = '/';
@@ -24,6 +27,8 @@ class Routes {
   static const String chatView = '/chat-view';
   static const String regiistration = '/Regiistration';
   static const String searchScreen = '/search-screen';
+  static const String indexScreen = '/index-screen';
+  static const String settingsPage = '/settings-page';
   static const all = <String>{
     landingPage,
     loginScreen,
@@ -31,6 +36,8 @@ class Routes {
     chatView,
     regiistration,
     searchScreen,
+    indexScreen,
+    settingsPage,
   };
 }
 
@@ -44,6 +51,8 @@ class StackedRouter extends RouterBase {
     RouteDef(Routes.chatView, page: ChatView),
     RouteDef(Routes.regiistration, page: Regiistration),
     RouteDef(Routes.searchScreen, page: SearchScreen),
+    RouteDef(Routes.indexScreen, page: IndexScreen),
+    RouteDef(Routes.settingsPage, page: SettingsPage),
   ];
   @override
   Map<Type, StackedRouteFactory> get pagesMap => _pagesMap;
@@ -70,8 +79,12 @@ class StackedRouter extends RouterBase {
       );
     },
     ChatView: (data) {
+      var args = data.getArgs<ChatViewArguments>(nullOk: false);
       return CupertinoPageRoute<dynamic>(
-        builder: (context) => const ChatView(),
+        builder: (context) => ChatView(
+          key: args.key,
+          username: args.username,
+        ),
         settings: data,
       );
     },
@@ -83,7 +96,23 @@ class StackedRouter extends RouterBase {
     },
     SearchScreen: (data) {
       return CupertinoPageRoute<dynamic>(
-        builder: (context) =>  SearchScreen(),
+        builder: (context) => SearchScreen(),
+        settings: data,
+      );
+    },
+    IndexScreen: (data) {
+      var args = data.getArgs<IndexScreenArguments>(nullOk: false);
+      return CupertinoPageRoute<dynamic>(
+        builder: (context) => IndexScreen(
+          key: args.key,
+          username: args.username,
+        ),
+        settings: data,
+      );
+    },
+    SettingsPage: (data) {
+      return CupertinoPageRoute<dynamic>(
+        builder: (context) => const SettingsPage(),
         settings: data,
       );
     },
@@ -98,4 +127,18 @@ class StackedRouter extends RouterBase {
 class ChatScreenArguments {
   final Key? key;
   ChatScreenArguments({this.key});
+}
+
+/// ChatView arguments holder class
+class ChatViewArguments {
+  final Key? key;
+  final String username;
+  ChatViewArguments({this.key, required this.username});
+}
+
+/// IndexScreen arguments holder class
+class IndexScreenArguments {
+  final Key? key;
+  final String username;
+  IndexScreenArguments({this.key, required this.username});
 }

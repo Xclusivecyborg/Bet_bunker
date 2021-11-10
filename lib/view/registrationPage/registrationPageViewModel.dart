@@ -4,9 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:spinchat/app/app.locator.dart';
 import 'package:spinchat/app/app.router.dart';
-import 'package:spinchat/app/services/authService.dart';
-import 'package:spinchat/app/services/localdatabase.dart';
-import 'package:spinchat/app/services/storage_keys.dart';
+import 'package:spinchat/app/services/firebse_auth_service.dart';
 import 'package:spinchat/widgets/custom_snackbar.dart';
 import 'package:spinchat/widgets/setup_ui_dialog.dart';
 import 'package:stacked/stacked.dart';
@@ -20,24 +18,20 @@ class RegistrationPageViewModel extends BaseViewModel {
   TextEditingController userNameController = TextEditingController();
   FirebaseFirestore _fireStore = FirebaseFirestore.instance;
   final _navigation = locator<NavigationService>();
-  final _storage = locator<SharedPreferenceLocalStorage>();
   final _snackbar = locator<SnackbarService>();
   final _authservice = locator<FirebaseAuthService>();
   final _dialog = locator<DialogService>();
 
-  void signUp() {
+  void signUp() async {
     try {
-    
       if (resetForm.currentState!.validate()) {
         _dialog.showCustomDialog(
-          variant: DialogType.signOut,
+          variant: DialogType.register,
         );
-        final registeredUSer =
-            _authservice.signUp(emailController.text, passwordController.text);
-        if (registeredUSer != null) {
-          _storage.setBool(StorageKeys.userLoggedInKey, true);
-          _storage.setString(StorageKeys.usernameKey, userNameController.text);
-          updateUserinfo();
+        final registeredUSer = await _authservice.signUp(
+            emailController.text, passwordController.text);
+        if (registeredUSer != null) {    
+          updateUserinfo(registeredUSer.user!.uid);
           _navigation.back();
           _snackbar.showCustomSnackBar(
               variant: SnackBarType.Success,
@@ -66,20 +60,26 @@ class RegistrationPageViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  String? confirmPasswordFields(String? value) {
-    if (passwordController.text != confirmPassword.text) {
-      return 'Passwords do not match!.';
-    }
-    notifyListeners();
+  void navigateToLogin() {
+    _navigation.replaceWith(Routes.loginScreen);
   }
 
-  void updateUserinfo() async {
+  String? confirmPasswordFields(String? value) {
+    if (value! != passwordController.text) {
+      return 'Passwords do not match!.';
+    }
+  }
+
+  void updateUserinfo(String uid) async {
     Map<String, dynamic> userMap = {
+      'userId': uid,
+      'chattingWith': '',
       'email': emailController.text,
-      'name': userNameController.text
+      'userName': userNameController.text,
+      'createdAt': DateTime.now().millisecondsSinceEpoch.toString(),
     };
     try {
-      await _fireStore.collection('users').add(userMap);
+      await _fireStore.collection('users').doc(uid).set(userMap);
     } catch (e) {
       print(Failure(message: e.toString()));
     }

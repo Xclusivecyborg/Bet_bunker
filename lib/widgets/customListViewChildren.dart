@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:spinchat/Screens/chatscreen/chatScreenViewmodel.dart';
-import 'package:spinchat/utils/constants.dart';
+import 'package:spinchat/view/chatscreen/chatScreenViewmodel.dart';
+import 'package:spinchat/utils/constants/color_constants.dart';
 import 'package:stacked/stacked.dart';
 
 class MessageTextWidget extends StatelessWidget {
@@ -28,7 +28,7 @@ class MessageTextWidget extends StatelessWidget {
               isMe! ? CrossAxisAlignment.end : CrossAxisAlignment.start,
           children: [
             Material(
-              color: isMe! ? kMylightBlue : KMyWhite,
+              color: isMe! ? AppColors.naveyBlue : AppColors.white,
               borderRadius: isMe!
                   ? BorderRadius.only(
                       topLeft: Radius.circular(
@@ -49,14 +49,13 @@ class MessageTextWidget extends StatelessWidget {
                 child: Text(
                   '$messageBody',
                   style: TextStyle(
-                    color: isMe! ? KMyWhite : kMyBlack,
+                    color: isMe! ? AppColors.white : AppColors.black,
                     fontSize: 16.0,
                   ),
                 ),
               ),
             ),
             messageSender != null ? Text('$messageSender') : Text(''),
-            // timeCreated != null ? Text('$timeCreated') : Text(''),
           ],
         ),
       ),

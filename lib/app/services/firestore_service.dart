@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:spinchat/app/services/authService.dart';
+import 'package:spinchat/app/services/firebse_auth_service.dart';
 
 class FirestoreService {
   static FirestoreService? _instance;
@@ -16,7 +16,7 @@ class FirestoreService {
     try {
       final snapshots = _fireStore!
           .collection('users')
-          .where('name', isLessThanOrEqualTo: username)
+          .where('userName', isLessThanOrEqualTo: username)
           .get();
       return snapshots;
     } catch (e) {
@@ -27,6 +27,23 @@ class FirestoreService {
   Future<QuerySnapshot<Map<String, dynamic>>>? getUSers() {
     try {
       final snapshots = _fireStore!.collection('users').get();
+      return snapshots;
+    } catch (e) {
+      print(Failure(message: e.toString()));
+    }
+  }
+
+  Future<void> updateDocument(
+      {required String collPath,
+      required String docPath,
+      required Map<String, dynamic> data}) {
+    return _fireStore!.collection(collPath).doc(docPath).update(data);
+  }
+
+  Future<DocumentSnapshot<Map<String, dynamic>>?> getUSerDetails(
+      String? uid) async {
+    try {
+      final snapshots = _fireStore!.collection('users').doc(uid).get();
       return snapshots;
     } catch (e) {
       print(Failure(message: e.toString()));

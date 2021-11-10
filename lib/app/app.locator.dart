@@ -10,8 +10,10 @@ import 'package:stacked/stacked.dart';
 import 'package:stacked/stacked_annotations.dart';
 import 'package:stacked_services/stacked_services.dart';
 
-import 'services/authService.dart';
+import 'services/firebase_storage.dart';
+import 'services/firebse_auth_service.dart';
 import 'services/firestore_service.dart';
+import 'services/google_signin_service.dart';
 import 'services/localdatabase.dart';
 
 final locator = StackedLocator.instance;
@@ -35,4 +37,10 @@ Future setupLocator(
 
   final firestoreService = await FirestoreService.getInstance();
   locator.registerSingleton(firestoreService);
+
+  final firebaseDataStorage = await FirebaseDataStorage.getInstance();
+  locator.registerSingleton(firebaseDataStorage);
+
+  final googleAuthService = await GoogleAuthService.getInstance();
+  locator.registerSingleton(googleAuthService);
 }

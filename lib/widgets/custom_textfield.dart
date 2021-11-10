@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:spinchat/utils/constants.dart';
+import 'package:spinchat/utils/constants/color_constants.dart';
 
 class CustomTextField extends StatefulWidget {
   final double? width;
@@ -66,7 +67,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
           decoration: BoxDecoration(
             border: Border.all(
               color: widget.bordercolor == null
-                  ? kMynaveyBlue
+                  ? AppColors.naveyBlue
                   : widget.bordercolor!,
             ),
             borderRadius: BorderRadius.all(
@@ -115,7 +116,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
                   filled: false,
                   hintText: widget.hintText,
                   hintStyle: TextStyle(
-                    color: kMyMediumGrey,
+                    color: AppColors.myMediumGrey
                   ),
                   errorBorder: kBorderStyle,
                   errorStyle: TextStyle(

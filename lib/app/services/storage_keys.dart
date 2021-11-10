@@ -1,8 +1,17 @@
-
-
 class StorageKeys {
-
-  static String userLoggedInKey = 'ISLOGGEDIN';
-  static String usernameKey = 'USERNAMEKEY';
-  static String userEmailKey = 'USEREMAILKEY';
+  static const isLoggedIn = 'IS_LOGGED_IN';
+  static const username = 'USERNAME';
+  static const userEmail = 'USEREMAIL';
+  static const currentUserId = 'USER_ID';
+  static const pathUserCollection = "users";
+  static const pathMessageCollection = "messages";
+  static const aboutMe = "aboutMe";
+  static const photoUrl = "photoUrl";
+  static const phoneNumber = "phoneNumber";
+  static const chattingWith = "chattingWith";
+  static const idFrom = "idFrom";
+  static const idTo = "idTo";
+  static const timestamp = "timestamp";
+  static const content = "content";
+  static const type = "type";
 }

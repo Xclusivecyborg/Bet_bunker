@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:spinchat/utils/constants.dart';
+import 'package:spinchat/utils/constants/color_constants.dart';
 
 class AppTextStyle {
   // static const double _size10 = 11;
@@ -19,52 +19,52 @@ class AppTextStyle {
 
   //?Text Styles go below
   //colorSizeFontWeight
-  static TextStyle darkGreySize12 = _base(_size12, _normalWeight, kMyLightGrey);
+  static TextStyle darkGreySize12 = _base(_size12, _normalWeight, AppColors.myLightGrey);
 
   ///Note: This is the normal text used in the app
-  static TextStyle darkGreySize14 = _base(_size14, _normalWeight, KmyGreen);
+  static TextStyle darkGreySize14 = _base(_size14, _normalWeight, AppColors.myGreen);
 
   static TextStyle darkGreySize16 = _base(
     _size16,
     _normalWeight,
-    kMyLightGrey,
+    AppColors.myLightGrey,
   );
 
   //Light Grey
   static TextStyle lightGreySize12 =
-      _base(_size12, _normalWeight, kMyMediumGrey);
+      _base(_size12, _normalWeight, AppColors.myMediumGrey);
 
   static TextStyle lightGreySize14 =
-      _base(_size14, _normalWeight, kMyMediumGrey);
+      _base(_size14, _normalWeight, AppColors.myMediumGrey);
 
   static TextStyle lightGreySize16 =
-      _base(_size16, _normalWeight, kMyMediumGrey);
+      _base(_size16, _normalWeight, AppColors.myMediumGrey);
 
   static TextStyle lightGreySize18 =
-      _base(_size18, _normalWeight, kMyMediumGrey);
+      _base(_size18, _normalWeight, AppColors.myMediumGrey);
 
   //very dark text
   static TextStyle darkGreySize14Bold =
-      _base(_size14, _boldWeight, kMyMediumGrey);
+      _base(_size14, _boldWeight, AppColors.myMediumGrey);
 
   static TextStyle darkGreySize16Bold =
-      _base(_size16, _boldWeight, kMyMediumGrey);
+      _base(_size16, _boldWeight, AppColors.myMediumGrey);
 
   static TextStyle darkGreySize18Bold =
-      _base(_size18, _boldWeight, kMyMediumGrey);
+      _base(_size18, _boldWeight, AppColors.myMediumGrey);
 
-  static TextStyle blackSize18Bold = _base(_size18, _boldWeight, kMyMediumGrey);
+  static TextStyle blackSize18Bold = _base(_size18, _boldWeight, AppColors.myMediumGrey);
 
   static TextStyle darkGreySize20Bold =
-      _base(_size20, _boldWeight, kMynaveyBlue);
+      _base(_size20, _boldWeight, AppColors.myMediumGrey);
 
-  static TextStyle errorSize14 = _base(_size14, _normalWeight, kMyMediumGrey);
+  static TextStyle errorSize14 = _base(_size14, _normalWeight, AppColors.myMediumGrey);
 
-  static TextStyle whiteSize14Bold = _base(_size14, _boldWeight, kMyMediumGrey);
+  static TextStyle whiteSize14Bold = _base(_size14, _boldWeight, AppColors.myMediumGrey);
 
-  static TextStyle whiteSize18Bold = _base(_size18, _boldWeight, kMyMediumGrey);
+  static TextStyle whiteSize18Bold = _base(_size18, _boldWeight, AppColors.myMediumGrey);
 
-  static TextStyle whiteSize20Bold = _base(_size20, _boldWeight, kMyMediumGrey);
+  static TextStyle whiteSize20Bold = _base(_size20, _boldWeight, AppColors.myMediumGrey);
 
   //!End
 

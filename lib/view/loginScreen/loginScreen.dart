@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:spinchat/Screens/loginScreen/loginScreenViewModel.dart';
-import 'package:spinchat/utils/constants.dart';
+import 'package:spinchat/view/loginScreen/loginScreenViewModel.dart';
+import 'package:spinchat/utils/constants/color_constants.dart';
 import 'package:spinchat/utils/validations.dart';
 import 'package:spinchat/widgets/custom_textfield.dart';
 import 'package:spinchat/widgets/roundedButton.dart';
 import 'package:stacked/stacked.dart';
-
 
 class LoginScreen extends StatelessWidget {
   @override
@@ -13,7 +12,7 @@ class LoginScreen extends StatelessWidget {
     return ViewModelBuilder<LoginScreenViewModel>.reactive(
       viewModelBuilder: () => LoginScreenViewModel(),
       builder: (context, model, child) => Scaffold(
-        backgroundColor: KMyWhite,
+        backgroundColor: AppColors.white,
         body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.fromLTRB(25, 150, 25, 50),
@@ -44,20 +43,38 @@ class LoginScreen extends StatelessWidget {
                       ),
                       SizedBox(height: 10),
                       CustomTextField(
-                        onChange: (val) {},
-                        obscureText: true,
-                        validateFunction: Validations.validatePassword,
-                        hintText: 'Password',
-                        controller: model.newPasswordController
-                      ),
+                          onChange: (val) {},
+                          obscureText: true,
+                          validateFunction: Validations.validatePassword,
+                          hintText: 'Password',
+                          controller: model.newPasswordController),
                       SizedBox(height: 30),
                       CustomButton(
                         label: 'Login',
-                        color: kMynaveyBlue,
+                        color: AppColors.naveyBlue,
                         onTap: () async {
                           await model.login();
                         },
                       ),
+                      SizedBox(height: 20),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text('Not signed up yet?, click here to '),
+                          GestureDetector(
+                            onTap: () {
+                              model.navigateToRegistrationPage();
+                            },
+                            child: Text(
+                              'Register',
+                              style: TextStyle(
+                                fontSize: 15,
+                                color: AppColors.myRed,
+                              ),
+                            ),
+                          ),
+                        ],
+                      )
                     ],
                   ),
                 ),

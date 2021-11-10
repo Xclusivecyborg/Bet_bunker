@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:spinchat/Screens/landingPage/landingPageViewModel.dart';
-import 'package:spinchat/utils/constants.dart';
+import 'package:spinchat/view/landingPage/landingPageViewModel.dart';
+import 'package:spinchat/utils/constants/color_constants.dart';
 import 'package:spinchat/widgets/roundedButton.dart';
 import 'package:stacked/stacked.dart';
 
@@ -44,11 +44,11 @@ class LandingPage extends StatelessWidget {
                       Text('Connect With Friends, Family and more'),
                       SizedBox(height: 80),
                       CustomButton(
-                        label: 'Register',
+                        label: 'Click to get started',
                         onTap: () {
                           model.navigateToRegistrationPage();
                         },
-                        color: kMynaveyBlue,
+                        color: AppColors.naveyBlue,
                       ),
                       SizedBox(height: 20),
                       Row(
@@ -56,11 +56,17 @@ class LandingPage extends StatelessWidget {
                         children: [
                           Text('Already have an account? '),
                           GestureDetector(
-                              onTap: () {
-                                model.navigateToLogin();
-                              },
-                              child: Text('Login',
-                                  style: TextStyle(fontSize: 25))),
+                            onTap: () {
+                              model.navigateToLogin();
+                            },
+                            child: Text(
+                              'Login',
+                              style: TextStyle(
+                                fontSize: 15,
+                                color: AppColors.myRed,
+                              ),
+                            ),
+                          ),
                         ],
                       )
                     ],

@@ -1,6 +1,7 @@
 class Validations {
   static String? validateName(String? value) {
     if (value!.isEmpty) return '  Field is required.';
+    if (value.length < 5) return '  Field is required.';
     final RegExp nameExp = RegExp(r'^[A-za-zğüşöçİĞÜŞÖÇ ]+$');
     if (!nameExp.hasMatch(value)) {
       return '  Please enter only alphabetical characters.';
