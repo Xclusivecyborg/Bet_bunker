@@ -7,16 +7,15 @@
 // ignore_for_file: public_member_api_docs
 
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
-import 'package:stacked/stacked_annotations.dart';
 
-import '../view/chatView/chatViewScreen.dart';
-import '../view/chatscreen/chatScreen.dart';
-import '../view/landingPage/landingPage.dart';
-import '../view/loginScreen/loginScreen.dart';
-import '../view/registrationPage/registrationPage.dart';
-import '../view/searchScreen/searchScreen.dart';
+import '../view/chatView/chat_view_screen.dart';
+import '../view/chatscreen/chat_screen.dart';
+import '../view/landingPage/landing_page.dart';
+import '../view/loginScreen/login_screen.dart';
+import '../view/registrationPage/registration_page.dart';
+import '../view/searchScreen/search_screen.dart';
 import '../view/settings/settings.dart';
 import '../widgets/bottom_nav_bar.dart';
 
@@ -49,7 +48,7 @@ class StackedRouter extends RouterBase {
     RouteDef(Routes.loginScreen, page: LoginScreen),
     RouteDef(Routes.chatScreen, page: ChatScreen),
     RouteDef(Routes.chatView, page: ChatView),
-    RouteDef(Routes.regiistration, page: Regiistration),
+    RouteDef(Routes.regiistration, page: Registration),
     RouteDef(Routes.searchScreen, page: SearchScreen),
     RouteDef(Routes.indexScreen, page: IndexScreen),
     RouteDef(Routes.settingsPage, page: SettingsPage),
@@ -59,13 +58,13 @@ class StackedRouter extends RouterBase {
   final _pagesMap = <Type, StackedRouteFactory>{
     LandingPage: (data) {
       return CupertinoPageRoute<dynamic>(
-        builder: (context) => LandingPage(),
+        builder: (context) => const LandingPage(),
         settings: data,
       );
     },
     LoginScreen: (data) {
       return CupertinoPageRoute<dynamic>(
-        builder: (context) => LoginScreen(),
+        builder: (context) => const LoginScreen(),
         settings: data,
       );
     },
@@ -88,15 +87,15 @@ class StackedRouter extends RouterBase {
         settings: data,
       );
     },
-    Regiistration: (data) {
+    Registration: (data) {
       return CupertinoPageRoute<dynamic>(
-        builder: (context) => Regiistration(),
+        builder: (context) => const Registration(),
         settings: data,
       );
     },
     SearchScreen: (data) {
       return CupertinoPageRoute<dynamic>(
-        builder: (context) => SearchScreen(),
+        builder: (context) => const SearchScreen(),
         settings: data,
       );
     },

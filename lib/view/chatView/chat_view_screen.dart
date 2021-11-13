@@ -1,21 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:spinchat/app/models.dart/icon_drawer.dart';
 import 'package:spinchat/utils/constants/color_constants.dart';
-import 'package:spinchat/view/chatView/chatViewScreen_viewModel.dart';
-import 'package:spinchat/view/searchScreen/searchScreen.dart';
+import 'package:spinchat/view/chatView/chat_view_screen_viewmodel.dart';
+import 'package:spinchat/view/searchScreen/search_screen.dart';
 import 'package:spinchat/widgets/custom_tile.dart';
 import 'package:spinchat/widgets/drawer.dart';
 import 'package:stacked/stacked.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-var scaffoldKey = GlobalKey<ScaffoldState>();
-
 class ChatView extends StatelessWidget {
   final String username;
-  ChatView({Key? key, required this.username}) : super(key: key);
+  const ChatView({Key? key, required this.username}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    var scaffoldKey = GlobalKey<ScaffoldState>();
     return ViewModelBuilder<ChatViewModel>.reactive(
         onModelReady: (model) => model.initialise(),
         viewModelBuilder: () => ChatViewModel(),
@@ -62,17 +61,17 @@ class ChatView extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (_) => SearchScreen(),
+                        builder: (_) => const SearchScreen(),
                       ),
                     );
                   },
-                  icon: Icon(Icons.search, color: AppColors.naveyBlue),
+                  icon: const Icon(Icons.search, color: AppColors.naveyBlue),
                 ),
                 IconButton(
                   onPressed: () {
                     model.logout();
                   },
-                  icon: Icon(Icons.logout, color: AppColors.naveyBlue),
+                  icon: const Icon(Icons.logout, color: AppColors.naveyBlue),
                 ),
               ],
               elevation: 1,
@@ -84,16 +83,8 @@ class ChatView extends StatelessWidget {
                 ),
               ),
             ),
-            floatingActionButton: FloatingActionButton(
-              backgroundColor: AppColors.naveyBlue,
-              onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => SearchScreen()));
-              },
-              child: Icon(Icons.message),
-            ),
             body: model.snapshot == null
-                ? Center(
+                ? const Center(
                     child: CircularProgressIndicator(),
                   )
                 : Padding(
@@ -101,7 +92,7 @@ class ChatView extends StatelessWidget {
                     child: Column(
                       children: [
                         ListView.separated(
-                          separatorBuilder: (context, index) => Divider(
+                          separatorBuilder: (context, index) => const Divider(
                             thickness: 2,
                           ),
                           shrinkWrap: true,
@@ -110,12 +101,12 @@ class ChatView extends StatelessWidget {
                             leading: ClipRRect(
                               borderRadius: BorderRadius.circular(30),
                               child: Image.network(
-                                '${model.snapshot![index].data()['photoUrl']}',
+                                model.snapshot![index].data()['photoUrl'],
                                 fit: BoxFit.cover,
                                 width: 40,
                                 height: 40,
                                 errorBuilder: (ctx, object, stackTrace) {
-                                  return Icon(
+                                  return const Icon(
                                     Icons.account_circle,
                                     size: 40,
                                     color: AppColors.myDarkGrey,
@@ -125,7 +116,7 @@ class ChatView extends StatelessWidget {
                                   if (loadingProgress == null) {
                                     return child;
                                   } else {
-                                    return Container(
+                                    return  SizedBox(
                                       height: 30,
                                       width: 30,
                                       child: Center(

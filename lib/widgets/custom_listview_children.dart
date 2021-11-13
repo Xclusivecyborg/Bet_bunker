@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:spinchat/view/chatscreen/chatScreenViewmodel.dart';
+import 'package:spinchat/view/chatscreen/chat_screen_viewmodel.dart';
 import 'package:spinchat/utils/constants/color_constants.dart';
 import 'package:stacked/stacked.dart';
 
 class MessageTextWidget extends StatelessWidget {
-  MessageTextWidget(
+   final String? messageBody;
+  final String? messageSender;
+  final bool? isMe;
+  final DateTime? timeCreated;
+
+  const MessageTextWidget(
       {Key? key,
       @required this.messageBody,
       @required this.messageSender,
@@ -12,11 +17,7 @@ class MessageTextWidget extends StatelessWidget {
       this.timeCreated})
       : super(key: key);
 
-  final messageBody;
-  final String? messageSender;
-  final bool? isMe;
-  final timeCreated;
-
+ 
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<ChatScreenViewmodel>.reactive(
@@ -30,13 +31,13 @@ class MessageTextWidget extends StatelessWidget {
             Material(
               color: isMe! ? AppColors.naveyBlue : AppColors.white,
               borderRadius: isMe!
-                  ? BorderRadius.only(
+                  ?const BorderRadius.only(
                       topLeft: Radius.circular(
                         20,
                       ),
                       bottomLeft: Radius.circular(20),
                       bottomRight: Radius.circular(20))
-                  : BorderRadius.only(
+                  : const BorderRadius.only(
                       topRight: Radius.circular(
                         20,
                       ),
@@ -55,7 +56,7 @@ class MessageTextWidget extends StatelessWidget {
                 ),
               ),
             ),
-            messageSender != null ? Text('$messageSender') : Text(''),
+            messageSender != null ? Text('$messageSender') : const Text(''),
           ],
         ),
       ),

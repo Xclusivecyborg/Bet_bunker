@@ -52,11 +52,11 @@ class LoginScreenViewModel extends BaseViewModel {
             _storage.setString(StorageKeys.username, username!);
         
           });
-          _navigation.back();
+          // _navigation.back();
           _navigation.navigateTo(Routes.indexScreen,
               arguments: IndexScreenArguments(username: username!));
           _snackbar.showCustomSnackBar(
-              variant: SnackBarType.Success,
+              variant: SnackBarType.success,
               duration: const Duration(seconds: 4),
               message: 'Loggin Successful for $username');
           return createdUser;
@@ -66,17 +66,17 @@ class LoginScreenViewModel extends BaseViewModel {
           newEmailController.text == '' ||
           newPasswordController.text == '') {
         _snackbar.showCustomSnackBar(
-            variant: SnackBarType.Failure, message: 'Please fill all fields');
+            variant: SnackBarType.failure, message: 'Please fill all fields');
       }
     } on FirebaseException catch (e) {
       _navigation.back();
       _snackbar.showCustomSnackBar(
-          variant: SnackBarType.Failure,
+          variant: SnackBarType.failure,
           duration: const Duration(seconds: 2),
           message: '${e.message}');
     } on SocketException {
       _snackbar.showCustomSnackBar(
-          variant: SnackBarType.Failure,
+          variant: SnackBarType.failure,
           message: 'Please check your internet connection');
     }
 

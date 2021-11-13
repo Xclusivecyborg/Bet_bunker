@@ -70,7 +70,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
                   ? AppColors.naveyBlue
                   : widget.bordercolor!,
             ),
-            borderRadius: BorderRadius.all(
+            borderRadius: const BorderRadius.all(
               Radius.circular(15),
             ),
           ),
@@ -89,7 +89,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
                   setState(() {});
                   widget.onChange!(val);
                 },
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 15.0,
                 ),
                 key: widget.key,
@@ -115,11 +115,11 @@ class _CustomTextFieldState extends State<CustomTextField> {
                   suffixIcon: widget.suffixIcon,
                   filled: false,
                   hintText: widget.hintText,
-                  hintStyle: TextStyle(
+                  hintStyle: const TextStyle(
                     color: AppColors.myMediumGrey
                   ),
                   errorBorder: kBorderStyle,
-                  errorStyle: TextStyle(
+                  errorStyle: const TextStyle(
                       height: 0.0, fontSize: 0.0, color: Colors.yellow),
                   focusedErrorBorder: kBorderStyle,
                   disabledBorder: kBorderStyle,
@@ -140,7 +140,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
         if (error != null)
           Text(
             error!,
-            style: TextStyle(
+            style: const TextStyle(
               color: Colors.red,
             ),
           )

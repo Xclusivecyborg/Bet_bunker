@@ -15,7 +15,7 @@ class SearchScreenViewmodel extends BaseViewModel {
   // final _snackbar = locator<SnackbarService>();
   // final _fireStore = locator<FirestoreService>();
   List<QueryDocumentSnapshot<Map<String, dynamic>>>? snapshot;
-  TextEditingController searchResults = new TextEditingController();
+  TextEditingController searchResults =  TextEditingController();
 
   
   // chatRoomCreate(String chatRoomId, data) {
@@ -28,5 +28,5 @@ class SearchScreenViewmodel extends BaseViewModel {
   //   }
   // }
 
-  notifyListeners();
+ 
 }

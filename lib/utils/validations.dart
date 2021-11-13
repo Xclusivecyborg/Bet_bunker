@@ -19,6 +19,7 @@ class Validations {
 
   static String? validateNumber(String? value, [bool isRequried = true]) {
     if (value!.isEmpty && isRequried) return ' Field is required.';
+    // ignore: unnecessary_string_escapes
     final RegExp nameExp = RegExp('([0-9]+(\.[0-9]+)?)');
     if (!nameExp.hasMatch(value) && isRequried) return 'Invalid Number';
   }

@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:spinchat/view/chatView/chatViewScreen.dart';
-import 'package:spinchat/view/searchScreen/searchScreen.dart';
+import 'package:spinchat/view/chatView/chat_view_screen.dart';
+import 'package:spinchat/view/searchScreen/search_screen.dart';
 import 'package:spinchat/utils/constants/color_constants.dart';
 import 'package:spinchat/widgets/text_styles.dart';
 
@@ -25,7 +25,7 @@ class _IndexScreenState extends State<IndexScreen> {
         ChatView(
           username: widget.username,
         ),
-        SearchScreen(),
+        const SearchScreen(),
       ];
     });
     super.initState();

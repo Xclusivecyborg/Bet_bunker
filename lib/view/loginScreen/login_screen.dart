@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:spinchat/view/registrationPage/registrationPageViewModel.dart';
+import 'package:spinchat/view/loginScreen/login_screen_viewmodel.dart';
 import 'package:spinchat/utils/constants/color_constants.dart';
 import 'package:spinchat/utils/validations.dart';
 import 'package:spinchat/widgets/custom_textfield.dart';
-import 'package:spinchat/widgets/roundedButton.dart';
+import 'package:spinchat/widgets/rounded_button.dart';
 import 'package:stacked/stacked.dart';
 
-class Regiistration extends StatelessWidget {
+class LoginScreen extends StatelessWidget {
+  const LoginScreen({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return ViewModelBuilder<RegistrationPageViewModel>.reactive(
-      viewModelBuilder: () => RegistrationPageViewModel(),
-      builder: (ctx, model, child) => Scaffold(
+    return ViewModelBuilder<LoginScreenViewModel>.reactive(
+      viewModelBuilder: () => LoginScreenViewModel(),
+      builder: (context, model, child) => Scaffold(
         backgroundColor: AppColors.white,
         body: SingleChildScrollView(
           child: Padding(
@@ -22,63 +24,51 @@ class Regiistration extends StatelessWidget {
                 Container(
                   height: 100,
                   width: 100,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     image: DecorationImage(
                       fit: BoxFit.contain,
                       image: AssetImage('assets/rectangle.png'),
                     ),
                   ),
                 ),
-                SizedBox(height: 30),
+                const SizedBox(height: 30),
                 Form(
                   key: model.resetForm,
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   child: Column(
                     children: [
                       CustomTextField(
-                          hintText: 'Username',
-                          controller: model.userNameController,
-                          validateFunction: Validations.validateName,
-                          onChange: (val) {}),
-                      SizedBox(height: 10),
+                        onChange: (val) {},
+                        hintText: 'Email',
+                        controller: model.newEmailController,
+                        validateFunction: Validations.validateEmail,
+                      ),
+                      const SizedBox(height: 10),
                       CustomTextField(
-                          hintText: 'Email',
-                          controller: model.emailController,
-                          validateFunction: Validations.validateEmail,
-                          onChange: (val) {}),
-                      SizedBox(height: 10),
-                      CustomTextField(
+                          onChange: (val) {},
+                          obscureText: true,
                           validateFunction: Validations.validatePassword,
                           hintText: 'Password',
-                          controller: model.passwordController,
-                          onChange: (val) {}),
-                      SizedBox(height: 10),
-                      CustomTextField(
-                          obscureText: true,
-                          hintText: "Confirm Password",
-                          controller: model.confirmPassword,
-                          keyboardType: TextInputType.visiblePassword,
-                          validateFunction: model.confirmPasswordFields,
-                          onChange: (val) {}),
-                      SizedBox(height: 30),
+                          controller: model.newPasswordController),
+                      const SizedBox(height: 30),
                       CustomButton(
-                        label: 'Register',
+                        label: 'Login',
                         color: AppColors.naveyBlue,
                         onTap: () async {
-                          model.signUp();
+                          await model.login();
                         },
                       ),
-                        SizedBox(height: 20),
+                      const SizedBox(height: 20),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text('Already have an account? '),
+                          const Text('Not signed up yet?, click here to '),
                           GestureDetector(
                             onTap: () {
-                              model.navigateToLogin();
+                              model.navigateToRegistrationPage();
                             },
-                            child: Text(
-                              'Login',
+                            child: const Text(
+                              'Register',
                               style: TextStyle(
                                 fontSize: 15,
                                 color: AppColors.myRed,

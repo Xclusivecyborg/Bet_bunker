@@ -1,7 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:spinchat/app/services/firebse_auth_service.dart';
 
+import '../app.logger.dart';
+
 class FirestoreService {
+    final log = getLogger('FireStore service');
   static FirestoreService? _instance;
   static FirebaseFirestore? _fireStore;
 
@@ -20,7 +23,7 @@ class FirestoreService {
           .get();
       return snapshots;
     } catch (e) {
-      print(Failure(message: e.toString()));
+      log.e(Failure(message: e.toString()));
     }
   }
 
@@ -29,7 +32,7 @@ class FirestoreService {
       final snapshots = _fireStore!.collection('users').get();
       return snapshots;
     } catch (e) {
-      print(Failure(message: e.toString()));
+     log.e(Failure(message: e.toString()));
     }
   }
 
@@ -46,7 +49,7 @@ class FirestoreService {
       final snapshots = _fireStore!.collection('users').doc(uid).get();
       return snapshots;
     } catch (e) {
-      print(Failure(message: e.toString()));
+      log.e(Failure(message: e.toString()));
     }
   }
 }

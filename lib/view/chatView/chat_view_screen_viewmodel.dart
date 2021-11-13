@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:spinchat/app/app.locator.dart';
+import 'package:spinchat/app/app.logger.dart';
 import 'package:spinchat/app/app.router.dart';
 import 'package:spinchat/app/services/firebase_storage.dart';
 import 'package:spinchat/app/services/firebse_auth_service.dart';
@@ -15,6 +16,7 @@ import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
 class ChatViewModel extends BaseViewModel {
+    final log = getLogger('Chat View Screen');
   //Services
   final _fireStore = locator<FirestoreService>();
   final _snackbar = locator<SnackbarService>();
@@ -24,25 +26,19 @@ class ChatViewModel extends BaseViewModel {
   final _authservice = locator<FirebaseAuthService>();
 
   //EditingContollers for the settings page
-  TextEditingController searchResults = new TextEditingController();
-  TextEditingController aboutMe = new TextEditingController();
-  TextEditingController phoneNumber = new TextEditingController();
-  TextEditingController username = new TextEditingController();
+  TextEditingController searchResults = TextEditingController();
+  TextEditingController aboutMe = TextEditingController();
+  TextEditingController phoneNumber = TextEditingController();
+  TextEditingController username = TextEditingController();
 
 //Required Parameters
   List<QueryDocumentSnapshot<Map<String, dynamic>>>? snapshot;
   bool isWhite = false;
+  File? imagePicked;
   bool? get userStatus => _storage.getBool(StorageKeys.isLoggedIn);
   String? get userId => _storage.getString(StorageKeys.currentUserId);
   String? get currentUsername => _storage.getString(StorageKeys.username);
-  File? imagePicked;
-
-  String dialCodeDigits = '+00';
   String? get photosUrl => _storage.getString(StorageKeys.photoUrl);
-
-  void onchanged(val) {
-    notifyListeners();
-  }
 
   void toggleTheme(val) {
     isWhite = val;
@@ -59,15 +55,15 @@ class ChatViewModel extends BaseViewModel {
       final image = await ImagePicker().pickImage(source: source);
       if (image != null) {
         final pickedImage = File(image.path);
-        this.imagePicked = pickedImage;
+        imagePicked = pickedImage;
         uploadFile();
       }
     } on PlatformException catch (e) {
       _snackbar.showCustomSnackBar(
-          variant: SnackBarType.Failure,
+          variant: SnackBarType.failure,
           duration: const Duration(seconds: 2),
           message: '${e.message}');
-      print('Unable to pick Image: $e');
+      log.e('Unable to pick Image: $e');
     }
     notifyListeners();
   }
@@ -81,55 +77,72 @@ class ChatViewModel extends BaseViewModel {
       );
       final photoUrl = await tasksnapshot.ref.getDownloadURL();
       await _storage.setString(StorageKeys.photoUrl, photoUrl);
-
-      await updateDetails(photoUrlString: photoUrl);
+      await _fireStore
+          .updateDocument(collPath: 'users', docPath: userId!, data: {
+        'photoUrl': photoUrl,
+      });
+      _snackbar.showCustomSnackBar(
+          variant: SnackBarType.success, message: 'Photo updated successfully');
     } on FirebaseException catch (e) {
       _snackbar.showCustomSnackBar(
-          variant: SnackBarType.Failure,
+          variant: SnackBarType.failure,
           duration: const Duration(seconds: 3),
           message: '${e.message}');
     } on SocketException {
       _snackbar.showCustomSnackBar(
-          variant: SnackBarType.Failure,
+          variant: SnackBarType.failure,
           message: 'Please check your internet connection');
     } catch (e) {
-      _snackbar.showCustomSnackBar(
-          variant: SnackBarType.Failure, message: e.toString());
+      log.e(e.toString());
     }
     notifyListeners();
   }
 
 //Update user details on firestore
-  Future? updateDetails({String? photoUrlString}) {
+  Future? updateDetails({String? photoUrlString}) async {
     Map<String, dynamic> dataUsername = {
       'userName': username.text,
     };
     Map<String, dynamic> dataAboutMe = {
       'aboutMe': aboutMe.text,
     };
-    Map<String, dynamic> photoUrl = {
-      'photoUrl': photoUrlString,
-    };
     Map<String, dynamic> generalUpdate = {
-      'photoUrl': photoUrl,
       'aboutMe': aboutMe.text,
       'userName': username.text,
     };
 
-    if (aboutMe.text.isNotEmpty &&
-        username.text.isNotEmpty &&
-        photoUrlString != null) {
-      return _fireStore.updateDocument(
-          collPath: 'users', docPath: userId!, data: generalUpdate);
-    } else if (aboutMe.text.isNotEmpty) {
-      return _fireStore.updateDocument(
-          collPath: 'users', docPath: userId!, data: dataAboutMe);
+    if (aboutMe.text.isNotEmpty && username.text.isNotEmpty) {
+      await _fireStore
+          .updateDocument(
+              collPath: 'users', docPath: userId!, data: generalUpdate)
+          .then((value) async {
+        await _storage.setString(StorageKeys.username, username.text);
+        _snackbar.showCustomSnackBar(
+            variant: SnackBarType.success,
+            duration: const Duration(seconds: 3),
+            message: 'Details updated successfully');
+      });
     } else if (username.text.isNotEmpty) {
-      return _fireStore.updateDocument(
-          collPath: 'users', docPath: userId!, data: dataUsername);
-    } else if (photoUrlString != null) {
-      return _fireStore.updateDocument(
-          collPath: 'users', docPath: userId!, data: photoUrl);
+      await _fireStore
+          .updateDocument(
+              collPath: 'users', docPath: userId!, data: dataUsername)
+          .then((value) async {
+        await _storage.setString(StorageKeys.username, username.text);
+        _snackbar.showCustomSnackBar(
+            variant: SnackBarType.success,
+            duration: const Duration(seconds: 3),
+            message: 'Username updated successfully');
+      });
+    } else if (aboutMe.text.isNotEmpty) {
+      await _fireStore
+          .updateDocument(
+              collPath: 'users', docPath: userId!, data: dataAboutMe)
+          .then((value) {
+        _snackbar.showCustomSnackBar(
+            variant: SnackBarType.success,
+            duration: const Duration(seconds: 3),
+            message: 'Bio updated successfully');
+      });
     } else {
       return null;
     }
@@ -145,7 +158,7 @@ class ChatViewModel extends BaseViewModel {
   }
 
 //This gets users via the onchanged function of the textfield
-  void uSersByUsername() async {
+  void getUSersForOnchangedFunction() async {
     await _fireStore
         .getUSersByUsername(username: searchResults.text)!
         .then((value) {
@@ -171,12 +184,12 @@ class ChatViewModel extends BaseViewModel {
   void popNavigation() {
     _navigation.back();
   }
-
+///Logout functionality
   void logout() async {
     await _fireStore.updateDocument(
         collPath: 'users', docPath: userId!, data: {'loggedIn': false});
     _authservice.logout();
     _storage.clearStorage();
-    _navigation.navigateTo(Routes.landingPage);
+    _navigation.clearStackAndShow(Routes.landingPage);
   }
 }

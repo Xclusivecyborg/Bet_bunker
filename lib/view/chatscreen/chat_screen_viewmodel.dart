@@ -1,19 +1,21 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:spinchat/app/app.logger.dart';
 import 'package:stacked/stacked.dart';
 
 class ChatScreenViewmodel extends BaseViewModel {
-  FirebaseAuth _auth = FirebaseAuth.instance;
+  final log = getLogger('ChatScreenViewmodel');
+  FirebaseAuth auth = FirebaseAuth.instance;
   FirebaseFirestore fireStore = FirebaseFirestore.instance;
   User? get loggedInUSer => getCurrentUSer();
 
   User? getCurrentUSer() {
     try {
-      final user = _auth.currentUser;
+      final user = auth.currentUser;
       return user;
     } catch (e) {
-      print(e);
+      log.e(e);
     }
   }
 
@@ -30,11 +32,11 @@ class ChatScreenViewmodel extends BaseViewModel {
         },
       );
     } catch (e) {
-      print(e);
+      log.e(e);
     }
   }
 
   void logOut() {
-    _auth.signOut();
+    auth.signOut();
   }
 }

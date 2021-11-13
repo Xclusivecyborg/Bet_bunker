@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:spinchat/app/models.dart/icon_drawer.dart';
 import 'package:spinchat/utils/constants/color_constants.dart';
-import 'package:spinchat/view/chatView/chatViewScreen_viewModel.dart';
+import 'package:spinchat/view/chatView/chat_view_screen_viewmodel.dart';
 import 'package:spinchat/widgets/profile/profile_image_avatar.dart';
 import 'package:stacked/stacked.dart';
 
@@ -23,9 +23,9 @@ class AppDrawer extends StatelessWidget {
           padding: const EdgeInsets.fromLTRB(15.0, 100, 15.0, 15.0),
           child: Column(
             children: [
-            ProfileAvatar(),
+            const ProfileAvatar(),
               ListView.builder(
-                padding: EdgeInsets.all(15),
+                padding: const EdgeInsets.all(15),
                 itemCount: listChoices.length,
                 shrinkWrap: true,
                 itemBuilder: (_, index) => InkWell(

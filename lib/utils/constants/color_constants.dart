@@ -18,5 +18,5 @@ static const myBlue = Colors.blueAccent;
 static const  naveyBlue = Color(0XFF162337);
 static const  mylightGreen = Color(0xff42CB91);
 static const  mydeepGreen = Color(0xFF0E5357);
-static const  MylightBlue = Colors.lightBlueAccent;
+static const  myLightBlue = Colors.lightBlueAccent;
 }

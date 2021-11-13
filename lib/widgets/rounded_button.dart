@@ -59,17 +59,17 @@ class CustomButton extends StatelessWidget {
       onTap: onTap,
       child: Container(
         height: 48,
-        width: width == null ? MediaQuery.of(context).size.width / 2 : width,
+        width: width ?? MediaQuery.of(context).size.width / 2,
         decoration: BoxDecoration(
           color: color,
-          borderRadius: BorderRadius.all(
+          borderRadius: const BorderRadius.all(
             Radius.circular(30),
           ),
         ),
         child: Center(
           child: Text(
             label!,
-            style: TextStyle(color: AppColors.myGreen),
+            style: const TextStyle(color: AppColors.myGreen),
           ),
         ),
       ),

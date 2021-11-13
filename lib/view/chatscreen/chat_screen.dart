@@ -1,13 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:spinchat/view/chatscreen/chatScreenViewmodel.dart';
+import 'package:spinchat/view/chatscreen/chat_screen_viewmodel.dart';
 import 'package:spinchat/utils/constants.dart';
 import 'package:spinchat/utils/constants/textstyle_constants.dart';
-import 'package:spinchat/widgets/customListViewChildren.dart';
+import 'package:spinchat/widgets/custom_listview_children.dart';
 import 'package:stacked/stacked.dart';
 
 class ChatScreen extends StatefulWidget {
-  ChatScreen({Key? key}) : super(key: key);
+  const ChatScreen({Key? key}) : super(key: key);
 
   @override
   _ChatScreenState createState() => _ChatScreenState();
@@ -15,7 +15,7 @@ class ChatScreen extends StatefulWidget {
 
 class _ChatScreenState extends State<ChatScreen> {
   String? messageText;
-  TextEditingController messageController = new TextEditingController();
+  TextEditingController messageController =  TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -26,14 +26,14 @@ class _ChatScreenState extends State<ChatScreen> {
           leading: null,
           actions: <Widget>[
             IconButton(
-                icon: Icon(Icons.close),
+                icon: const Icon(Icons.close),
                 onPressed: () {
                   model.logOut();
                   Navigator.pop(context);
                   //Implement logout functionality
                 }),
           ],
-          title: Text('⚡️Chat'),
+          title: const Text('⚡️Chat'),
           backgroundColor: Colors.lightBlueAccent,
         ),
         body: SafeArea(
@@ -48,7 +48,7 @@ class _ChatScreenState extends State<ChatScreen> {
                     .snapshots(),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
-                    return Center(child: CircularProgressIndicator());
+                    return const Center(child: CircularProgressIndicator());
                   }
                   final messages = snapshot.data!.docs;
                   List<MessageTextWidget> messageList = [];
@@ -69,7 +69,7 @@ class _ChatScreenState extends State<ChatScreen> {
                   return Expanded(
                     child: ListView(
                       reverse: true,
-                      padding: EdgeInsets.all(10),
+                      padding: const EdgeInsets.all(10),
                       children: messageList,
                     ),
                   );
@@ -96,7 +96,7 @@ class _ChatScreenState extends State<ChatScreen> {
                         model.sendMessage(messageText: messageText);
                         messageController.clear();
                       },
-                      child: Text(
+                      child:const Text(
                         'Send',
                         style: AppTextStyles.kSendButtonTextStyle,
                       ),

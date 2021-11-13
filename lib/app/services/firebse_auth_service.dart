@@ -5,8 +5,10 @@ import 'package:spinchat/widgets/custom_snackbar.dart';
 import 'package:stacked_services/stacked_services.dart';
 
 import '../app.locator.dart';
+import '../app.logger.dart';
 
 class FirebaseAuthService {
+  final log = getLogger('Firebase auth');
   static FirebaseAuthService? _instance;
   static FirebaseAuth? _auth;
   final _snackbar = locator<SnackbarService>();
@@ -26,10 +28,10 @@ class FirebaseAuthService {
       throw Failure(message: 'Unable to register Ueer');
     } on SocketException {
       _snackbar.showCustomSnackBar(
-          variant: SnackBarType.Failure,
+          variant: SnackBarType.failure,
           message: 'Please check your internet connection');
     } catch (e) {
-     throw Failure(message: e.toString());
+      throw Failure(message: e.toString());
     }
   }
 
@@ -39,7 +41,7 @@ class FirebaseAuthService {
           _auth!.signInWithEmailAndPassword(email: email!, password: password!);
       return newUSer;
     } catch (e) {
-     throw Failure(message: e.toString());
+      throw Failure(message: e.toString());
     }
   }
 
@@ -50,20 +52,19 @@ class FirebaseAuthService {
       return passwordReset;
     } on SocketException {
       _snackbar.showCustomSnackBar(
-          variant: SnackBarType.Failure,
+          variant: SnackBarType.failure,
           message: 'Please check your internet connection');
     } catch (e) {
-     throw Failure(message: e.toString());
+      throw Failure(message: e.toString());
     }
   }
 
   User? getCurrentUSer() {
-    
     try {
       final user = _auth!.currentUser;
       return user;
     } catch (e) {
-      print(e);
+      log.e(e.toString());
     }
   }
 
@@ -79,6 +80,6 @@ class Failure {
 
   @override
   String toString() {
-    return this.message!;
+    return message!;
   }
 }

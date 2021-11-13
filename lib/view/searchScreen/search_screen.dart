@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:spinchat/view/chatView/chatViewScreen_viewModel.dart';
+import 'package:spinchat/view/chatView/chat_view_screen_viewmodel.dart';
 import 'package:spinchat/utils/constants/color_constants.dart';
 import 'package:spinchat/widgets/custom_textfield.dart';
 import 'package:spinchat/widgets/custom_tile.dart';
 import 'package:stacked/stacked.dart';
 
 class SearchScreen extends StatelessWidget {
+  const SearchScreen({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<ChatViewModel>.reactive(
@@ -29,18 +31,18 @@ class SearchScreen extends StatelessWidget {
           actions: [
             IconButton(
               onPressed: () {
-                model.uSersByUsername();
+                model.getUSersForOnchangedFunction();
               },
-              icon: Icon(Icons.search, color: AppColors.naveyBlue),
+              icon: const Icon(Icons.search, color: AppColors.naveyBlue),
             ),
           ],
         ),
         body: model.snapshot == null
-            ? Center(child: CircularProgressIndicator())
+            ? const Center(child: CircularProgressIndicator())
             : Padding(
                 padding: const EdgeInsets.only(top: 15.0),
                 child: ListView.separated(
-                  separatorBuilder: (context, index) => Divider(
+                  separatorBuilder: (context, index) => const Divider(
                     thickness: 2,
                   ),
                   shrinkWrap: true,
@@ -54,7 +56,7 @@ class SearchScreen extends StatelessWidget {
                   width: 40,
                   height: 40,
                   errorBuilder: (ctx, object, stackTrace) {
-                    return Icon(
+                    return const Icon(
                       Icons.account_circle,
                       size: 40,
                       color: AppColors.myDarkGrey,
@@ -65,7 +67,7 @@ class SearchScreen extends StatelessWidget {
                     if (loadingProgress == null) {
                       return child;
                     } else {
-                      return Container(
+                      return SizedBox(
                         height: 40,
                         width: 40,
                         child: Center(

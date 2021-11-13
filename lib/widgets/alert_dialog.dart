@@ -23,10 +23,10 @@ class SignOutDialog extends StatelessWidget {
           title,
           style: AppTextStyle.darkGreySize20Bold,
         ),
-        content: Container(
+        content: const SizedBox(
           height: 60,
           width: 30,
-          child: Center(
+          child:  Center(
             child: CircularProgressIndicator(
               color: AppColors.naveyBlue,
             ),

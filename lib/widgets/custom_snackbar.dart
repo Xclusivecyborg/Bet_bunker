@@ -9,7 +9,7 @@ class AppSnackBar {
     final service = locator<SnackbarService>();
 
     service.registerCustomSnackbarConfig(
-      variant: SnackBarType.Success,
+      variant: SnackBarType.success,
       config: SnackbarConfig(
         backgroundColor: AppColors.naveyBlue,
         textColor: AppColors.myGreen,
@@ -25,7 +25,7 @@ class AppSnackBar {
     );
 
     service.registerCustomSnackbarConfig(
-      variant: SnackBarType.Failure,
+      variant: SnackBarType.failure,
       config: SnackbarConfig(
         backgroundColor: AppColors.myRed,
         textColor: AppColors.white,
@@ -42,4 +42,4 @@ class AppSnackBar {
   }
 }
 
-enum SnackBarType { Success, Failure }
+enum SnackBarType { success, failure }

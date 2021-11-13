@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:spinchat/view/landingPage/landingPageViewModel.dart';
+import 'package:spinchat/view/landingPage/landing_page_viewmodel.dart';
 import 'package:spinchat/utils/constants/color_constants.dart';
-import 'package:spinchat/widgets/roundedButton.dart';
+import 'package:spinchat/widgets/rounded_button.dart';
 import 'package:stacked/stacked.dart';
 
 class LandingPage extends StatelessWidget {
+  const LandingPage({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<LandingPageViewModel>.reactive(
@@ -22,27 +24,27 @@ class LandingPage extends StatelessWidget {
                       Container(
                         height: 100,
                         width: 100,
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           image: DecorationImage(
                             fit: BoxFit.contain,
                             image: AssetImage('assets/rectangle.png'),
                           ),
                         ),
                       ),
-                      SizedBox(height: 30),
+                      const SizedBox(height: 30),
                       Container(
                         height: MediaQuery.of(context).size.height / 5,
                         width: MediaQuery.of(context).size.height / 2,
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
+                        decoration: const BoxDecoration(
+                          image:  DecorationImage(
                             fit: BoxFit.contain,
                             image: AssetImage('assets/Group.png'),
                           ),
                         ),
                       ),
-                      SizedBox(height: 20),
-                      Text('Connect With Friends, Family and more'),
-                      SizedBox(height: 80),
+                    const  SizedBox(height: 20),
+                     const Text('Connect With Friends, Family and more'),
+                    const  SizedBox(height: 80),
                       CustomButton(
                         label: 'Click to get started',
                         onTap: () {
@@ -50,16 +52,16 @@ class LandingPage extends StatelessWidget {
                         },
                         color: AppColors.naveyBlue,
                       ),
-                      SizedBox(height: 20),
+                     const SizedBox(height: 20),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text('Already have an account? '),
+                      const    Text('Already have an account? '),
                           GestureDetector(
                             onTap: () {
                               model.navigateToLogin();
                             },
-                            child: Text(
+                            child: const Text(
                               'Login',
                               style: TextStyle(
                                 fontSize: 15,
