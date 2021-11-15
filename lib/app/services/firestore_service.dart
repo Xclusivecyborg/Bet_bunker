@@ -4,7 +4,7 @@ import 'package:spinchat/app/services/firebse_auth_service.dart';
 import '../app.logger.dart';
 
 class FirestoreService {
-    final log = getLogger('FireStore service');
+  final log = getLogger('FireStore service');
   static FirestoreService? _instance;
   static FirebaseFirestore? _fireStore;
 
@@ -32,7 +32,7 @@ class FirestoreService {
       final snapshots = _fireStore!.collection('users').get();
       return snapshots;
     } catch (e) {
-     log.e(Failure(message: e.toString()));
+      log.e(Failure(message: e.toString()));
     }
   }
 
@@ -51,5 +51,42 @@ class FirestoreService {
     } catch (e) {
       log.e(Failure(message: e.toString()));
     }
+  }
+
+  Stream<QuerySnapshot<Map<String, dynamic>>>? fetchMessages({
+    required String docPath,
+  }) {
+    try {
+      final snapshots = _fireStore!
+          .collection('messages')
+          .doc(docPath)
+          .collection('usersMessages')
+          .orderBy(
+            'createdAt',
+          )
+          .snapshots();
+      return snapshots;
+    } catch (e) {
+      log.e(Failure(message: e.toString()));
+    }
+  }
+
+  Future<void> createChatRoom(
+      {required String collPath,
+      required String docPath,
+      required Map<String, dynamic> data}) {
+    return _fireStore!.collection(collPath).doc(docPath).set(data);
+  }
+
+  Future<void> sendMessages(
+      {required String collPath,
+      required String collection2,
+      required String docPath,
+      required Map<String, dynamic> data}) {
+    return _fireStore!
+        .collection(collPath)
+        .doc(docPath)
+        .collection(collection2)
+        .add(data);
   }
 }

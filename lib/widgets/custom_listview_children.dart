@@ -1,13 +1,16 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:spinchat/view/chatscreen/chat_screen_viewmodel.dart';
 import 'package:spinchat/utils/constants/color_constants.dart';
 import 'package:stacked/stacked.dart';
 
 class MessageTextWidget extends StatelessWidget {
-   final String? messageBody;
+  final String? messageBody;
   final String? messageSender;
   final bool? isMe;
-  final DateTime? timeCreated;
+  final Timestamp? timeCreated;
 
   const MessageTextWidget(
       {Key? key,
@@ -17,21 +20,20 @@ class MessageTextWidget extends StatelessWidget {
       this.timeCreated})
       : super(key: key);
 
- 
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<ChatScreenViewmodel>.reactive(
       viewModelBuilder: () => ChatScreenViewmodel(),
       builder: (context, model, child) => Padding(
-        padding: const EdgeInsets.all(7.0),
+        padding: const EdgeInsets.all(4.0),
         child: Column(
           crossAxisAlignment:
               isMe! ? CrossAxisAlignment.end : CrossAxisAlignment.start,
           children: [
             Material(
-              color: isMe! ? AppColors.naveyBlue : AppColors.white,
+              color: isMe! ? AppColors.orange : AppColors.myLightGrey,
               borderRadius: isMe!
-                  ?const BorderRadius.only(
+                  ? const BorderRadius.only(
                       topLeft: Radius.circular(
                         20,
                       ),
@@ -49,17 +51,32 @@ class MessageTextWidget extends StatelessWidget {
                     vertical: 12.0, horizontal: 20.0),
                 child: Text(
                   '$messageBody',
-                  style: TextStyle(
+                  style: GoogleFonts.poppins(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w400,
                     color: isMe! ? AppColors.white : AppColors.black,
-                    fontSize: 16.0,
                   ),
                 ),
               ),
             ),
-            messageSender != null ? Text('$messageSender') : const Text(''),
+            timeCreated != null
+                ? Text(
+                    formatDateTime(timeCreated!),
+                    style: GoogleFonts.poppins(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w400,
+                      color: AppColors.black,
+                    ),
+                  )
+                : const Text(''),
           ],
         ),
       ),
     );
   }
+}
+
+String formatDateTime(Timestamp dateTime) {
+  var time = DateFormat.jm().format(dateTime.toDate());
+  return '$time ';
 }

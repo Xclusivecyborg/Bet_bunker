@@ -9,8 +9,9 @@ import 'package:stacked/stacked.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ChatView extends StatelessWidget {
-  final String username;
-  const ChatView({Key? key, required this.username}) : super(key: key);
+  const ChatView({
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -83,12 +84,12 @@ class ChatView extends StatelessWidget {
                 ),
               ),
             ),
-            body: model.snapshot == null
+            body: model.usersnapshot == null
                 ? const Center(
                     child: CircularProgressIndicator(),
                   )
                 : Padding(
-                    padding: const EdgeInsets.only(top: 15.0),
+                    padding: const EdgeInsets.only(top: 10.0),
                     child: Column(
                       children: [
                         ListView.separated(
@@ -96,53 +97,24 @@ class ChatView extends StatelessWidget {
                             thickness: 2,
                           ),
                           shrinkWrap: true,
-                          itemCount: model.snapshot!.length,
+                          itemCount: model.usersnapshot!.length,
                           itemBuilder: (context, index) => CustomTile(
-                            leading: ClipRRect(
-                              borderRadius: BorderRadius.circular(30),
-                              child: Image.network(
-                                model.snapshot![index].data()['photoUrl'],
-                                fit: BoxFit.cover,
-                                width: 40,
-                                height: 40,
-                                errorBuilder: (ctx, object, stackTrace) {
-                                  return const Icon(
-                                    Icons.account_circle,
-                                    size: 40,
-                                    color: AppColors.myDarkGrey,
-                                  );
-                                },
-                                loadingBuilder: (ctx, child, loadingProgress) {
-                                  if (loadingProgress == null) {
-                                    return child;
-                                  } else {
-                                    return  SizedBox(
-                                      height: 30,
-                                      width: 30,
-                                      child: Center(
-                                        child: CircularProgressIndicator(
-                                            value: loadingProgress
-                                                        .expectedTotalBytes !=
-                                                    null
-                                                ? loadingProgress
-                                                        .cumulativeBytesLoaded /
-                                                    loadingProgress
-                                                        .expectedTotalBytes!
-                                                : null),
-                                      ),
-                                    );
-                                  }
-                                },
-                              ),
+                            leading: CircleAvatar(
+                              backgroundImage: NetworkImage(
+                                  model.usersnapshot![index].photoUrl!),
                             ),
                             isWhite: model.userStatus!,
                             chatPage: true,
-                            isUserLoggedIn:
-                                model.snapshot![index].data()['loggedIn'],
-                            username:
-                                model.snapshot![index].data()['userName'] ??
-                                    'No data',
-                            ontap: () {},
+                            isUserLoggedIn: model.usersnapshot![index].loggedIn,
+                            username: model.usersnapshot![index].userName ??
+                                'No data',
+                            ontap: () {
+                              model.naviagteToChatScreen(
+                                isUserOnline: model.usersnapshot![index].loggedIn!,
+                                  user: model.usersnapshot![index].userName!,
+                                  networkLink:
+                                      model.usersnapshot![index].photoUrl!);
+                            },
                           ),
                         ),
                       ],

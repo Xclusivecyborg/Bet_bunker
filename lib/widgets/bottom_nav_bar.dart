@@ -1,13 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:spinchat/utils/app_styles.dart';
 import 'package:spinchat/view/chatView/chat_view_screen.dart';
+import 'package:spinchat/view/loginScreen/login_screen_viewmodel.dart';
 import 'package:spinchat/view/searchScreen/search_screen.dart';
 import 'package:spinchat/utils/constants/color_constants.dart';
-import 'package:spinchat/widgets/text_styles.dart';
+import 'package:stacked/stacked.dart';
 
 class IndexScreen extends StatefulWidget {
-  final String username;
-  const IndexScreen({Key? key, required this.username}) : super(key: key);
+  const IndexScreen({
+    Key? key,
+  }) : super(key: key);
 
   @override
   _IndexScreenState createState() => _IndexScreenState();
@@ -22,9 +25,7 @@ class _IndexScreenState extends State<IndexScreen> {
   void initState() {
     setState(() {
       selections = [
-        ChatView(
-          username: widget.username,
-        ),
+        const ChatView(),
         const SearchScreen(),
       ];
     });
@@ -33,47 +34,41 @@ class _IndexScreenState extends State<IndexScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: selections!.elementAt(selectedIndex),
-      bottomNavigationBar: BottomNavigationBar(
-        selectedLabelStyle: AppTextStyle.darkGreySize14Bold,
-        unselectedLabelStyle: AppTextStyle.darkGreySize14
-            .copyWith(fontSize: 14, color: AppColors.myDarkGrey),
-        onTap: (int index) {
-          setState(() {
-            selectedIndex = index;
-          });
-        },
-        currentIndex: selectedIndex,
-        iconSize: 30,
-        selectedItemColor: AppColors.myGreen,
-        showUnselectedLabels: true,
-        unselectedItemColor: AppColors.myLightGrey,
-        items: [
-          BottomNavigationBarItem(
-            backgroundColor: AppColors.white,
-            label: 'Home',
-            icon: Container(
-              height: 30,
-              width: 30,
-              decoration: BoxDecoration(
-                color: selectedIndex == 0
-                    ? AppColors.myLightGreen
-                    : Colors.transparent,
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: const ImageIcon(
-                AssetImage('assets/Vector.png'),
-              ),
+    return ViewModelBuilder<LoginScreenViewModel>.reactive(
+        viewModelBuilder: () => LoginScreenViewModel(),
+        builder: (context, model, child) {
+          return Scaffold(
+            body: selections!.elementAt(selectedIndex),
+            bottomNavigationBar: BottomNavigationBar(
+              selectedLabelStyle: AppTextStyles.bottombar,
+              unselectedLabelStyle: AppTextStyles.child1
+                  .copyWith(fontSize: 14, color: AppColors.myDarkGrey),
+              onTap: (int index) {
+                setState(() {
+                  selectedIndex = index;
+                });
+              },
+              currentIndex: selectedIndex,
+              iconSize: 30,
+              selectedItemColor: AppColors.myGreen,
+              showUnselectedLabels: true,
+              unselectedItemColor: AppColors.myLightGrey,
+              items: const [
+                BottomNavigationBarItem(
+                  backgroundColor: AppColors.white,
+                  label: 'Home',
+                  icon: Icon(
+                    Icons.home_filled,
+                  ),
+                ),
+                BottomNavigationBarItem(
+                  backgroundColor: AppColors.white,
+                  label: 'Search',
+                  icon: Icon(Icons.search),
+                ),
+              ],
             ),
-          ),
-          const BottomNavigationBarItem(
-            backgroundColor: AppColors.white,
-            label: 'Search',
-            icon: Icon(Icons.search),
-          ),
-        ],
-      ),
-    );
+          );
+        });
   }
 }

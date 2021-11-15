@@ -9,7 +9,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
-
 import '../view/chatView/chat_view_screen.dart';
 import '../view/chatscreen/chat_screen.dart';
 import '../view/landingPage/landing_page.dart';
@@ -24,7 +23,7 @@ class Routes {
   static const String loginScreen = '/login-screen';
   static const String chatScreen = '/chat-screen';
   static const String chatView = '/chat-view';
-  static const String regiistration = '/Regiistration';
+  static const String registration = '/Registration';
   static const String searchScreen = '/search-screen';
   static const String indexScreen = '/index-screen';
   static const String settingsPage = '/settings-page';
@@ -33,7 +32,7 @@ class Routes {
     loginScreen,
     chatScreen,
     chatView,
-    regiistration,
+    registration,
     searchScreen,
     indexScreen,
     settingsPage,
@@ -48,7 +47,7 @@ class StackedRouter extends RouterBase {
     RouteDef(Routes.loginScreen, page: LoginScreen),
     RouteDef(Routes.chatScreen, page: ChatScreen),
     RouteDef(Routes.chatView, page: ChatView),
-    RouteDef(Routes.regiistration, page: Registration),
+    RouteDef(Routes.registration, page: Registration),
     RouteDef(Routes.searchScreen, page: SearchScreen),
     RouteDef(Routes.indexScreen, page: IndexScreen),
     RouteDef(Routes.settingsPage, page: SettingsPage),
@@ -73,17 +72,18 @@ class StackedRouter extends RouterBase {
         orElse: () => ChatScreenArguments(),
       );
       return CupertinoPageRoute<dynamic>(
-        builder: (context) => ChatScreen(key: args.key),
+        builder: (context) => ChatScreen(
+          key: args.key,
+          usernameChattingWith: args.usernameChattingWith,
+          networkUrl: args.networkUrl,
+          isOnline: args.isOnline,
+        ),
         settings: data,
       );
     },
     ChatView: (data) {
-      var args = data.getArgs<ChatViewArguments>(nullOk: false);
       return CupertinoPageRoute<dynamic>(
-        builder: (context) => ChatView(
-          key: args.key,
-          username: args.username,
-        ),
+        builder: (context) => const ChatView(),
         settings: data,
       );
     },
@@ -100,12 +100,8 @@ class StackedRouter extends RouterBase {
       );
     },
     IndexScreen: (data) {
-      var args = data.getArgs<IndexScreenArguments>(nullOk: false);
       return CupertinoPageRoute<dynamic>(
-        builder: (context) => IndexScreen(
-          key: args.key,
-          username: args.username,
-        ),
+        builder: (context) => const IndexScreen(),
         settings: data,
       );
     },
@@ -125,19 +121,9 @@ class StackedRouter extends RouterBase {
 /// ChatScreen arguments holder class
 class ChatScreenArguments {
   final Key? key;
-  ChatScreenArguments({this.key});
-}
-
-/// ChatView arguments holder class
-class ChatViewArguments {
-  final Key? key;
-  final String username;
-  ChatViewArguments({this.key, required this.username});
-}
-
-/// IndexScreen arguments holder class
-class IndexScreenArguments {
-  final Key? key;
-  final String username;
-  IndexScreenArguments({this.key, required this.username});
+  final String? usernameChattingWith;
+  final String? networkUrl;
+  final bool? isOnline;
+  ChatScreenArguments(
+      {this.key, this.usernameChattingWith, this.networkUrl, this.isOnline});
 }

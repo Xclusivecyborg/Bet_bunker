@@ -4,6 +4,8 @@
 // StackedLoggerGenerator
 // **************************************************************************
 
+// ignore_for_file: avoid_print
+
 /// Maybe this should be generated for the user as well?
 ///
 /// import 'package:customer_app/services/stackdriver/stackdriver_service.dart';
@@ -114,7 +116,7 @@ class MultipleLoggerOutput extends LogOutput {
       try {
         logOutput.output(event);
       } catch (e) {
-        throw e.toString();
+        print('Log output failed');
       }
     }
   }

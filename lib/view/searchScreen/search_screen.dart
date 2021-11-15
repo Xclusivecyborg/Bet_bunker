@@ -25,7 +25,7 @@ class SearchScreen extends StatelessWidget {
             height: 40,
             bordercolor: Colors.white12,
             onChange: (val) {
-              model.getUsers(val: val);
+              model.getUsersByUsername(val: val);
             },
           ),
           actions: [

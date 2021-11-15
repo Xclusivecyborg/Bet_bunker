@@ -1,4 +1,5 @@
 class StorageKeys {
+  static const token = 'CURRENT_SESSION_TOKEN';
   static const isLoggedIn = 'IS_LOGGED_IN';
   static const username = 'USERNAME';
   static const userEmail = 'USEREMAIL';

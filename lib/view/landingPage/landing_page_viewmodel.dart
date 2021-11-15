@@ -11,6 +11,6 @@ class LandingPageViewModel extends BaseViewModel {
   }
 
    void navigateToRegistrationPage() {
-    _navigation.navigateTo(Routes.regiistration);
+    _navigation.navigateTo(Routes.registration);
   }
 }

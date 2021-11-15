@@ -24,8 +24,8 @@ class CustomTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 15),
-      padding: const EdgeInsets.all(5),
       child: ListTile(
+        onTap: ontap,
         leading: leading ?? const CircleAvatar(),
         title: Text(
           username!,
