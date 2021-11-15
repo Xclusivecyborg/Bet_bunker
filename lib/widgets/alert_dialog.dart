@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:spinchat/utils/app_styles.dart';
 import 'package:spinchat/utils/constants/color_constants.dart';
-import 'package:spinchat/widgets/text_styles.dart';
 
 import 'package:stacked_services/stacked_services.dart';
 
@@ -21,7 +21,7 @@ class SignOutDialog extends StatelessWidget {
       child: AlertDialog(
         title: Text(
           title,
-          style: AppTextStyle.darkGreySize20Bold,
+          style: AppTextStyles.darkGreySize20Bold,
         ),
         content: const SizedBox(
           height: 60,
