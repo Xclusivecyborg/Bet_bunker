@@ -19,7 +19,8 @@ class IndexScreen extends StatefulWidget {
 class _IndexScreenState extends State<IndexScreen> {
   bool homepage = false;
   int selectedIndex = 0;
-  List? selections;
+  List<Widget> selections = [];
+  final _pageController = PageController();
 
   @override
   void initState() {
@@ -38,15 +39,23 @@ class _IndexScreenState extends State<IndexScreen> {
         viewModelBuilder: () => LoginScreenViewModel(),
         builder: (context, model, child) {
           return Scaffold(
-            body: selections!.elementAt(selectedIndex),
+            body: PageView(
+                controller: _pageController,
+                children: selections,
+                onPageChanged: (page) {
+                  setState(() {
+                    selectedIndex = page;
+                  });
+                }),
             bottomNavigationBar: BottomNavigationBar(
               selectedLabelStyle: AppTextStyles.bottombar,
               unselectedLabelStyle: AppTextStyles.child1
                   .copyWith(fontSize: 14, color: AppColors.myDarkGrey),
-              onTap: (int index) {
+              onTap: (index) {
                 setState(() {
                   selectedIndex = index;
                 });
+                _pageController.jumpToPage(index);
               },
               currentIndex: selectedIndex,
               iconSize: 30,

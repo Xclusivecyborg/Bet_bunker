@@ -78,7 +78,7 @@ class ChatView extends StatelessWidget {
               elevation: 1,
               title: Text(
                 'SpinChat',
-                style: GoogleFonts.spinnaker(
+                style: GoogleFonts.poppins(
                   color:
                       model.isWhite ? AppColors.myGreen : AppColors.naveyBlue,
                 ),

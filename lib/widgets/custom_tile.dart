@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:spinchat/utils/constants/color_constants.dart';
 import 'package:spinchat/widgets/rounded_button.dart';
 
@@ -10,6 +12,7 @@ class CustomTile extends StatelessWidget {
   final bool? isUserLoggedIn;
   final bool isWhite;
   final Widget? leading;
+  final Timestamp? timeCreated;
   const CustomTile({
     Key? key,
     this.username,
@@ -17,7 +20,7 @@ class CustomTile extends StatelessWidget {
     @required this.chatPage,
     @required this.isUserLoggedIn,
     required this.isWhite,
-    @required this.leading,
+    @required this.leading, this.timeCreated,
   }) : super(key: key);
 
   @override
@@ -29,7 +32,7 @@ class CustomTile extends StatelessWidget {
         leading: leading ?? const CircleAvatar(),
         title: Text(
           username!,
-          style: GoogleFonts.spinnaker(
+          style: GoogleFonts.poppins(
             color: AppColors.naveyBlue,
             fontSize: 20.0,
           ),
@@ -48,6 +51,16 @@ class CustomTile extends StatelessWidget {
                             ? AppColors.myGreen
                             : AppColors.myLightGrey),
                   ),
+                   timeCreated != null
+                ? Text(
+                    formatDateTime(timeCreated!),
+                    style: GoogleFonts.poppins(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w400,
+                      color: AppColors.black,
+                    ),
+                  )
+                : const Text(''),
                 ],
               )
             : CustomButton(
@@ -59,4 +72,9 @@ class CustomTile extends StatelessWidget {
       ),
     );
   }
+}
+
+String formatDateTime(Timestamp dateTime) {
+  var time = DateFormat.jm().format(dateTime.toDate());
+  return '$time ';
 }

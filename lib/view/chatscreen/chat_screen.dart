@@ -25,10 +25,7 @@ class ChatScreen extends StatelessWidget {
         onModelReady: (model) => model.initialize(user2: usernameChattingWith!),
         viewModelBuilder: () => ChatScreenViewmodel(),
         builder: (context, model, child) {
-          if (model.scrollController.hasClients) {
-            model.scrollController
-                .jumpTo(model.scrollController.position.maxScrollExtent);
-          }
+         
           return Scaffold(
             appBar: AppBar(
               automaticallyImplyLeading: false,
@@ -107,13 +104,13 @@ class ChatScreen extends StatelessWidget {
                         return const Center(child: CircularProgressIndicator());
                       }
                       List<MessageTextWidget> messageList = [];
-                      for (var message in snapshot.data!.docs) {
+                      for (var message in snapshot.data!.docs.reversed) {
                         final messageBody = message['text'];
                         final String? messageSender = message['sender'];
                         final time = message['createdAt'];
                         final currentUser = model.loggedInUSer!.email;
-
                         final messageWidget = MessageTextWidget(
+                          
                           timeCreated: time,
                           messageBody: messageBody,
                           messageSender: messageSender,
@@ -123,6 +120,7 @@ class ChatScreen extends StatelessWidget {
                       }
                       return Expanded(
                         child: ListView(
+                          reverse: true,
                           physics: const BouncingScrollPhysics(),
                           controller: model.scrollController,
                           padding: const EdgeInsets.all(10),
@@ -131,6 +129,7 @@ class ChatScreen extends StatelessWidget {
                       );
                     },
                   ),
+                  const SizedBox(height: 20),
                   ChatTextfield(
                     hint: 'Type your message',
                     controller: model.messageController,
@@ -139,31 +138,6 @@ class ChatScreen extends StatelessWidget {
                       model.messageController.clear();
                     },
                   ),
-                  // Container(
-                  //   decoration: kMessageContainerDecoration,
-                  //   child: Row(
-                  //     crossAxisAlignment: CrossAxisAlignment.center,
-                  //     children: <Widget>[
-                  //       Expanded(
-                  //         child: TextField(
-                  //           controller: model.messageController,
-                  //           onChanged: (value) {
-                  //             model.messageText = value;
-                  //           },
-                  //           decoration: kMessageTextFieldDecoration,
-                  //         ),
-                  //       ),
-                  //       TextButton(
-                  //         onPressed: () {
-                  // model.sendMessage(
-                  //     friendUsername: usernameChattingWith);
-                  // model.messageController.clear();
-                  //         },
-                  //         child: const Icon(Icons.send),
-                  //       ),
-                  //     ],
-                  //   ),
-                  // ),
                 ],
               ),
             ),

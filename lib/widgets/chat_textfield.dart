@@ -23,7 +23,7 @@ class ChatTextfield extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.end,
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Container(
           child: Row(
@@ -48,7 +48,7 @@ class ChatTextfield extends StatelessWidget {
             ],
           ),
           height: 50,
-          width: 350,
+          width: MediaQuery.of(context).size.width / 1.3,
           decoration: BoxDecoration(
             color: AppColors.whiteGrey,
             borderRadius: BorderRadius.circular(10),
