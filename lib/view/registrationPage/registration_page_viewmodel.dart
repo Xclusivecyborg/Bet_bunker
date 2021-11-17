@@ -12,7 +12,7 @@ import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
 class RegistrationPageViewModel extends BaseViewModel {
-    final log = getLogger('Registration');
+  final log = getLogger('Registration');
   GlobalKey<FormState> resetForm = GlobalKey<FormState>();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
@@ -32,7 +32,7 @@ class RegistrationPageViewModel extends BaseViewModel {
         );
         final registeredUSer = await _authservice.signUp(
             emailController.text, passwordController.text);
-        if (registeredUSer != null) {    
+        if (registeredUSer != null) {
           updateUserinfo(registeredUSer.user!.uid);
           _navigation.back();
           _snackbar.showCustomSnackBar(
@@ -40,13 +40,17 @@ class RegistrationPageViewModel extends BaseViewModel {
               duration: const Duration(seconds: 3),
               message: 'Registration Successful');
           _navigation.navigateTo(Routes.loginScreen);
-        } else if (emailController.text.isEmpty ||
-            passwordController.text.isEmpty ||
-            emailController.text == '' ||
-            passwordController.text == '') {
-          _snackbar.showCustomSnackBar(
-              variant: SnackBarType.failure, message: 'Please fill all fields');
         }
+      } else if (emailController.text.isEmpty ||
+          passwordController.text.isEmpty ||
+          userNameController.text.isEmpty ||
+          confirmPassword.text.isEmpty ||
+          emailController.text == '' ||
+          passwordController.text == '' ||
+          userNameController.text == '' ||
+          confirmPassword.text == '') {
+        _snackbar.showCustomSnackBar(
+            variant: SnackBarType.failure, message: 'Please fill all fields');
       }
     } on FirebaseException catch (e) {
       _navigation.back();

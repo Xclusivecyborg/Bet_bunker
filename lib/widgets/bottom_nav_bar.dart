@@ -59,7 +59,7 @@ class _IndexScreenState extends State<IndexScreen> {
               },
               currentIndex: selectedIndex,
               iconSize: 30,
-              selectedItemColor: AppColors.myGreen,
+              selectedItemColor: AppColors.naveyBlue,
               showUnselectedLabels: true,
               unselectedItemColor: AppColors.myLightGrey,
               items: const [

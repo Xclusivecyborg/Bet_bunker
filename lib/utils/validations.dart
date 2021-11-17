@@ -1,3 +1,4 @@
+///This calss holds all the validations for signUp and login textfields
 class Validations {
   static String? validateName(String? value) {
     if (value!.isEmpty) return '  Field is required.';
@@ -11,7 +12,7 @@ class Validations {
   static String? validateEmail(String? value) {
     if (value!.isEmpty) return '  Email is required.';
     final RegExp nameExp = RegExp(
-        r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)*$");
+        r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)*$",);
     if (!nameExp.hasMatch(value)) {
       return 'Invalid email address';
     }

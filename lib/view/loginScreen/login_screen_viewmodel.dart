@@ -37,8 +37,6 @@ class LoginScreenViewModel extends BaseViewModel {
   String? username;
   String? photoLink;
 
- 
-
   Future<UserCredential?> login() async {
     try {
       if (resetForm.currentState!.validate()) {
@@ -76,6 +74,7 @@ class LoginScreenViewModel extends BaseViewModel {
           newPasswordController.text.isEmpty ||
           newEmailController.text == '' ||
           newPasswordController.text == '') {
+        log.e('Fill all fields');
         _snackbar.showCustomSnackBar(
             variant: SnackBarType.failure, message: 'Please fill all fields');
       }

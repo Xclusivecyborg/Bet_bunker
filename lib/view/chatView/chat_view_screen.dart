@@ -100,8 +100,10 @@ class ChatView extends StatelessWidget {
                           itemCount: model.usersnapshot!.length,
                           itemBuilder: (context, index) => CustomTile(
                             leading: CircleAvatar(
+                              
                               backgroundImage: NetworkImage(
-                                  model.usersnapshot![index].photoUrl!),
+                                model.usersnapshot![index].photoUrl!,
+                              ),
                             ),
                             isWhite: model.userStatus!,
                             chatPage: true,
@@ -110,7 +112,8 @@ class ChatView extends StatelessWidget {
                                 'No data',
                             ontap: () {
                               model.naviagteToChatScreen(
-                                isUserOnline: model.usersnapshot![index].loggedIn!,
+                                  isUserOnline:
+                                      model.usersnapshot![index].loggedIn!,
                                   user: model.usersnapshot![index].userName!,
                                   networkLink:
                                       model.usersnapshot![index].photoUrl!);
