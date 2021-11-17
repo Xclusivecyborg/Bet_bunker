@@ -9,12 +9,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
+
 import '../view/chatView/chat_view_screen.dart';
+import '../view/chatView/chat_view_search_screen.dart';
 import '../view/chatscreen/chat_screen.dart';
 import '../view/landingPage/landing_page.dart';
 import '../view/loginScreen/login_screen.dart';
 import '../view/registrationPage/registration_page.dart';
-import '../view/searchScreen/search_screen.dart';
 import '../view/settings/settings.dart';
 import '../widgets/bottom_nav_bar.dart';
 

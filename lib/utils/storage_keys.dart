@@ -1,6 +1,7 @@
 class StorageKeys {
   static const token = 'CURRENT_SESSION_TOKEN';
   static const isLoggedIn = 'IS_LOGGED_IN';
+  static const registered = 'IS_LOGGED_IN';
   static const username = 'USERNAME';
   static const userEmail = 'USEREMAIL';
   static const currentUserId = 'USER_ID';
@@ -10,8 +11,6 @@ class StorageKeys {
   static const photoUrl = "photoUrl";
   static const phoneNumber = "phoneNumber";
   static const chattingWith = "chattingWith";
-  static const idFrom = "idFrom";
-  static const idTo = "idTo";
   static const timestamp = "timestamp";
   static const content = "content";
   static const type = "type";

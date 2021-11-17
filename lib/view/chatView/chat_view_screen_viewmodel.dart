@@ -52,7 +52,7 @@ class ChatViewModel extends BaseViewModel {
 
 //This is the first method that is called when the UI is built
 //This is called in the onModelReady function provided by stacked
-//onModelReady is Similar to initState in a stateful widget 
+//onModelReady is Similar to initState in a stateful widget
   void initialise() {
     getUsers();
   }
@@ -155,7 +155,7 @@ class ChatViewModel extends BaseViewModel {
     }
   }
 
-///ALL METHODS TO GET USERS 
+  ///ALL METHODS TO GET USERS
 //Gets all users method
   Future<List<Users>> getUsers() async {
     var usersList = await _fireStore.getUSers();
@@ -177,6 +177,7 @@ class ChatViewModel extends BaseViewModel {
     return newSnapshot;
   }
 
+
 //This gets users via the onchanged function of the textfield
   void getUSersForOnchangedFunction() async {
     await _fireStore
@@ -194,16 +195,34 @@ class ChatViewModel extends BaseViewModel {
     });
     notifyListeners();
   }
+
+
+  /////Method to create a chatroom for 2 users each
+  void createChatRoom({@required String? friendUsername}) {
+    String getdocPath = chatRoomId(currentUsername!, friendUsername!);
+    Map<String, dynamic> dataToSend = {
+      'chatRoomId': getdocPath,
+      'sender': currentUserEmail,
+      'createdAt': DateTime.now(),
+      'users': [currentUsername, friendUsername],
+    };
+    try {
+      _fireStore.createChatRoom(
+          collPath: 'messages', docPath: getdocPath, data: dataToSend);
+    } catch (e) {
+      log.e(e);
+    }
+  }
+
   /// NAVIGATION METHODS
   /// Navigate to Settings Screen
   void navigateToSettings() {
     _navigation.navigateTo(Routes.settingsPage);
   }
 
-
-//Method to format the chatRoom Id such that if user a creates a chatroom Id, 
-//User b also uses the same Id without having to create another 
- String chatRoomId(String a, String b) {
+//Method to format the chatRoom Id such that if user a creates a chatroom Id,
+//User b also uses the same Id without having to create another
+  String chatRoomId(String a, String b) {
     if (a.substring(0, 1).codeUnitAt(0) > b.substring(0, 1).codeUnitAt(0)) {
       return "$b _$a";
     } else {
@@ -213,33 +232,19 @@ class ChatViewModel extends BaseViewModel {
 
 
 
-//Method to create a chatroom for 2 users each
-  void createChatRoom({@required String? friendUsername}) {
-     String getdocPath = chatRoomId(currentUsername!, friendUsername!);
-    Map<String, dynamic> dataToSend = {
-      'chatRoomId': getdocPath,
-      'sender': currentUserEmail,
-      'createdAt': DateTime.now(),
-      'users': [currentUsername, friendUsername],
-    };
-    try {
-      _fireStore.createChatRoom(
-          collPath: 'messages',
-          docPath: getdocPath,
-          data: dataToSend);
-    } catch (e) {
-      log.e(e);
-    }
-  }
-
 //Navigate to the chat screen
-  void naviagteToChatScreen({required String user, required String networkLink, required bool isUserOnline}) {
+  void naviagteToChatScreen(
+      {required String user,
+      required String networkLink,
+      required bool isUserOnline}) {
     _navigation.navigateTo(Routes.chatScreen,
-        arguments: ChatScreenArguments(usernameChattingWith: user, 
-        networkUrl: networkLink,
-        isOnline: isUserOnline,
-         ));
-    createChatRoom(friendUsername: user, 
+        arguments: ChatScreenArguments(
+          usernameChattingWith: user,
+          networkUrl: networkLink,
+          isOnline: isUserOnline,
+        ));
+    createChatRoom(
+      friendUsername: user,
     );
   }
 

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:spinchat/utils/app_styles.dart';
 import 'package:spinchat/view/chatView/chat_view_screen.dart';
 import 'package:spinchat/view/loginScreen/login_screen_viewmodel.dart';
-import 'package:spinchat/view/searchScreen/search_screen.dart';
+import 'package:spinchat/view/chatView/chat_view_search_screen.dart';
 import 'package:spinchat/utils/constants/color_constants.dart';
 import 'package:stacked/stacked.dart';
 

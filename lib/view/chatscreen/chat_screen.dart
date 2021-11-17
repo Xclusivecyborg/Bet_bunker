@@ -5,6 +5,7 @@ import 'package:spinchat/utils/constants/color_constants.dart';
 import 'package:spinchat/view/chatscreen/chat_screen_viewmodel.dart';
 import 'package:spinchat/widgets/chat_textfield.dart';
 import 'package:spinchat/widgets/custom_listview_children.dart';
+import 'package:spinchat/widgets/profile/users_circle_avatar.dart';
 import 'package:spinchat/widgets/status_dot.dart';
 import 'package:stacked/stacked.dart';
 
@@ -45,17 +46,9 @@ class ChatScreen extends StatelessWidget {
                   ),
                   const SizedBox(width: 10),
                   GestureDetector(
-                    child: Container(
-                      height: 40,
-                      width: 40,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          fit: BoxFit.fill,
-                          image: NetworkImage(networkUrl!),
-                        ),
-                        borderRadius: BorderRadius.circular(30),
+                    child: LeadingAvatar(
+                        photo: networkUrl!,
                       ),
-                    ),
                   ),
                   const SizedBox(
                     width: 15,

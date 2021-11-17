@@ -20,7 +20,8 @@ class CustomTile extends StatelessWidget {
     @required this.chatPage,
     @required this.isUserLoggedIn,
     required this.isWhite,
-    @required this.leading, this.timeCreated,
+    @required this.leading,
+    this.timeCreated,
   }) : super(key: key);
 
   @override
@@ -37,7 +38,8 @@ class CustomTile extends StatelessWidget {
             fontSize: 20.0,
           ),
         ),
-        subtitle: Text(isUserLoggedIn! ? 'online' : 'offline'),
+        subtitle:
+            chatPage! ? Text(isUserLoggedIn! ? 'online' : 'offline') : null,
         trailing: chatPage!
             ? Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -51,24 +53,32 @@ class CustomTile extends StatelessWidget {
                             ? AppColors.myGreen
                             : AppColors.myLightGrey),
                   ),
-                   timeCreated != null
-                ? Text(
-                    formatDateTime(timeCreated!),
-                    style: GoogleFonts.poppins(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w400,
-                      color: AppColors.black,
-                    ),
-                  )
-                : const Text(''),
+                  timeCreated != null
+                      ? Text(
+                          formatDateTime(timeCreated!),
+                          style: GoogleFonts.poppins(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w400,
+                            color: AppColors.black,
+                          ),
+                        )
+                      : const Text(''),
                 ],
               )
-            : CustomButton(
-                width: MediaQuery.of(context).size.width / 5,
-                label: 'Message',
-                onTap: ontap,
-                color: isWhite ? AppColors.myGreen : AppColors.naveyBlue,
+            : TextButton(
+                onPressed: () {},
+                child: Text(
+                  'Message',
+                  style: GoogleFonts.poppins(
+                      color: isWhite ? AppColors.myGreen : AppColors.naveyBlue),
+                ),
               ),
+        // : CustomButton(
+        //     width: MediaQuery.of(context).size.width / 7,
+        //     label: 'Message',
+        //     onTap: ontap,
+        //     color: isWhite ? AppColors.myGreen : AppColors.naveyBlue,
+        //   ),
       ),
     );
   }

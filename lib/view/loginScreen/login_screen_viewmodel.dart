@@ -29,7 +29,7 @@ class LoginScreenViewModel extends BaseViewModel {
 
   ///Required Parameters in the view
   GlobalKey<FormState> resetForm = GlobalKey<FormState>();
-  User? get loggedInUSer => _authservice.getCurrentUSer();
+  // User? get loggedInUSer => _authservice.getCurrentUSer();
   bool isLoading = true;
   TextEditingController newEmailController = TextEditingController();
   TextEditingController newPasswordController = TextEditingController();
@@ -47,11 +47,12 @@ class LoginScreenViewModel extends BaseViewModel {
             newEmailController.text, newPasswordController.text);
         if (createdUser != null) {
           await _storage.setBool(StorageKeys.isLoggedIn, true);
+          await _storage.setBool(StorageKeys.registered, false);
           await _fireStore.updateDocument(
               collPath: 'users',
               docPath: createdUser.user!.uid,
               data: {'loggedIn': true});
-          await _fireStore.getUSerDetails(loggedInUSer!.uid).then((value) {
+          await _fireStore.getUSerDetails(createdUser.user!.uid).then((value) {
             username = value!['userName'];
             photoLink = value['photoUrl'];
 

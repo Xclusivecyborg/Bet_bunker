@@ -5,7 +5,7 @@ import 'package:spinchat/view/chatscreen/chat_screen.dart';
 import 'package:spinchat/view/landingPage/landing_page.dart';
 import 'package:spinchat/view/loginScreen/login_screen.dart';
 import 'package:spinchat/view/registrationPage/registration_page.dart';
-import 'package:spinchat/view/searchScreen/search_screen.dart';
+import 'package:spinchat/view/chatView/chat_view_search_screen.dart';
 import 'package:spinchat/app/services/firebse_auth_service.dart';
 import 'package:spinchat/app/services/firestore_service.dart';
 import 'package:spinchat/app/services/google_signin_service.dart';

@@ -4,8 +4,11 @@ import 'package:spinchat/app/app.locator.dart';
 import 'package:spinchat/widgets/custom_snackbar.dart';
 import 'package:spinchat/widgets/setup_ui_dialog.dart';
 import 'package:stacked_services/stacked_services.dart';
+import 'app/app.logger.dart';
 import 'app/app.router.dart';
 import 'app/services/firebse_auth_service.dart';
+import 'app/services/localdatabase.dart';
+import 'utils/storage_keys.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,13 +24,31 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _authservice = locator<FirebaseAuthService>();
-    final user = _authservice.getCurrentUSer();
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      navigatorKey: StackedService.navigatorKey,
-      onGenerateRoute: StackedRouter().onGenerateRoute,
-      initialRoute: user != null ? Routes.indexScreen : Routes.landingPage,
-    );
+    final log = getLogger('Main.dart');
+    final _storage = locator<SharedPreferenceLocalStorage>();
+    final registered = _storage.getBool(StorageKeys.registered);
+    log.e(registered);
+    if (registered == true) {
+      return MaterialApp(
+        debugShowCheckedModeBanner: false,
+        navigatorKey: StackedService.navigatorKey,
+        onGenerateRoute: StackedRouter().onGenerateRoute,
+        initialRoute: Routes.loginScreen,
+      );
+    } else if (registered == null ) {
+      return MaterialApp(
+        debugShowCheckedModeBanner: false,
+        navigatorKey: StackedService.navigatorKey,
+        onGenerateRoute: StackedRouter().onGenerateRoute,
+        initialRoute: Routes.landingPage,
+      );
+    } else {
+      return MaterialApp(
+        debugShowCheckedModeBanner: false,
+        navigatorKey: StackedService.navigatorKey,
+        onGenerateRoute: StackedRouter().onGenerateRoute,
+        initialRoute: Routes.indexScreen,
+      );
+    }
   }
 }

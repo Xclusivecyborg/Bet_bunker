@@ -1,17 +1,10 @@
-import 'dart:io';
-
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:spinchat/widgets/custom_snackbar.dart';
-import 'package:stacked_services/stacked_services.dart';
-
-import '../app.locator.dart';
 import '../app.logger.dart';
 
 class FirebaseAuthService {
   final log = getLogger('Firebase auth');
   static FirebaseAuthService? _instance;
   static FirebaseAuth? _auth;
-  final _snackbar = locator<SnackbarService>();
 
   static Future<FirebaseAuthService> getInstance() async {
     _instance ??= FirebaseAuthService();
@@ -24,12 +17,6 @@ class FirebaseAuthService {
       final newUSer = _auth!
           .createUserWithEmailAndPassword(email: email!, password: password!);
       return newUSer;
-    } on FirebaseException {
-      throw Failure(message: 'Unable to register Ueer');
-    } on SocketException {
-      _snackbar.showCustomSnackBar(
-          variant: SnackBarType.failure,
-          message: 'Please check your internet connection');
     } catch (e) {
       throw Failure(message: e.toString());
     }
@@ -48,12 +35,7 @@ class FirebaseAuthService {
   Future? resetPassword(String? email) {
     try {
       final passwordReset = _auth!.sendPasswordResetEmail(email: email!);
-
       return passwordReset;
-    } on SocketException {
-      _snackbar.showCustomSnackBar(
-          variant: SnackBarType.failure,
-          message: 'Please check your internet connection');
     } catch (e) {
       throw Failure(message: e.toString());
     }
@@ -67,6 +49,15 @@ class FirebaseAuthService {
       log.e(e.toString());
     }
   }
+
+  // User? getToken() {
+  //   try {
+  //     final user = _auth!.currentUser!.refreshToken;
+  //     return user;
+  //   } catch (e) {
+  //     log.e(e.toString());
+  //   }
+  // }
 
   void logout() {
     _auth!.signOut();

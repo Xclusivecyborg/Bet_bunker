@@ -6,6 +6,8 @@ import 'package:spinchat/app/app.locator.dart';
 import 'package:spinchat/app/app.logger.dart';
 import 'package:spinchat/app/app.router.dart';
 import 'package:spinchat/app/services/firebse_auth_service.dart';
+import 'package:spinchat/app/services/localdatabase.dart';
+import 'package:spinchat/utils/storage_keys.dart';
 import 'package:spinchat/widgets/custom_snackbar.dart';
 import 'package:spinchat/widgets/setup_ui_dialog.dart';
 import 'package:stacked/stacked.dart';
@@ -23,6 +25,7 @@ class RegistrationPageViewModel extends BaseViewModel {
   final _snackbar = locator<SnackbarService>();
   final _authservice = locator<FirebaseAuthService>();
   final _dialog = locator<DialogService>();
+  final _storage = locator<SharedPreferenceLocalStorage>();
 
   void signUp() async {
     try {
@@ -34,6 +37,8 @@ class RegistrationPageViewModel extends BaseViewModel {
             emailController.text, passwordController.text);
         if (registeredUSer != null) {
           updateUserinfo(registeredUSer.user!.uid);
+          await _storage.setBool(
+              StorageKeys.registered ,true);
           _navigation.back();
           _snackbar.showCustomSnackBar(
               variant: SnackBarType.success,
@@ -44,11 +49,7 @@ class RegistrationPageViewModel extends BaseViewModel {
       } else if (emailController.text.isEmpty ||
           passwordController.text.isEmpty ||
           userNameController.text.isEmpty ||
-          confirmPassword.text.isEmpty ||
-          emailController.text == '' ||
-          passwordController.text == '' ||
-          userNameController.text == '' ||
-          confirmPassword.text == '') {
+          confirmPassword.text.isEmpty) {
         _snackbar.showCustomSnackBar(
             variant: SnackBarType.failure, message: 'Please fill all fields');
       }
@@ -83,6 +84,9 @@ class RegistrationPageViewModel extends BaseViewModel {
       'email': emailController.text,
       'userName': userNameController.text,
       'createdAt': DateTime.now().millisecondsSinceEpoch.toString(),
+      'photoUrl' : '',
+      'loggedIn' : false,
+      'aboutMe' : '',
     };
     try {
       await _fireStore.collection('users').doc(uid).set(userMap);

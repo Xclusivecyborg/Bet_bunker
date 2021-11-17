@@ -46,7 +46,7 @@ class FirestoreService {
   Future<DocumentSnapshot<Map<String, dynamic>>?> getUSerDetails(
       String? uid) async {
     try {
-      final snapshots = _fireStore!.collection('users').doc(uid).get();
+      final snapshots = _fireStore!.collection('users').doc('$uid').get();
       return snapshots;
     } catch (e) {
       log.e(Failure(message: e.toString()));
