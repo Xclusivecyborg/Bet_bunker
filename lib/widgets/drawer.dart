@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:spinchat/app/models.dart/icon_drawer.dart';
 import 'package:spinchat/utils/constants/color_constants.dart';
 import 'package:spinchat/view/chatView/chat_view_screen_viewmodel.dart';
+import 'package:spinchat/view/loginScreen/login_screen_viewmodel.dart';
 import 'package:spinchat/widgets/profile/profile_image_avatar.dart';
 import 'package:stacked/stacked.dart';
 
@@ -16,8 +17,8 @@ class AppDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ViewModelBuilder<ChatViewModel>.reactive(
-        viewModelBuilder: () => ChatViewModel(),
+    return ViewModelBuilder<LoginScreenViewModel>.reactive(
+        viewModelBuilder: () => LoginScreenViewModel(),
         builder: (ctx, model, child) => Drawer(
               child: Container(
                 decoration: BoxDecoration(

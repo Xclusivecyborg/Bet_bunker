@@ -17,11 +17,10 @@ class SearchScreen extends StatelessWidget {
       onModelReady: (model) => model.initialise(),
       viewModelBuilder: () => ChatViewModel(),
       builder: (ctx, model, child) => Scaffold(
-        backgroundColor: model.isWhite ? AppColors.naveyBlue : AppColors.white,
+        backgroundColor: AppColors.white,
         appBar: AppBar(
           automaticallyImplyLeading: false,
-          backgroundColor:
-              model.isWhite ? AppColors.naveyBlue : AppColors.white,
+          backgroundColor:  AppColors.white,
           title: CustomTextField(
             autofocus: false,
             hintText: 'Search in chat',
@@ -58,7 +57,7 @@ class SearchScreen extends StatelessWidget {
                         photo: model.snapshot![index].data()['photoUrl'],
                       ),
                       isUserLoggedIn: model.userStatus,
-                      isWhite: model.isWhite,
+                      isWhite: true,
                       chatPage: false,
                       username: model.snapshot![index].data()['userName'],
                       ontap: () {

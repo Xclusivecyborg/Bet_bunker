@@ -8,12 +8,10 @@ import 'package:spinchat/app/app.logger.dart';
 import 'package:spinchat/app/app.router.dart';
 import 'package:spinchat/app/models.dart/user_model.dart';
 import 'package:spinchat/app/services/firebase_storage.dart';
-import 'package:spinchat/app/services/firebse_auth_service.dart';
 import 'package:spinchat/app/services/firestore_service.dart';
 import 'package:spinchat/app/services/localdatabase.dart';
 import 'package:spinchat/utils/storage_keys.dart';
 import 'package:spinchat/widgets/custom_snackbar.dart';
-import 'package:spinchat/widgets/setup_ui_dialog.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
@@ -25,18 +23,19 @@ class ChatViewModel extends BaseViewModel {
   final _storage = locator<SharedPreferenceLocalStorage>();
   final _navigation = locator<NavigationService>();
   final _firebaseStorage = locator<FirebaseDataStorage>();
-  final _authservice = locator<FirebaseAuthService>();
-  final _dialog = locator<DialogService>();
 
   //EditingContollers for the settings page
   TextEditingController searchResults = TextEditingController();
   TextEditingController aboutMe = TextEditingController();
   TextEditingController phoneNumber = TextEditingController();
   TextEditingController username = TextEditingController();
+  TextEditingController searchFieldController = TextEditingController();
 
   ///Required Parameters
   List<QueryDocumentSnapshot<Map<String, dynamic>>>? snapshot;
+
   List<Users>? usersnapshot = [];
+  late List<Users> matchingUsers = [];
   bool isWhite = false;
   File? imagePicked;
   bool? get userStatus => _storage.getBool(StorageKeys.isLoggedIn);
@@ -44,11 +43,6 @@ class ChatViewModel extends BaseViewModel {
   String? get currentUsername => _storage.getString(StorageKeys.username);
   String? get photosUrl => _storage.getString(StorageKeys.photoUrl);
   String? get currentUserEmail => _storage.getString(StorageKeys.userEmail);
-
-  void toggleTheme(val) {
-    isWhite = val;
-    notifyListeners();
-  }
 
 //This is the first method that is called when the UI is built
 //This is called in the onModelReady function provided by stacked
@@ -58,10 +52,19 @@ class ChatViewModel extends BaseViewModel {
     getUserDetails();
   }
 
+  void onSearchUser(String input) {
+    matchingUsers = [
+      ...usersnapshot!.where(
+          (user) => user.userName!.toLowerCase().contains(input.toLowerCase()))
+    ];
+    log.i(matchingUsers);
+    notifyListeners();
+  }
+
   void getUserDetails() async {
     await _fireStore.getUSerDetails(userId).then((value) {
-    String  userUsername = value!['userName'];
-     String photoLink = value['photoUrl'];
+      String userUsername = value!['userName'];
+      String photoLink = value['photoUrl'];
 
       _storage.setString(StorageKeys.username, userUsername);
       _storage.setString(StorageKeys.photoUrl, photoLink);
@@ -202,7 +205,7 @@ class ChatViewModel extends BaseViewModel {
 
 //THis gets the list of all users using the application
   void getUsersByUsername({String? val}) async {
-   await  _fireStore.getUSersByUsername(username: val)!.then((value) {
+    await _fireStore.getUSersByUsername(username: val)!.then((value) {
       snapshot = value!.docs;
     });
     notifyListeners();
@@ -226,10 +229,6 @@ class ChatViewModel extends BaseViewModel {
   }
 
   /// NAVIGATION METHODS
-  /// Navigate to Settings Screen
-  void navigateToSettings() {
-    _navigation.navigateTo(Routes.settingsPage);
-  }
 
 //Method to format the chatRoom Id such that if user a creates a chatroom Id,
 //User b also uses the same Id without having to create another
@@ -260,21 +259,5 @@ class ChatViewModel extends BaseViewModel {
 //Pop navigation
   void popNavigation() {
     _navigation.back();
-  }
-
-  ///Logout functionality
-  void logout() async {
-    _dialog.showCustomDialog(
-      variant: DialogType.signOut,
-    );
-    await _fireStore.updateDocument(
-        collPath: 'users', docPath: userId!, data: {'loggedIn': false});
-    _authservice.logout();
-    _storage.clearStorage();
-    _navigation.clearStackAndShow(Routes.landingPage);
-    _snackbar.showCustomSnackBar(
-        variant: SnackBarType.success,
-        duration: const Duration(seconds: 4),
-        message: 'Logout Successful');
   }
 }

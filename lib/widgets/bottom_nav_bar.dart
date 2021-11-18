@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:spinchat/utils/app_styles.dart';
 import 'package:spinchat/view/chatView/chat_view_screen.dart';
+import 'package:spinchat/view/homescreen/home_screen.dart';
 import 'package:spinchat/view/loginScreen/login_screen_viewmodel.dart';
 import 'package:spinchat/view/chatView/chat_view_search_screen.dart';
 import 'package:spinchat/utils/constants/color_constants.dart';
@@ -26,6 +27,7 @@ class _IndexScreenState extends State<IndexScreen> {
   void initState() {
     setState(() {
       selections = [
+        const HomeScreen(),
         const ChatView(),
         const SearchScreen(),
       ];
@@ -68,6 +70,13 @@ class _IndexScreenState extends State<IndexScreen> {
                 label: 'Home',
                 icon: Icon(
                   Icons.home_filled,
+                ),
+              ),
+              BottomNavigationBarItem(
+                backgroundColor: AppColors.white,
+                label: 'Chat',
+                icon: Icon(
+                  CupertinoIcons.paperplane_fill,
                 ),
               ),
               BottomNavigationBarItem(

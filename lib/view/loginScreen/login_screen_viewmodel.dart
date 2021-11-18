@@ -29,12 +29,21 @@ class LoginScreenViewModel extends BaseViewModel {
 
   ///Required Parameters in the view
   GlobalKey<FormState> resetForm = GlobalKey<FormState>();
-  // User? get loggedInUSer => _authservice.getCurrentUSer();
+  User? get loggedInUSer => _authservice.getCurrentUSer();
   bool isLoading = true;
   TextEditingController newEmailController = TextEditingController();
   TextEditingController newPasswordController = TextEditingController();
   List<QueryDocumentSnapshot<Map<String, dynamic>>>? snapshot;
+   bool isWhite = false;
+   String? get currentUsername => _storage.getString(StorageKeys.username);
+   
  
+
+
+  void toggleTheme(val) {
+    isWhite = val;
+    notifyListeners();
+  }
   
 
   Future<UserCredential?> login() async {
@@ -58,7 +67,7 @@ class LoginScreenViewModel extends BaseViewModel {
           await _storage.setString(
               StorageKeys.userEmail, createdUser.user!.email!);
 
-          _navigation.navigateTo(Routes.indexScreen);
+          _navigation.clearStackAndShow(Routes.indexScreen);
           _snackbar.showCustomSnackBar(
               variant: SnackBarType.success,
               duration: const Duration(seconds: 4),
@@ -89,7 +98,32 @@ class LoginScreenViewModel extends BaseViewModel {
     notifyListeners();
   }
 
+
+///NAVIGATION METHODS
+///Navigate to Registration page
   void navigateToRegistrationPage() {
     _navigation.replaceWith(Routes.registration);
   }
+
+  /// Navigate to Settings Screen
+  void navigateToSettings() {
+    _navigation.navigateTo(Routes.settingsPage);
+  }
+
+ ///Logout functionality
+  void logout() async {
+    _dialog.showCustomDialog(
+      variant: DialogType.signOut,
+    );
+    await _fireStore.updateDocument(
+        collPath: 'users', docPath: loggedInUSer!.uid, data: {'loggedIn': false});
+    _authservice.logout();
+    _storage.clearStorage();
+    _navigation.clearStackAndShow(Routes.landingPage);
+    _snackbar.showCustomSnackBar(
+        variant: SnackBarType.success,
+        duration: const Duration(seconds: 4),
+        message: 'Logout Successful');
+  }
+  
 }

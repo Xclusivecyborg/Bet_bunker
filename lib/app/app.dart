@@ -2,6 +2,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:spinchat/app/services/firebase_storage.dart';
 import 'package:spinchat/view/chatView/chat_view_screen.dart';
 import 'package:spinchat/view/chatscreen/chat_screen.dart';
+import 'package:spinchat/view/homescreen/home_screen.dart';
 import 'package:spinchat/view/landingPage/landing_page.dart';
 import 'package:spinchat/view/loginScreen/login_screen.dart';
 import 'package:spinchat/view/registrationPage/registration_page.dart';
@@ -25,6 +26,7 @@ import 'package:stacked_services/stacked_services.dart';
     CupertinoRoute(page: SearchScreen),
     CupertinoRoute(page: IndexScreen),
     CupertinoRoute(page: SettingsPage),
+    CupertinoRoute(page: HomeScreen),
   ],
   dependencies: [
     LazySingleton(classType: NavigationService),

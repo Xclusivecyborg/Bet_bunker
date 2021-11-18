@@ -3,6 +3,7 @@ import 'package:spinchat/app/models.dart/icon_drawer.dart';
 import 'package:spinchat/utils/constants/color_constants.dart';
 import 'package:spinchat/view/chatView/chat_view_screen_viewmodel.dart';
 import 'package:spinchat/view/chatView/chat_view_search_screen.dart';
+import 'package:spinchat/widgets/custom_search_field.dart';
 import 'package:spinchat/widgets/custom_tile.dart';
 import 'package:spinchat/widgets/drawer.dart';
 import 'package:spinchat/widgets/profile/users_circle_avatar.dart';
@@ -16,117 +17,98 @@ class ChatView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var scaffoldKey = GlobalKey<ScaffoldState>();
     return ViewModelBuilder<ChatViewModel>.reactive(
         onModelReady: (model) => model.initialise(),
         viewModelBuilder: () => ChatViewModel(),
         builder: (context, model, child) {
-          List<IconDrawer> listChoices = [
-            IconDrawer(
-                title: 'Theme',
-                icon: Switch(
-                    value: model.isWhite,
-                    onChanged: (val) {
-                      model.toggleTheme(val);
-                    }),
-                onpressed: () {
-                  (val) {
-                    model.toggleTheme(val);
-                  };
-                }),
-            IconDrawer(
-                title: 'Settings',
-                icon: Icon(
-                  Icons.settings,
-                  color:
-                      model.isWhite ? AppColors.myGreen : AppColors.naveyBlue,
-                ),
-                onpressed: () {
-                  model.navigateToSettings();
-                }),
-          ];
           return Scaffold(
             backgroundColor:
                 model.isWhite ? AppColors.naveyBlue : AppColors.white,
-            key: scaffoldKey,
-            drawer: AppDrawer(listChoices: listChoices),
-            appBar: AppBar(
-              backgroundColor:
-                  model.isWhite ? AppColors.naveyBlue : AppColors.white,
-              leading: GestureDetector(
-                onTap: () => scaffoldKey.currentState!.openDrawer(),
-                child: Icon(
-                  Icons.menu,
-                  color:
-                      model.isWhite ? AppColors.myGreen : AppColors.naveyBlue,
-                ),
-              ),
-              actions: [
-                IconButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => const SearchScreen(),
-                      ),
-                    );
-                  },
-                  icon: const Icon(Icons.search, color: AppColors.naveyBlue),
-                ),
-                IconButton(
-                  onPressed: () {
-                    model.logout();
-                  },
-                  icon: const Icon(Icons.logout, color: AppColors.naveyBlue),
-                ),
-              ],
-              elevation: 1,
-              title: Text(
-                'SpinChat',
-                style: GoogleFonts.poppins(
-                  color:
-                      model.isWhite ? AppColors.myGreen : AppColors.naveyBlue,
-                ),
-              ),
-            ),
             body: model.usersnapshot == null
                 ? const Center(
                     child: CircularProgressIndicator(),
                   )
-                : Padding(
-                    padding: const EdgeInsets.only(top: 10.0),
-                    child: SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          ListView.separated(
+                : SafeArea(
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              left: 15, right: 15, top: 30),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Chat",
+                                style: GoogleFonts.poppins(
+                                  fontWeight: FontWeight.w700,
+                                  color: AppColors.black,
+                                  fontSize: 34,
+                                ),
+                              ),
+                              CustomSearchField(
+                                controller: model.searchFieldController,
+                                onChanged: model.onSearchUser,
+                                preixIcon: Icons.search,
+                                hint: 'search',
+                                // suffixIcon: Padding(
+                                //   padding: const EdgeInsets.only(top: 5.0),
+                                //   child: Image.asset(
+                                //     'assets/Filter.png',
+                                //   ),
+                                // ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 15,
+                        ),
+                        const Divider(
+                          thickness: 1,
+                        ),
+                        Expanded(
+                          child: ListView.separated(
                             separatorBuilder: (context, index) => const Divider(
                               thickness: 1,
                             ),
                             shrinkWrap: true,
-                            itemCount: model.usersnapshot!.length,
+                            itemCount: model.matchingUsers.isNotEmpty
+                                ? model.matchingUsers.length
+                                : model.usersnapshot!.length,
                             itemBuilder: (context, index) => CustomTile(
                               leading: LeadingAvatar(
-                                photo: model.usersnapshot![index].photoUrl!,
+                                photo: model.matchingUsers.isNotEmpty
+                                    ? model.matchingUsers[index].photoUrl!
+                                    : model.usersnapshot![index].photoUrl!,
                               ),
                               isWhite: model.userStatus!,
                               chatPage: true,
-                              isUserLoggedIn:
-                                  model.usersnapshot![index].loggedIn,
-                              username: model.usersnapshot![index].userName ??
-                                  'No data',
+                              isUserLoggedIn: model.matchingUsers.isNotEmpty
+                                  ? model.matchingUsers[index].loggedIn
+                                  : model.usersnapshot![index].loggedIn,
+                              username: model.matchingUsers.isNotEmpty
+                                  ? model.matchingUsers[index].userName
+                                  : model.usersnapshot![index].userName ??
+                                      'No data',
                               ontap: () {
-                                model.naviagteToChatScreen(
-                                  isUserOnline:
-                                      model.usersnapshot![index].loggedIn!,
-                                  user: model.usersnapshot![index].userName!,
-                                  networkLink:
-                                      model.usersnapshot![index].photoUrl!,
-                                );
+                                // model.naviagteToChatScreen(
+                                //   isUserOnline: model.matchingUsers.isNotEmpty
+                                //       ? model.matchingUsers[index].loggedIn!
+                                //       : model.usersnapshot![index].loggedIn!,
+                                //   user: model.matchingUsers.isNotEmpty
+                                //       ? model.matchingUsers[index].userName!
+                                //       : model.usersnapshot![index].userName ??
+                                //           'No data',
+                                //   networkLink: model.matchingUsers.isNotEmpty
+                                //       ? model.matchingUsers[index].photoUrl!
+                                //       : model.usersnapshot![index].photoUrl!,
+                                // );
+                                model.searchFieldController.clearComposing();
                               },
                             ),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
           );

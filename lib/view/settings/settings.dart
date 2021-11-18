@@ -19,8 +19,7 @@ class SettingsPage extends StatelessWidget {
           appBar: AppBar(
             elevation: 2,
             title: const Text('Settings', style: TextStyle(color: AppColors.black)),
-            backgroundColor:
-                model.isWhite ? AppColors.naveyBlue : AppColors.white,
+            backgroundColor: AppColors.white,
           ),
           body: Stack(
             children: [
