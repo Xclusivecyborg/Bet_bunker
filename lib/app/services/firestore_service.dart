@@ -14,10 +14,10 @@ class FirestoreService {
     return _instance!;
   }
 
-  Future<QuerySnapshot<Map<String, dynamic>>>? getUSersByUsername(
-      {required String? username}) {
+  Future<QuerySnapshot<Map<String, dynamic>>?>? getUSersByUsername(
+      {required String? username}) async {
     try {
-      final snapshots = _fireStore!
+      final snapshots = await _fireStore!
           .collection('users')
           .where('userName', isLessThanOrEqualTo: username)
           .get();

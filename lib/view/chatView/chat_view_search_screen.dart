@@ -14,6 +14,7 @@ class SearchScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<ChatViewModel>.reactive(
+      onModelReady: (model) => model.initialise(),
       viewModelBuilder: () => ChatViewModel(),
       builder: (ctx, model, child) => Scaffold(
         backgroundColor: model.isWhite ? AppColors.naveyBlue : AppColors.white,
@@ -22,7 +23,7 @@ class SearchScreen extends StatelessWidget {
           backgroundColor:
               model.isWhite ? AppColors.naveyBlue : AppColors.white,
           title: CustomTextField(
-            autofocus: true,
+            autofocus: false,
             hintText: 'Search in chat',
             controller: model.searchResults,
             height: 40,
@@ -43,9 +44,10 @@ class SearchScreen extends StatelessWidget {
         body: model.snapshot == null
             ? const Center(child: CircularProgressIndicator())
             : Padding(
-                padding: const EdgeInsets.only(top: 15.0),
+                padding: const EdgeInsets.only(top: 40.0),
                 child: SingleChildScrollView(
                   child: ListView.separated(
+                    reverse: true,
                     separatorBuilder: (context, index) => const Divider(
                       thickness: 2,
                     ),
@@ -61,12 +63,12 @@ class SearchScreen extends StatelessWidget {
                       username: model.snapshot![index].data()['userName'],
                       ontap: () {
                         model.naviagteToChatScreen(
-                            isUserOnline:
-                                model.snapshot![index].data()['loggedIn'],
-                            user: model.snapshot![index].data()['userName'],
-                            networkLink:
-                                model.snapshot![index].data()['photoUrl'],
-                                );
+                          isUserOnline:
+                              model.snapshot![index].data()['loggedIn'],
+                          user: model.snapshot![index].data()['userName'],
+                          networkLink:
+                              model.snapshot![index].data()['photoUrl'],
+                        );
                       },
                     ),
                   ),

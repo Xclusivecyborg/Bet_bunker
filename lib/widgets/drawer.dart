@@ -16,40 +16,62 @@ class AppDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  ViewModelBuilder<ChatViewModel>.reactive(viewModelBuilder: () => ChatViewModel(), builder: (ctx, model, child) => Drawer(
-      child: Container(
-        color: model.isWhite ? AppColors.naveyBlue : AppColors.white,
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(15.0, 100, 15.0, 15.0),
-          child: Column(
-            children: [
-            const ProfileAvatar(),
-              ListView.builder(
-                padding: const EdgeInsets.all(15),
-                itemCount: listChoices.length,
-                shrinkWrap: true,
-                itemBuilder: (_, index) => InkWell(
-                  onTap: listChoices[index].onpressed,
-                  child: Row(
+    return ViewModelBuilder<ChatViewModel>.reactive(
+        viewModelBuilder: () => ChatViewModel(),
+        builder: (ctx, model, child) => Drawer(
+              child: Container(
+                decoration: BoxDecoration(
+                  color:
+                      model.isWhite ? AppColors.naveyBlue : AppColors.myGreen,
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(15.0, 100, 15.0, 45.0),
+                  child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        listChoices[index].title,
-                        style: GoogleFonts.spinnaker(
-                          color: model.isWhite
-                              ? AppColors.myGreen
-                              : AppColors.naveyBlue,
+                      Column(
+                        children: [
+                          const ProfileAvatar(),
+                          Text(
+                            'Hey!👋 ${model.currentUsername!}',
+                            style: GoogleFonts.poppins(
+                              color: model.isWhite
+                                  ? AppColors.myGreen
+                                  : AppColors.naveyBlue,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                      ListView.builder(
+                        padding: const EdgeInsets.all(15),
+                        itemCount: listChoices.length,
+                        shrinkWrap: true,
+                        itemBuilder: (_, index) => InkWell(
+                          onTap: listChoices[index].onpressed,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                listChoices[index].title,
+                                style: GoogleFonts.poppins(
+                                  color: model.isWhite
+                                      ? AppColors.myGreen
+                                      : AppColors.naveyBlue,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              listChoices[index].icon,
+                            ],
+                          ),
                         ),
                       ),
-                      listChoices[index].icon,
                     ],
                   ),
                 ),
               ),
-            ],
-          ),
-        ),
-      ),
-    ))  ;
+            ));
   }
 }

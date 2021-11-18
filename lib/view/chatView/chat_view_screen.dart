@@ -29,7 +29,11 @@ class ChatView extends StatelessWidget {
                     onChanged: (val) {
                       model.toggleTheme(val);
                     }),
-                onpressed: () {}),
+                onpressed: () {
+                  (val) {
+                    model.toggleTheme(val);
+                  };
+                }),
             IconDrawer(
                 title: 'Settings',
                 icon: Icon(
@@ -96,7 +100,7 @@ class ChatView extends StatelessWidget {
                         children: [
                           ListView.separated(
                             separatorBuilder: (context, index) => const Divider(
-                              thickness: 2,
+                              thickness: 1,
                             ),
                             shrinkWrap: true,
                             itemCount: model.usersnapshot!.length,

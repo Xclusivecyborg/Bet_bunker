@@ -73,12 +73,7 @@ class CustomTile extends StatelessWidget {
                       color: isWhite ? AppColors.myGreen : AppColors.naveyBlue),
                 ),
               ),
-        // : CustomButton(
-        //     width: MediaQuery.of(context).size.width / 7,
-        //     label: 'Message',
-        //     onTap: ontap,
-        //     color: isWhite ? AppColors.myGreen : AppColors.naveyBlue,
-        //   ),
+      
       ),
     );
   }

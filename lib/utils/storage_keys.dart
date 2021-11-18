@@ -1,4 +1,5 @@
 class StorageKeys {
+  static const themePref = "THEME_PREF";
   static const token = 'CURRENT_SESSION_TOKEN';
   static const isLoggedIn = 'IS_LOGGED_IN';
   static const registered = 'IS_LOGGED_IN';

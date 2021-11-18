@@ -55,6 +55,19 @@ class ChatViewModel extends BaseViewModel {
 //onModelReady is Similar to initState in a stateful widget
   void initialise() {
     getUsers();
+    getUserDetails();
+  }
+
+  void getUserDetails() async {
+    await _fireStore.getUSerDetails(userId).then((value) {
+    String  userUsername = value!['userName'];
+     String photoLink = value['photoUrl'];
+
+      _storage.setString(StorageKeys.username, userUsername);
+      _storage.setString(StorageKeys.photoUrl, photoLink);
+    });
+    log.e(currentUsername);
+    notifyListeners();
   }
 
 // Pick Image with Image picker on device
@@ -177,25 +190,23 @@ class ChatViewModel extends BaseViewModel {
     return newSnapshot;
   }
 
-
 //This gets users via the onchanged function of the textfield
   void getUSersForOnchangedFunction() async {
     await _fireStore
         .getUSersByUsername(username: searchResults.text)!
         .then((value) {
-      snapshot = value.docs;
+      snapshot = value!.docs;
     });
     notifyListeners();
   }
 
 //THis gets the list of all users using the application
   void getUsersByUsername({String? val}) async {
-    _fireStore.getUSersByUsername(username: val)!.then((value) {
-      snapshot = value.docs;
+   await  _fireStore.getUSersByUsername(username: val)!.then((value) {
+      snapshot = value!.docs;
     });
     notifyListeners();
   }
-
 
   /////Method to create a chatroom for 2 users each
   void createChatRoom({@required String? friendUsername}) {
@@ -229,8 +240,6 @@ class ChatViewModel extends BaseViewModel {
       return "$a _$b";
     }
   }
-
-
 
 //Navigate to the chat screen
   void naviagteToChatScreen(

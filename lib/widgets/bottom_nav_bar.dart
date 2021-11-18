@@ -36,48 +36,49 @@ class _IndexScreenState extends State<IndexScreen> {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<LoginScreenViewModel>.reactive(
-        viewModelBuilder: () => LoginScreenViewModel(),
-        builder: (context, model, child) {
-          return Scaffold(
-            body: PageView(
-                controller: _pageController,
-                children: selections,
-                onPageChanged: (page) {
-                  setState(() {
-                    selectedIndex = page;
-                  });
-                }),
-            bottomNavigationBar: BottomNavigationBar(
-              selectedLabelStyle: AppTextStyles.bottombar,
-              unselectedLabelStyle: AppTextStyles.child1
-                  .copyWith(fontSize: 14, color: AppColors.myDarkGrey),
-              onTap: (index) {
+      viewModelBuilder: () => LoginScreenViewModel(),
+      builder: (context, model, child) {
+        return Scaffold(
+          body: PageView(
+              controller: _pageController,
+              children: selections,
+              onPageChanged: (page) {
                 setState(() {
-                  selectedIndex = index;
+                  selectedIndex = page;
                 });
-                _pageController.jumpToPage(index);
-              },
-              currentIndex: selectedIndex,
-              iconSize: 30,
-              selectedItemColor: AppColors.naveyBlue,
-              showUnselectedLabels: true,
-              unselectedItemColor: AppColors.myLightGrey,
-              items: const [
-                BottomNavigationBarItem(
-                  backgroundColor: AppColors.white,
-                  label: 'Home',
-                  icon: Icon(
-                    Icons.home_filled,
-                  ),
+              }),
+          bottomNavigationBar: BottomNavigationBar(
+            selectedLabelStyle: AppTextStyles.bottombar,
+            unselectedLabelStyle: AppTextStyles.child1
+                .copyWith(fontSize: 14, color: AppColors.myDarkGrey),
+            onTap: (index) {
+              setState(() {
+                selectedIndex = index;
+              });
+              _pageController.jumpToPage(index);
+            },
+            currentIndex: selectedIndex,
+            iconSize: 30,
+            selectedItemColor: AppColors.myGreen,
+            showUnselectedLabels: true,
+            unselectedItemColor: AppColors.myDarkGrey,
+            items: const [
+              BottomNavigationBarItem(
+                backgroundColor: AppColors.white,
+                label: 'Home',
+                icon: Icon(
+                  Icons.home_filled,
                 ),
-                BottomNavigationBarItem(
-                  backgroundColor: AppColors.white,
-                  label: 'Search',
-                  icon: Icon(Icons.search),
-                ),
-              ],
-            ),
-          );
-        });
+              ),
+              BottomNavigationBarItem(
+                backgroundColor: AppColors.white,
+                label: 'Search',
+                icon: Icon(Icons.search),
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 }

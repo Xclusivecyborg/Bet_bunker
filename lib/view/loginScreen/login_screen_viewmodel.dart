@@ -34,8 +34,8 @@ class LoginScreenViewModel extends BaseViewModel {
   TextEditingController newEmailController = TextEditingController();
   TextEditingController newPasswordController = TextEditingController();
   List<QueryDocumentSnapshot<Map<String, dynamic>>>? snapshot;
-  String? username;
-  String? photoLink;
+ 
+  
 
   Future<UserCredential?> login() async {
     try {
@@ -52,13 +52,7 @@ class LoginScreenViewModel extends BaseViewModel {
               collPath: 'users',
               docPath: createdUser.user!.uid,
               data: {'loggedIn': true});
-          await _fireStore.getUSerDetails(createdUser.user!.uid).then((value) {
-            username = value!['userName'];
-            photoLink = value['photoUrl'];
-
-            _storage.setString(StorageKeys.username, username!);
-            _storage.setString(StorageKeys.photoUrl, photoLink!);
-          });
+         
           await _storage.setString(
               StorageKeys.currentUserId, createdUser.user!.uid);
           await _storage.setString(
@@ -68,7 +62,7 @@ class LoginScreenViewModel extends BaseViewModel {
           _snackbar.showCustomSnackBar(
               variant: SnackBarType.success,
               duration: const Duration(seconds: 4),
-              message: 'Login Successful for $username');
+              message: 'Login Successful');
           return createdUser;
         }
       } else if (newEmailController.text.isEmpty ||
