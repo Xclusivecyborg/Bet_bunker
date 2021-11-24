@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:spinchat/utils/constants/color_constants.dart';
-import 'package:spinchat/widgets/rounded_button.dart';
 
 class CustomTile extends StatelessWidget {
   final String? username;

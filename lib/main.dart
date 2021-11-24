@@ -6,7 +6,6 @@ import 'package:spinchat/widgets/setup_ui_dialog.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'app/app.logger.dart';
 import 'app/app.router.dart';
-import 'app/services/firebse_auth_service.dart';
 import 'app/services/localdatabase.dart';
 import 'utils/storage_keys.dart';
 

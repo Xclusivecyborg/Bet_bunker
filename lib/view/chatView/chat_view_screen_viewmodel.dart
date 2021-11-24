@@ -30,12 +30,15 @@ class ChatViewModel extends BaseViewModel {
   TextEditingController phoneNumber = TextEditingController();
   TextEditingController username = TextEditingController();
   TextEditingController searchFieldController = TextEditingController();
+  FocusNode searchFocus = FocusNode();
 
   ///Required Parameters
-  List<QueryDocumentSnapshot<Map<String, dynamic>>>? snapshot;
-
-  List<Users>? usersnapshot = [];
+  // List<Users> snapshot = [];
+  List<Users> usersnapshot = [];
   late List<Users> matchingUsers = [];
+
+  //This is for usernames
+  late List<Users> matchingUsernames = [];
   bool isWhite = false;
   File? imagePicked;
   bool? get userStatus => _storage.getBool(StorageKeys.isLoggedIn);
@@ -52,9 +55,28 @@ class ChatViewModel extends BaseViewModel {
     getUserDetails();
   }
 
+  void onSearchUsername(String input) {
+    matchingUsernames = [
+      ...usersnapshot.where(
+          (user) => user.userName!.toLowerCase().contains(input.toLowerCase()))
+    ];
+    log.i(matchingUsers);
+    notifyListeners();
+  }
+
+  void getUsersByUsername() {
+    matchingUsernames = [
+      ...usersnapshot.where((user) => user.userName!
+          .toLowerCase()
+          .contains(searchResults.text.toLowerCase()))
+    ];
+    log.i(matchingUsers);
+    notifyListeners();
+  }
+
   void onSearchUser(String input) {
     matchingUsers = [
-      ...usersnapshot!.where(
+      ...usersnapshot.where(
           (user) => user.userName!.toLowerCase().contains(input.toLowerCase()))
     ];
     log.i(matchingUsers);
@@ -76,7 +98,8 @@ class ChatViewModel extends BaseViewModel {
 // Pick Image with Image picker on device
   Future pickImage(ImageSource source) async {
     try {
-      final image = await ImagePicker().pickImage(source: source);
+      final image =
+          await ImagePicker().pickImage(source: source, imageQuality: 50);
       if (image != null) {
         final pickedImage = File(image.path);
         imagePicked = pickedImage;
@@ -194,22 +217,44 @@ class ChatViewModel extends BaseViewModel {
   }
 
 //This gets users via the onchanged function of the textfield
-  void getUSersForOnchangedFunction() async {
-    await _fireStore
-        .getUSersByUsername(username: searchResults.text)!
-        .then((value) {
-      snapshot = value!.docs;
-    });
-    notifyListeners();
-  }
+//   void getUSersForOnchangedFunction() async {
+//     var userList =
+//         await _fireStore.getUSersByUsername(username: searchResults.text);
 
-//THis gets the list of all users using the application
-  void getUsersByUsername({String? val}) async {
-    await _fireStore.getUSersByUsername(username: val)!.then((value) {
-      snapshot = value!.docs;
-    });
-    notifyListeners();
-  }
+//     List<QueryDocumentSnapshot<Map<String, dynamic>>> userData = userList!.docs;
+//     List<Users> newSnapshot = userData.map((e) => Users.fromMap(e)).toList();
+//     log.i(newSnapshot);
+//     List<Users> currentUsers = [];
+//     for (var element in newSnapshot) {
+//       if (element.userId!.contains(userId!)) {
+//         currentUsers.add(element);
+//       }
+//     }
+//     //This removes the current user from the list of users being returned
+//     ///So the currentuser doesn't attempt to send message to himself
+//     newSnapshot.removeWhere((element) => currentUsers.contains(element));
+//     snapshot = newSnapshot;
+//     notifyListeners();
+//   }
+
+// //THis gets the list of all users using the application
+//   void getUsersByUsername({String? val}) async {
+//     final users = await _fireStore.getUSersByUsername(username: val);
+//     List<QueryDocumentSnapshot<Map<String, dynamic>>> userData = users!.docs;
+//     List<Users> newSnapshot = userData.map((e) => Users.fromMap(e)).toList();
+//     log.i(newSnapshot);
+//     List<Users> currentUsers = [];
+//     for (var element in newSnapshot) {
+//       if (element.userId!.contains(userId!)) {
+//         currentUsers.add(element);
+//       }
+//     }
+//     //This removes the current user from the list of users being returned
+//     ///So the currentuser doesn't attempt to send message to himself
+//     newSnapshot.removeWhere((element) => currentUsers.contains(element));
+//     snapshot = newSnapshot;
+//     notifyListeners();
+//   }
 
   /////Method to create a chatroom for 2 users each
   void createChatRoom({@required String? friendUsername}) {

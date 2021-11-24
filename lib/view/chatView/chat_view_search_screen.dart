@@ -20,28 +20,38 @@ class SearchScreen extends StatelessWidget {
         backgroundColor: AppColors.white,
         appBar: AppBar(
           automaticallyImplyLeading: false,
-          backgroundColor:  AppColors.white,
+          backgroundColor: AppColors.white,
           title: CustomTextField(
+            focusNode: model.searchFocus,
             autofocus: false,
             hintText: 'Search in chat',
             controller: model.searchResults,
             height: 40,
             bordercolor: Colors.white12,
-            onChange: (val) {
-              model.getUsersByUsername(val: val);
-            },
+            onChange: model.onSearchUsername,
           ),
           actions: [
             IconButton(
-              onPressed: () {
-                model.getUSersForOnchangedFunction();
-              },
+              onPressed: model.getUsersByUsername,
               icon: const Icon(Icons.search, color: AppColors.naveyBlue),
             ),
           ],
         ),
-        body: model.snapshot == null
-            ? const Center(child: CircularProgressIndicator())
+        body: model.matchingUsernames.isEmpty
+            ? Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Visibility(
+                      visible: model.searchFocus.hasFocus ? false : true,
+                      child: const CircularProgressIndicator(),
+                    ),
+                    model.searchFocus.hasFocus
+                        ? const Text('NO DATA')
+                        : Container()
+                  ],
+                ),
+              )
             : Padding(
                 padding: const EdgeInsets.only(top: 40.0),
                 child: SingleChildScrollView(
@@ -51,22 +61,21 @@ class SearchScreen extends StatelessWidget {
                       thickness: 2,
                     ),
                     shrinkWrap: true,
-                    itemCount: model.snapshot!.length,
+                    itemCount: model.matchingUsernames.length,
                     itemBuilder: (context, index) => CustomTile(
                       leading: LeadingAvatar(
-                        photo: model.snapshot![index].data()['photoUrl'],
+                        photo: model.matchingUsernames[index].photoUrl!,
                       ),
                       isUserLoggedIn: model.userStatus,
                       isWhite: true,
                       chatPage: false,
-                      username: model.snapshot![index].data()['userName'],
+                      username: model.matchingUsernames[index].userName,
                       ontap: () {
                         model.naviagteToChatScreen(
                           isUserOnline:
-                              model.snapshot![index].data()['loggedIn'],
-                          user: model.snapshot![index].data()['userName'],
-                          networkLink:
-                              model.snapshot![index].data()['photoUrl'],
+                              model.matchingUsernames[index].loggedIn!,
+                          user: model.matchingUsernames[index].userName!,
+                          networkLink: model.matchingUsernames[index].photoUrl!,
                         );
                       },
                     ),

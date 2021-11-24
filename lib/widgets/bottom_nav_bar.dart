@@ -20,20 +20,12 @@ class IndexScreen extends StatefulWidget {
 class _IndexScreenState extends State<IndexScreen> {
   bool homepage = false;
   int selectedIndex = 0;
-  List<Widget> selections = [];
+  // List<Widget> selections = [
+  //   const HomeScreen(),
+  //   const ChatView(),
+  //   const SearchScreen(),
+  // ];
   final _pageController = PageController();
-
-  @override
-  void initState() {
-    setState(() {
-      selections = [
-        const HomeScreen(),
-        const ChatView(),
-        const SearchScreen(),
-      ];
-    });
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +35,9 @@ class _IndexScreenState extends State<IndexScreen> {
         return Scaffold(
           body: PageView(
               controller: _pageController,
-              children: selections,
+              children: [
+                _getPageView(selectedIndex)
+              ],
               onPageChanged: (page) {
                 setState(() {
                   selectedIndex = page;
@@ -89,5 +83,16 @@ class _IndexScreenState extends State<IndexScreen> {
         );
       },
     );
+  }
+}
+
+_getPageView(int index) {
+  switch (index) {
+    case 0:
+      return const HomeScreen();
+    case 1:
+      return const ChatView();
+    case 2:
+      return const SearchScreen();
   }
 }
