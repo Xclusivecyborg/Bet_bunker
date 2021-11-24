@@ -115,7 +115,7 @@ class ChatViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-//Upload things to firestore
+//Upload things to firebase storage
   Future uploadFile() async {
     try {
       final tasksnapshot = await _firebaseStorage.uploadTask(
