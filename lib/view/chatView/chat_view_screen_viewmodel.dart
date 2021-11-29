@@ -33,7 +33,7 @@ class ChatViewModel extends BaseViewModel {
   FocusNode searchFocus = FocusNode();
 
   ///Required Parameters
-  // List<Users> snapshot = [];
+  List<dynamic> usersFollowing = [];
   List<Users> usersnapshot = [];
   late List<Users> matchingUsers = [];
 
@@ -44,7 +44,7 @@ class ChatViewModel extends BaseViewModel {
   bool? get userStatus => _storage.getBool(StorageKeys.isLoggedIn);
   String? get userId => _storage.getString(StorageKeys.currentUserId);
   String? get currentUsername => _storage.getString(StorageKeys.username);
-  String? get photosUrl => _storage.getString(StorageKeys.photoUrl);
+  String? get myphotoUrl => _storage.getString(StorageKeys.photoUrl);
   String? get currentUserEmail => _storage.getString(StorageKeys.userEmail);
 
 //This is the first method that is called when the UI is built
@@ -52,7 +52,6 @@ class ChatViewModel extends BaseViewModel {
 //onModelReady is Similar to initState in a stateful widget
   void initialise() {
     getUsers();
-    getUserDetails();
   }
 
   void onSearchUsername(String input) {
@@ -83,17 +82,7 @@ class ChatViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  void getUserDetails() async {
-    await _fireStore.getUSerDetails(userId).then((value) {
-      String userUsername = value!['userName'];
-      String photoLink = value['photoUrl'];
-
-      _storage.setString(StorageKeys.username, userUsername);
-      _storage.setString(StorageKeys.photoUrl, photoLink);
-    });
-    log.e(currentUsername);
-    notifyListeners();
-  }
+  
 
 // Pick Image with Image picker on device
   Future pickImage(ImageSource source) async {
@@ -216,45 +205,7 @@ class ChatViewModel extends BaseViewModel {
     return newSnapshot;
   }
 
-//This gets users via the onchanged function of the textfield
-//   void getUSersForOnchangedFunction() async {
-//     var userList =
-//         await _fireStore.getUSersByUsername(username: searchResults.text);
 
-//     List<QueryDocumentSnapshot<Map<String, dynamic>>> userData = userList!.docs;
-//     List<Users> newSnapshot = userData.map((e) => Users.fromMap(e)).toList();
-//     log.i(newSnapshot);
-//     List<Users> currentUsers = [];
-//     for (var element in newSnapshot) {
-//       if (element.userId!.contains(userId!)) {
-//         currentUsers.add(element);
-//       }
-//     }
-//     //This removes the current user from the list of users being returned
-//     ///So the currentuser doesn't attempt to send message to himself
-//     newSnapshot.removeWhere((element) => currentUsers.contains(element));
-//     snapshot = newSnapshot;
-//     notifyListeners();
-//   }
-
-// //THis gets the list of all users using the application
-//   void getUsersByUsername({String? val}) async {
-//     final users = await _fireStore.getUSersByUsername(username: val);
-//     List<QueryDocumentSnapshot<Map<String, dynamic>>> userData = users!.docs;
-//     List<Users> newSnapshot = userData.map((e) => Users.fromMap(e)).toList();
-//     log.i(newSnapshot);
-//     List<Users> currentUsers = [];
-//     for (var element in newSnapshot) {
-//       if (element.userId!.contains(userId!)) {
-//         currentUsers.add(element);
-//       }
-//     }
-//     //This removes the current user from the list of users being returned
-//     ///So the currentuser doesn't attempt to send message to himself
-//     newSnapshot.removeWhere((element) => currentUsers.contains(element));
-//     snapshot = newSnapshot;
-//     notifyListeners();
-//   }
 
   /////Method to create a chatroom for 2 users each
   void createChatRoom({@required String? friendUsername}) {
@@ -288,10 +239,13 @@ class ChatViewModel extends BaseViewModel {
 //Navigate to the chat screen
   void naviagteToChatScreen(
       {required String user,
+      required String uid,
       required String networkLink,
-      required bool isUserOnline}) {
+      required bool isUserOnline, required String about}) {
     _navigation.navigateTo(Routes.chatScreen,
         arguments: ChatScreenArguments(
+          uid: uid,
+          aboutMe: about ,
           usernameChattingWith: user,
           networkUrl: networkLink,
           isOnline: isUserOnline,

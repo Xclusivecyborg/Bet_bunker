@@ -5,6 +5,7 @@ import 'package:spinchat/view/chatscreen/chat_screen.dart';
 import 'package:spinchat/view/homescreen/home_screen.dart';
 import 'package:spinchat/view/landingPage/landing_page.dart';
 import 'package:spinchat/view/loginScreen/login_screen.dart';
+import 'package:spinchat/view/profile/profile.dart';
 import 'package:spinchat/view/registrationPage/registration_page.dart';
 import 'package:spinchat/view/chatView/chat_view_search_screen.dart';
 import 'package:spinchat/app/services/firebse_auth_service.dart';
@@ -27,6 +28,7 @@ import 'package:stacked_services/stacked_services.dart';
     CupertinoRoute(page: IndexScreen),
     CupertinoRoute(page: SettingsPage),
     CupertinoRoute(page: HomeScreen),
+    CupertinoRoute(page: Profile),
   ],
   dependencies: [
     LazySingleton(classType: NavigationService),

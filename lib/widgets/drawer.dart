@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:spinchat/app/models.dart/icon_drawer.dart';
 import 'package:spinchat/utils/constants/color_constants.dart';
+import 'package:spinchat/view/homescreen/home_screen_viewmodel.dart';
 import 'package:spinchat/view/loginScreen/login_screen_viewmodel.dart';
 import 'package:spinchat/widgets/profile/profile_image_avatar.dart';
 import 'package:stacked/stacked.dart';
@@ -16,13 +17,12 @@ class AppDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ViewModelBuilder<LoginScreenViewModel>.reactive(
-        viewModelBuilder: () => LoginScreenViewModel(),
+    return ViewModelBuilder<HomeScreenViewModel>.reactive(
+        viewModelBuilder: () => HomeScreenViewModel(),
         builder: (ctx, model, child) => Drawer(
               child: Container(
-                decoration: BoxDecoration(
-                  color:
-                      model.isWhite ? AppColors.naveyBlue : AppColors.myGreen,
+                decoration: const BoxDecoration(
+                  color: AppColors.myGreen,
                 ),
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(15.0, 100, 15.0, 45.0),
@@ -31,9 +31,16 @@ class AppDrawer extends StatelessWidget {
                     children: [
                       Column(
                         children: [
-                          const ProfileAvatar(),
+                          GestureDetector(
+                            onTap: () {
+                              model.navigateToProfile();
+                            },
+                            child: ProfileAvatar(
+                              photosUrl: model.myPhoto!,
+                            ),
+                          ),
                           Text(
-                            'Hey!👋 ${model.currentUsername!}',
+                            'Hey!👋 ${model.myUsername!}',
                             style: GoogleFonts.poppins(
                               color: model.isWhite
                                   ? AppColors.myGreen

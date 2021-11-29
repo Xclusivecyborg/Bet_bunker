@@ -36,6 +36,7 @@ class LoginScreenViewModel extends BaseViewModel {
   List<QueryDocumentSnapshot<Map<String, dynamic>>>? snapshot;
    bool isWhite = false;
    String? get currentUsername => _storage.getString(StorageKeys.username);
+    String? get myphotoUrl => _storage.getString(StorageKeys.photoUrl);
    
  
 

@@ -12,13 +12,16 @@ import 'package:stacked/stacked.dart';
 class ChatScreen extends StatelessWidget {
   const ChatScreen(
       {Key? key,
-      @required this.usernameChattingWith,
-      @required this.networkUrl,
-      @required this.isOnline})
+      this.usernameChattingWith,
+      this.networkUrl,
+      this.isOnline,
+      this.aboutMe, required this.uid})
       : super(key: key);
   final String? usernameChattingWith;
   final String? networkUrl;
   final bool? isOnline;
+  final String? aboutMe;
+  final String uid;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +29,6 @@ class ChatScreen extends StatelessWidget {
         onModelReady: (model) => model.initialize(user2: usernameChattingWith!),
         viewModelBuilder: () => ChatScreenViewmodel(),
         builder: (context, model, child) {
-         
           return Scaffold(
             appBar: AppBar(
               automaticallyImplyLeading: false,
@@ -46,9 +48,17 @@ class ChatScreen extends StatelessWidget {
                   ),
                   const SizedBox(width: 10),
                   GestureDetector(
+                    onTap: () {
+                      model.navigateToProfile(
+                        uid: uid,
+                        about: aboutMe!,
+                        networkLink: networkUrl!,
+                        user: usernameChattingWith!,
+                      );
+                    },
                     child: LeadingAvatar(
-                        photo: networkUrl!,
-                      ),
+                      photo: networkUrl!,
+                    ),
                   ),
                   const SizedBox(
                     width: 15,
@@ -103,7 +113,6 @@ class ChatScreen extends StatelessWidget {
                         final time = message['createdAt'];
                         final currentUser = model.loggedInUSer!.email;
                         final messageWidget = MessageTextWidget(
-                          
                           timeCreated: time,
                           messageBody: messageBody,
                           messageSender: messageSender,

@@ -89,6 +89,9 @@ class ChatView extends StatelessWidget {
                                       'No data',
                               ontap: () {
                                 model.naviagteToChatScreen(
+                                  uid: model.usersnapshot[index].userId!,
+                                  about: model.matchingUsers.isNotEmpty ? model.matchingUsers[index].aboutMe!
+                                      : model.usersnapshot[index].aboutMe!,
                                   isUserOnline: model.matchingUsers.isNotEmpty
                                       ? model.matchingUsers[index].loggedIn!
                                       : model.usersnapshot[index].loggedIn!,

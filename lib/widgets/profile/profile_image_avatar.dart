@@ -4,8 +4,10 @@ import 'package:spinchat/view/chatView/chat_view_screen_viewmodel.dart';
 import 'package:stacked/stacked.dart';
 
 class ProfileAvatar extends StatelessWidget {
+  final String photosUrl;
   const ProfileAvatar({
     Key? key,
+    required this.photosUrl,
   }) : super(key: key);
 
   @override
@@ -14,13 +16,13 @@ class ProfileAvatar extends StatelessWidget {
       viewModelBuilder: () => ChatViewModel(),
       builder: (ctx, model, child) => Container(
         margin: const EdgeInsets.all(20),
-        child: model.photosUrl != null
+        child: photosUrl.isNotEmpty
             ? Container(
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   border: Border.all(
                     color: AppColors.whiteGrey,
-                    width: 3,
+                    width: 2,
                   ),
                   boxShadow: const [
                     BoxShadow(
@@ -32,7 +34,7 @@ class ProfileAvatar extends StatelessWidget {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(55),
                   child: Image.network(
-                    model.photosUrl!,
+                    photosUrl,
                     fit: BoxFit.cover,
                     width: 110,
                     height: 110,

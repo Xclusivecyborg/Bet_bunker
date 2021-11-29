@@ -10,7 +10,7 @@ import 'package:spinchat/widgets/setup_ui_dialog.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
-class HomeScreenViewModel extends BaseViewModel{
+class HomeScreenViewModel extends BaseViewModel {
   final log = getLogger('Home Screen');
   //Services
   final _fireStore = locator<FirestoreService>();
@@ -20,23 +20,51 @@ class HomeScreenViewModel extends BaseViewModel{
   final _authservice = locator<FirebaseAuthService>();
   final _dialog = locator<DialogService>();
 
-
- String? get userId => _storage.getString(StorageKeys.currentUserId);
+  String? get userId => _storage.getString(StorageKeys.currentUserId);
+  String? get myPhoto => _storage.getString(StorageKeys.photoUrl);
+  String? get myBio => _storage.getString(StorageKeys.aboutMe);
+  String? get myUsername => _storage.getString(StorageKeys.username);
   bool isWhite = false;
 
+  void initialise() {
+    getUserDetails();
+  }
 
- void toggleTheme(val) {
+  void toggleTheme(val) {
     isWhite = val;
     notifyListeners();
   }
 
+  void getUserDetails() async {
+    await _fireStore.getUSerDetails(userId).then((value) {
+      String userUsername = value!['userName'];
+      String photoLink = value['photoUrl'];
+      String about = value['aboutMe'];
+      String uid = value['userId'];
+      _storage.setString(StorageKeys.username, userUsername);
+      _storage.setString(StorageKeys.photoUrl, photoLink);
+      _storage.setString(StorageKeys.aboutMe, about);
+      _storage.setString(StorageKeys.currentUserId, uid);
+    });
+    notifyListeners();
+  }
 
-
-/// Navigate to Settings Screen
+  /// Navigate to Settings Screen
   void navigateToSettings() {
     _navigation.navigateTo(Routes.settingsPage);
   }
-   ///Logout functionality
+
+  void navigateToProfile() {
+    _navigation.navigateTo(Routes.profile,
+        arguments: ProfileArguments(
+          uid: userId!,
+          aboutMe: myBio!,
+          networkUrl: myPhoto!,
+          username: myUsername!,
+        ));
+  }
+
+  ///Logout functionality
   void logout() async {
     _dialog.showCustomDialog(
       variant: DialogType.signOut,

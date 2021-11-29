@@ -1,0 +1,2 @@
+const String networkImage =
+    'https://www.google.com/imgres?imgurl=https%3A%2F%2Fimages.unsplash.com%2Fphoto-1574068468668-a05a11f871da%3Fixlib%3Drb-1.2.1%26ixid%3DMnwxMjA3fDB8MHxjb2xsZWN0aW9uLXBhZ2V8MXwxMTc4ODk3fHxlbnwwfHx8fA%253D%253D%26w%3D1000%26q%3D80&imgrefurl=https%3A%2F%2Funsplash.com%2Fcollections%2F1178897%2Fbirds&tbnid=NjC2lMNaNAB2_M&vet=12ahUKEwj1-sKbp7j0AhUO_hoKHXFoACoQMygJegUIARDlAQ..i&docid=bqHTngT3wQR5zM&w=1000&h=1778&q=bird%20photo&ved=2ahUKEwj1-sKbp7j0AhUO_hoKHXFoACoQMygJegUIARDlAQ';

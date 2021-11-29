@@ -7,7 +7,9 @@
 // ignore_for_file: public_member_api_docs
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
+import 'package:stacked/stacked_annotations.dart';
 
 import '../view/chatView/chat_view_screen.dart';
 import '../view/chatView/chat_view_search_screen.dart';
@@ -15,6 +17,7 @@ import '../view/chatscreen/chat_screen.dart';
 import '../view/homescreen/home_screen.dart';
 import '../view/landingPage/landing_page.dart';
 import '../view/loginScreen/login_screen.dart';
+import '../view/profile/profile.dart';
 import '../view/registrationPage/registration_page.dart';
 import '../view/settings/settings.dart';
 import '../widgets/bottom_nav_bar.dart';
@@ -29,6 +32,7 @@ class Routes {
   static const String indexScreen = '/index-screen';
   static const String settingsPage = '/settings-page';
   static const String homeScreen = '/home-screen';
+  static const String profile = '/Profile';
   static const all = <String>{
     landingPage,
     loginScreen,
@@ -39,6 +43,7 @@ class Routes {
     indexScreen,
     settingsPage,
     homeScreen,
+    profile,
   };
 }
 
@@ -55,6 +60,7 @@ class StackedRouter extends RouterBase {
     RouteDef(Routes.indexScreen, page: IndexScreen),
     RouteDef(Routes.settingsPage, page: SettingsPage),
     RouteDef(Routes.homeScreen, page: HomeScreen),
+    RouteDef(Routes.profile, page: Profile),
   ];
   @override
   Map<Type, StackedRouteFactory> get pagesMap => _pagesMap;
@@ -72,15 +78,15 @@ class StackedRouter extends RouterBase {
       );
     },
     ChatScreen: (data) {
-      var args = data.getArgs<ChatScreenArguments>(
-        orElse: () => ChatScreenArguments(),
-      );
+      var args = data.getArgs<ChatScreenArguments>(nullOk: false);
       return CupertinoPageRoute<dynamic>(
         builder: (context) => ChatScreen(
           key: args.key,
           usernameChattingWith: args.usernameChattingWith,
           networkUrl: args.networkUrl,
           isOnline: args.isOnline,
+          aboutMe: args.aboutMe,
+          uid: args.uid,
         ),
         settings: data,
       );
@@ -121,6 +127,19 @@ class StackedRouter extends RouterBase {
         settings: data,
       );
     },
+    Profile: (data) {
+      var args = data.getArgs<ProfileArguments>(nullOk: false);
+      return CupertinoPageRoute<dynamic>(
+        builder: (context) => Profile(
+          key: args.key,
+          networkUrl: args.networkUrl,
+          username: args.username,
+          aboutMe: args.aboutMe,
+          uid: args.uid,
+        ),
+        settings: data,
+      );
+    },
   };
 }
 
@@ -134,6 +153,28 @@ class ChatScreenArguments {
   final String? usernameChattingWith;
   final String? networkUrl;
   final bool? isOnline;
+  final String? aboutMe;
+  final String uid;
   ChatScreenArguments(
-      {this.key, this.usernameChattingWith, this.networkUrl, this.isOnline});
+      {this.key,
+      this.usernameChattingWith,
+      this.networkUrl,
+      this.isOnline,
+      this.aboutMe,
+      required this.uid});
+}
+
+/// Profile arguments holder class
+class ProfileArguments {
+  final Key? key;
+  final String networkUrl;
+  final String username;
+  final String aboutMe;
+  final String uid;
+  ProfileArguments(
+      {this.key,
+      required this.networkUrl,
+      required this.username,
+      required this.aboutMe,
+      required this.uid});
 }

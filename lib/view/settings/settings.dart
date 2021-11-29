@@ -77,7 +77,9 @@ class SettingsPage extends StatelessWidget {
                           ),
                         );
                       },
-                      child: const ProfileAvatar(),
+                      child:  ProfileAvatar(
+                        photosUrl: model.myphotoUrl!,
+                      ),
                     ),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,

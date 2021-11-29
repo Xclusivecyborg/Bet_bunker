@@ -72,6 +72,10 @@ class SearchScreen extends StatelessWidget {
                       username: model.matchingUsernames[index].userName,
                       ontap: () {
                         model.naviagteToChatScreen(
+                          uid: model.matchingUsernames[index].userId!,
+                          about: model.matchingUsers.isNotEmpty
+                              ? model.matchingUsers[index].aboutMe!
+                              : model.usersnapshot[index].aboutMe!,
                           isUserOnline:
                               model.matchingUsernames[index].loggedIn!,
                           user: model.matchingUsernames[index].userName!,

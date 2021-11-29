@@ -3,11 +3,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:spinchat/app/app.locator.dart';
 import 'package:spinchat/app/app.logger.dart';
+import 'package:spinchat/app/app.router.dart';
 import 'package:spinchat/app/services/firebse_auth_service.dart';
 import 'package:spinchat/app/services/firestore_service.dart';
 import 'package:spinchat/app/services/localdatabase.dart';
 import 'package:spinchat/utils/storage_keys.dart';
 import 'package:stacked/stacked.dart';
+import 'package:stacked_services/stacked_services.dart';
 
 class ChatScreenViewmodel extends BaseViewModel {
   final log = getLogger('ChatScreenViewmodel');
@@ -15,6 +17,7 @@ class ChatScreenViewmodel extends BaseViewModel {
   ///SERVICES
   final _fireStore = locator<FirestoreService>();
   final _auth = locator<FirebaseAuthService>();
+    final _navigation = locator<NavigationService>();
 
   ///Required Parameters in the view
   ScrollController scrollController = ScrollController();
@@ -51,6 +54,20 @@ class ChatScreenViewmodel extends BaseViewModel {
     }
   }
 
+
+
+  void navigateToProfile({required String user,
+      required String networkLink,
+      required String uid,
+       required String about}) {
+    _navigation.navigateTo(Routes.profile, arguments: ProfileArguments(uid:uid ,
+
+      aboutMe: about,
+      networkUrl: networkLink,
+      username: user,
+      
+    )  );
+  }
   ///Method that fetches the stream of messages
   Future<Stream<QuerySnapshot<Map<String, dynamic>>>?> messages(
       {required String friendUsername}) async {
