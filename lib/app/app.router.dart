@@ -9,8 +9,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
-import 'package:stacked/stacked_annotations.dart';
-
 import '../view/chatView/chat_view_screen.dart';
 import '../view/chatView/chat_view_search_screen.dart';
 import '../view/chatscreen/chat_screen.dart';

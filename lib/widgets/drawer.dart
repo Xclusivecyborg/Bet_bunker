@@ -3,7 +3,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:spinchat/app/models.dart/icon_drawer.dart';
 import 'package:spinchat/utils/constants/color_constants.dart';
 import 'package:spinchat/view/homescreen/home_screen_viewmodel.dart';
-import 'package:spinchat/view/loginScreen/login_screen_viewmodel.dart';
 import 'package:spinchat/widgets/profile/profile_image_avatar.dart';
 import 'package:stacked/stacked.dart';
 
@@ -33,7 +32,12 @@ class AppDrawer extends StatelessWidget {
                         children: [
                           GestureDetector(
                             onTap: () {
-                              model.navigateToProfile();
+                              model.navigateToProfile(
+                                id: model.userId!,
+                                bio: model.myBio!,
+                                photo: model.myPhoto!,
+                                username: model.myUsername!,
+                              );
                             },
                             child: ProfileAvatar(
                               photosUrl: model.myPhoto!,

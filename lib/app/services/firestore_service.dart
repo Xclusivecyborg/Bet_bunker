@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:spinchat/app/models.dart/user_model.dart';
 import 'package:spinchat/app/services/firebse_auth_service.dart';
 
 import '../app.logger.dart';
@@ -31,6 +30,15 @@ class FirestoreService {
   Future<QuerySnapshot<Map<String, dynamic>>>? getUSers() {
     try {
       final snapshots = _fireStore!.collection('users').get();
+      return snapshots;
+    } catch (e) {
+      log.e(Failure(message: e.toString()));
+    }
+  }
+
+    Future<QuerySnapshot<Map<String, dynamic>>>? getPosts() {
+    try {
+      final snapshots = _fireStore!.collection('posts').get();
       return snapshots;
     } catch (e) {
       log.e(Failure(message: e.toString()));
@@ -107,6 +115,8 @@ class FirestoreService {
     return _fireStore!.collection(collPath).doc(docPath).update(data);
   }
 
+
+
   Future<DocumentSnapshot<Map<String, dynamic>>?> getUSerDetails(
       String? uid) async {
     try {
@@ -116,6 +126,8 @@ class FirestoreService {
       log.e(Failure(message: e.toString()));
     }
   }
+
+  
 
   Stream<QuerySnapshot<Map<String, dynamic>>>? fetchMessages({
     required String docPath,

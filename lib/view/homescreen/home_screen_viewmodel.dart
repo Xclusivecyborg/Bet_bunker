@@ -1,6 +1,8 @@
 import 'package:spinchat/app/app.locator.dart';
 import 'package:spinchat/app/app.logger.dart';
 import 'package:spinchat/app/app.router.dart';
+import 'package:spinchat/app/models.dart/posts_model.dart';
+import 'package:spinchat/app/models.dart/user_model.dart';
 import 'package:spinchat/app/services/firebse_auth_service.dart';
 import 'package:spinchat/app/services/firestore_service.dart';
 import 'package:spinchat/app/services/localdatabase.dart';
@@ -25,9 +27,12 @@ class HomeScreenViewModel extends BaseViewModel {
   String? get myBio => _storage.getString(StorageKeys.aboutMe);
   String? get myUsername => _storage.getString(StorageKeys.username);
   bool isWhite = false;
+  List<BetPosts> posts = [];
+  List<Users> users = [];
 
-  void initialise() {
+  void initialise() async {
     getUserDetails();
+    await fetchPosts();
   }
 
   void toggleTheme(val) {
@@ -49,20 +54,49 @@ class HomeScreenViewModel extends BaseViewModel {
     notifyListeners();
   }
 
+  ///Fetch Posts from firestore
+
+  Future fetchPosts() async {
+    final newPosts = await _fireStore.getPosts();
+    List<BetPosts> post =
+        newPosts!.docs.map((e) => BetPosts.fromMap(e)).toList();
+    posts = post;
+
+    for (var item in post) {
+      await _fireStore.getUSerDetails(item.createdBy).then((value) {
+        users.add(
+          Users(
+            aboutMe: value!['aboutMe'],
+            createdAt: value['createdAt'],
+            email: value['email'],
+            loggedIn: value['loggedIn'],
+            photoUrl: value['photoUrl'],
+            userId: value['userId'],
+            userName: value['userName'],
+          ),
+        );
+        log.e(users.length);
+      });
+    }
+    notifyListeners();
+  }
+
   /// Navigate to Settings Screen
   void navigateToSettings() {
     _navigation.navigateTo(Routes.settingsPage);
   }
 
-  void navigateToProfile() {
+  void navigateToProfile({required String id, required String bio, required String photo, required String username}) {
     _navigation.navigateTo(Routes.profile,
         arguments: ProfileArguments(
-          uid: userId!,
-          aboutMe: myBio!,
-          networkUrl: myPhoto!,
-          username: myUsername!,
+          uid: id,
+          aboutMe: bio,
+          networkUrl: photo,
+          username: username,
         ));
   }
+
+  
 
   ///Logout functionality
   void logout() async {

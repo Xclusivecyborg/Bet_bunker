@@ -18,7 +18,19 @@ class Users {
       this.aboutMe,
       this.loggedIn});
 
-  factory Users.fromMap(QueryDocumentSnapshot<Map<String, dynamic>> json) {
+  factory Users.fromMap(json) {
+    return Users(
+      userName: json['userName'] ?? '',
+      photoUrl: json['photoUrl'] ?? '',
+      userId: json['userId'] ?? '',
+      email: json['email'] ?? '',
+      createdAt: json['createdAt'] ?? '',
+      aboutMe: json['aboutMe'] ?? '',
+      loggedIn: json['loggedIn'] ?? '',
+    );
+  }
+
+  factory Users.fromStream(DocumentSnapshot<Map<String, dynamic>> json) {
     return Users(
       userName: json['userName'] ?? '',
       photoUrl: json['photoUrl'] ?? '',

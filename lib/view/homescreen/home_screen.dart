@@ -2,9 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:spinchat/app/models.dart/icon_drawer.dart';
+import 'package:spinchat/app/models.dart/posts_model.dart';
+import 'package:spinchat/app/models.dart/user_model.dart';
 import 'package:spinchat/utils/constants/color_constants.dart';
 import 'package:spinchat/view/chatView/chat_view_search_screen.dart';
 import 'package:spinchat/widgets/drawer.dart';
+import 'package:spinchat/widgets/profile/users_circle_avatar.dart';
 import 'package:stacked/stacked.dart';
 
 import 'home_screen_viewmodel.dart';
@@ -83,6 +86,8 @@ class HomeScreen extends StatelessWidget {
             ),
           ),
           body: ListOfPosts(
+            posts: model.posts,
+            users: model.users,
             model: model,
           ),
         );
@@ -92,99 +97,124 @@ class HomeScreen extends StatelessWidget {
 }
 
 class ListOfPosts extends StatelessWidget {
-  final HomeScreenViewModel model;
-  const ListOfPosts({Key? key, required this.model}) : super(key: key);
+  final List<BetPosts> posts;
+  final List<Users> users;
+  final HomeScreenViewModel? model;
+  final void Function()? navigate;
+  const ListOfPosts(
+      {Key? key,
+      required this.posts,
+      required this.users,
+      this.navigate,
+      this.model})
+      : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(
+    BuildContext context,
+  ) {
     return ListView.separated(
       padding: const EdgeInsets.all(10),
       separatorBuilder: (_, index) => const SizedBox(),
-      itemCount: 15,
-      itemBuilder: (_, index) => SizedBox(
-        height: MediaQuery.of(context).size.height / 2.2,
-        width: double.infinity,
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        // model.navigateToProfile();
-                      },
-                      child: Container(
-                        height: 40,
-                        width: 50,
-                        decoration: const BoxDecoration(
-                          gradient: LinearGradient(
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                            colors: [
-                              AppColors.myYellow,
-                              AppColors.myRed,
-                            ],
+      itemCount: posts.length,
+      itemBuilder: (_, index) {
+        return SizedBox(
+          height: MediaQuery.of(context).size.height / 2.2,
+          width: double.infinity,
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      if (users.length < posts.length)
+                        const SizedBox()
+                      else
+                        GestureDetector(
+                          onTap: () {
+                            model!.navigateToProfile(
+                              id: users[index].userId!,
+                              bio: users[index].aboutMe!,
+                              photo: users[index].photoUrl!,
+                              username: users[index].userName!,
+                            );
+                          },
+                          child: Container(
+                            height: 50,
+                            width: 50,
+                            padding: const EdgeInsets.all(4),
+                            decoration: const BoxDecoration(
+                              gradient: LinearGradient(
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                                colors: [
+                                  AppColors.myGreen,
+                                  AppColors.myYellow,
+                                ],
+                              ),
+                              shape: BoxShape.circle,
+                            ),
+                            child: LeadingAvatar(photo: users[index].photoUrl!),
                           ),
-                          shape: BoxShape.circle,
                         ),
-                        // child: LeadingAvatar(photo: networkImage),
-                      ),
-                    ),
-                    const SizedBox(width: 10),
-                    Text(
-                      'Xclusivecyborg',
-                      style: GoogleFonts.poppins(
-                        fontWeight: FontWeight.w500,
-                        color: AppColors.myGreen,
-                        fontSize: 16,
-                      ),
-                    ),
-                  ],
-                ),
-                IconButton(
-                  onPressed: () {},
-                  icon: const Icon(Icons.more_vert),
-                ),
-              ],
-            ),
-            Container(
-              height: 250,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                border: Border.all(),
-                borderRadius: BorderRadius.circular(10),
+                      const SizedBox(width: 10),
+                      if (users.length < posts.length)
+                        const Text('')
+                      else
+                        Text(
+                          users[index].userName!,
+                          style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.w500,
+                            color: AppColors.myGreen,
+                            fontSize: 16,
+                          ),
+                        ),
+                    ],
+                  ),
+                  IconButton(
+                    onPressed: () {},
+                    icon: const Icon(Icons.more_vert),
+                  ),
+                ],
               ),
-            ),
-            Row(
-              children: [
-                IconButton(
-                  onPressed: () {},
-                  icon: const Icon(
-                    CupertinoIcons.heart,
-                    size: 35,
-                  ),
+              Container(
+                height: 250,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  border: Border.all(),
+                  borderRadius: BorderRadius.circular(10),
                 ),
-                IconButton(
-                  onPressed: () {},
-                  icon: const Icon(
-                    CupertinoIcons.bubble_right,
-                    size: 32,
+              ),
+              Row(
+                children: [
+                  IconButton(
+                    onPressed: () {},
+                    icon: const Icon(
+                      CupertinoIcons.heart,
+                      size: 35,
+                    ),
                   ),
-                ),
-                IconButton(
-                  onPressed: () {},
-                  icon: const Icon(
-                    CupertinoIcons.arrowshape_turn_up_right,
-                    size: 32,
+                  IconButton(
+                    onPressed: () {},
+                    icon: const Icon(
+                      CupertinoIcons.bubble_right,
+                      size: 32,
+                    ),
                   ),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
+                  IconButton(
+                    onPressed: () {},
+                    icon: const Icon(
+                      CupertinoIcons.arrowshape_turn_up_right,
+                      size: 32,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }
