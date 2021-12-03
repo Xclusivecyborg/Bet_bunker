@@ -2,8 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:spinchat/app/models.dart/icon_drawer.dart';
-import 'package:spinchat/app/models.dart/posts_model.dart';
-import 'package:spinchat/app/models.dart/user_model.dart';
 import 'package:spinchat/utils/constants/color_constants.dart';
 import 'package:spinchat/view/chatView/chat_view_search_screen.dart';
 import 'package:spinchat/widgets/drawer.dart';
@@ -79,16 +77,40 @@ class HomeScreen extends StatelessWidget {
             ],
             elevation: 1,
             title: Text(
-              'BetBunk',
+              'BetBunker',
               style: GoogleFonts.poppins(
                 color: AppColors.naveyBlue,
               ),
             ),
           ),
-          body: ListOfPosts(
-            posts: model.posts,
-            users: model.users,
-            model: model,
+          body: model.isbusy
+              ? const Center(child: CircularProgressIndicator())
+              : RefreshIndicator(
+                  onRefresh: model.initialise,
+                  color: AppColors.myGreen,
+                  child: ListOfPosts(
+                    model: model,
+                  ),
+                ),
+          floatingActionButton: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              FloatingActionButton(
+                backgroundColor: AppColors.myGreen,
+                onPressed: () {},
+                child: const Icon(
+                  CupertinoIcons.pen,
+                ),
+              ),
+              Text(
+                'Post',
+                style: GoogleFonts.poppins(
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.myGreen,
+                  fontSize: 16,
+                ),
+              ),
+            ],
           ),
         );
       },
@@ -97,17 +119,9 @@ class HomeScreen extends StatelessWidget {
 }
 
 class ListOfPosts extends StatelessWidget {
-  final List<BetPosts> posts;
-  final List<Users> users;
-  final HomeScreenViewModel? model;
-  final void Function()? navigate;
-  const ListOfPosts(
-      {Key? key,
-      required this.posts,
-      required this.users,
-      this.navigate,
-      this.model})
-      : super(key: key);
+  final HomeScreenViewModel model;
+
+  const ListOfPosts({Key? key, required this.model}) : super(key: key);
 
   @override
   Widget build(
@@ -115,11 +129,10 @@ class ListOfPosts extends StatelessWidget {
   ) {
     return ListView.separated(
       padding: const EdgeInsets.all(10),
-      separatorBuilder: (_, index) => const SizedBox(),
-      itemCount: posts.length,
+      separatorBuilder: (_, index) => const Divider(),
+      itemCount: model.posts.length,
       itemBuilder: (_, index) {
         return SizedBox(
-          height: MediaQuery.of(context).size.height / 2.2,
           width: double.infinity,
           child: Column(
             children: [
@@ -128,16 +141,16 @@ class ListOfPosts extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      if (users.length < posts.length)
+                      if (model.users.length < model.posts.length)
                         const SizedBox()
                       else
                         GestureDetector(
                           onTap: () {
-                            model!.navigateToProfile(
-                              id: users[index].userId!,
-                              bio: users[index].aboutMe!,
-                              photo: users[index].photoUrl!,
-                              username: users[index].userName!,
+                            model.navigateToProfile(
+                              id: model.users[index].userId!,
+                              bio: model.users[index].aboutMe!,
+                              photo: model.users[index].photoUrl!,
+                              username: model.users[index].userName!,
                             );
                           },
                           child: Container(
@@ -155,21 +168,19 @@ class ListOfPosts extends StatelessWidget {
                               ),
                               shape: BoxShape.circle,
                             ),
-                            child: LeadingAvatar(photo: users[index].photoUrl!),
+                            child: LeadingAvatar(
+                                photo: model.users[index].photoUrl!),
                           ),
                         ),
                       const SizedBox(width: 10),
-                      if (users.length < posts.length)
-                        const Text('')
-                      else
-                        Text(
-                          users[index].userName!,
-                          style: GoogleFonts.poppins(
-                            fontWeight: FontWeight.w500,
-                            color: AppColors.myGreen,
-                            fontSize: 16,
-                          ),
+                      Text(
+                        '@${model.posts[index].sentBy!}',
+                        style: GoogleFonts.poppins(
+                          fontWeight: FontWeight.w500,
+                          color: AppColors.myDarkGrey,
+                          fontSize: 14,
                         ),
+                      ),
                     ],
                   ),
                   IconButton(
@@ -178,38 +189,75 @@ class ListOfPosts extends StatelessWidget {
                   ),
                 ],
               ),
-              Container(
-                height: 250,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  border: Border.all(),
-                  borderRadius: BorderRadius.circular(10),
+              if (model.posts[index].photoUrl!.isEmpty)
+                Container(
+                  margin: const EdgeInsets.only(left: 60, right: 15),
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Text(
+                    model.posts[index].body!,
+                    style: GoogleFonts.mulish(
+                      fontSize: 15,
+                    ),
+                  ),
+                )
+              else
+                Column(
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.only(left: 60, right: 15),
+                      width: double.infinity,
+                      child: Text(
+                        model.posts[index].body!,
+                        style: GoogleFonts.mulish(
+                          fontSize: 15,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Container(
+                      margin: const EdgeInsets.only(left: 50, right: 15),
+                      height: 250,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        image: DecorationImage(
+                            image: NetworkImage(model.posts[index].photoUrl!),
+                            fit: BoxFit.fill),
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-              Row(
-                children: [
-                  IconButton(
-                    onPressed: () {},
-                    icon: const Icon(
-                      CupertinoIcons.heart,
-                      size: 35,
+              const SizedBox(height: 10),
+              Padding(
+                padding: const EdgeInsets.only(left: 45.0),
+                child: Row(
+                  children: [
+                    IconButton(
+                      onPressed: () {},
+                      icon: const Icon(
+                        CupertinoIcons.heart,
+                        size: 25,
+                      ),
                     ),
-                  ),
-                  IconButton(
-                    onPressed: () {},
-                    icon: const Icon(
-                      CupertinoIcons.bubble_right,
-                      size: 32,
+                    IconButton(
+                      onPressed: () {},
+                      icon: const Icon(
+                        CupertinoIcons.bubble_right,
+                        size: 22,
+                      ),
                     ),
-                  ),
-                  IconButton(
-                    onPressed: () {},
-                    icon: const Icon(
-                      CupertinoIcons.arrowshape_turn_up_right,
-                      size: 32,
+                    IconButton(
+                      onPressed: () {},
+                      icon: const Icon(
+                        CupertinoIcons.arrowshape_turn_up_right,
+                        size: 22,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ],
           ),

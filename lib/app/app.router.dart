@@ -7,14 +7,15 @@
 // ignore_for_file: public_member_api_docs
 
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
+
 import '../view/chatView/chat_view_screen.dart';
 import '../view/chatView/chat_view_search_screen.dart';
 import '../view/chatscreen/chat_screen.dart';
 import '../view/homescreen/home_screen.dart';
 import '../view/landingPage/landing_page.dart';
 import '../view/loginScreen/login_screen.dart';
+import '../view/posts/posts.dart';
 import '../view/profile/profile.dart';
 import '../view/registrationPage/registration_page.dart';
 import '../view/settings/settings.dart';
@@ -31,6 +32,7 @@ class Routes {
   static const String settingsPage = '/settings-page';
   static const String homeScreen = '/home-screen';
   static const String profile = '/Profile';
+  static const String posts = '/Posts';
   static const all = <String>{
     landingPage,
     loginScreen,
@@ -42,6 +44,7 @@ class Routes {
     settingsPage,
     homeScreen,
     profile,
+    posts,
   };
 }
 
@@ -59,6 +62,7 @@ class StackedRouter extends RouterBase {
     RouteDef(Routes.settingsPage, page: SettingsPage),
     RouteDef(Routes.homeScreen, page: HomeScreen),
     RouteDef(Routes.profile, page: Profile),
+    RouteDef(Routes.posts, page: Posts),
   ];
   @override
   Map<Type, StackedRouteFactory> get pagesMap => _pagesMap;
@@ -135,6 +139,12 @@ class StackedRouter extends RouterBase {
           aboutMe: args.aboutMe,
           uid: args.uid,
         ),
+        settings: data,
+      );
+    },
+    Posts: (data) {
+      return CupertinoPageRoute<dynamic>(
+        builder: (context) => const Posts(),
         settings: data,
       );
     },

@@ -29,13 +29,15 @@ class MyApp extends StatelessWidget {
     log.e(registered);
     if (registered == true) {
       return MaterialApp(
+        title: 'BetBunker',
         debugShowCheckedModeBanner: false,
         navigatorKey: StackedService.navigatorKey,
         onGenerateRoute: StackedRouter().onGenerateRoute,
         initialRoute: Routes.loginScreen,
       );
-    } else if (registered == null ) {
+    } else if (registered == null) {
       return MaterialApp(
+        title: 'BetBunker',
         debugShowCheckedModeBanner: false,
         navigatorKey: StackedService.navigatorKey,
         onGenerateRoute: StackedRouter().onGenerateRoute,
@@ -43,6 +45,7 @@ class MyApp extends StatelessWidget {
       );
     } else {
       return MaterialApp(
+        title: 'BetBunker',
         debugShowCheckedModeBanner: false,
         navigatorKey: StackedService.navigatorKey,
         onGenerateRoute: StackedRouter().onGenerateRoute,

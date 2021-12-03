@@ -12,6 +12,7 @@ import 'package:spinchat/app/services/firestore_service.dart';
 import 'package:spinchat/app/services/localdatabase.dart';
 import 'package:spinchat/utils/storage_keys.dart';
 import 'package:spinchat/widgets/custom_snackbar.dart';
+import 'package:spinchat/widgets/custom_toast.dart';
 import 'package:spinchat/widgets/setup_ui_dialog.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
@@ -69,10 +70,12 @@ class LoginScreenViewModel extends BaseViewModel {
               StorageKeys.userEmail, createdUser.user!.email!);
 
           _navigation.clearStackAndShow(Routes.indexScreen);
-          _snackbar.showCustomSnackBar(
-              variant: SnackBarType.success,
-              duration: const Duration(seconds: 4),
-              message: 'Login Successful');
+                customtoast(toastmessage: 'Login successfull');
+
+          // _snackbar.showCustomSnackBar(
+          //     variant: SnackBarType.success,
+          //     duration: const Duration(seconds: 4),
+          //     message: 'Login Successful');
           return createdUser;
         }
       } else if (newEmailController.text.isEmpty ||

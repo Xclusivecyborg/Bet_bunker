@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:spinchat/app/app.locator.dart';
 import 'package:spinchat/app/app.logger.dart';
 import 'package:spinchat/app/app.router.dart';
@@ -8,6 +11,7 @@ import 'package:spinchat/app/services/firestore_service.dart';
 import 'package:spinchat/app/services/localdatabase.dart';
 import 'package:spinchat/utils/storage_keys.dart';
 import 'package:spinchat/widgets/custom_snackbar.dart';
+import 'package:spinchat/widgets/custom_toast.dart';
 import 'package:spinchat/widgets/setup_ui_dialog.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
@@ -29,8 +33,9 @@ class HomeScreenViewModel extends BaseViewModel {
   bool isWhite = false;
   List<BetPosts> posts = [];
   List<Users> users = [];
+  bool isbusy = false;
 
-  void initialise() async {
+  Future<void> initialise() async {
     getUserDetails();
     await fetchPosts();
   }
@@ -57,27 +62,43 @@ class HomeScreenViewModel extends BaseViewModel {
   ///Fetch Posts from firestore
 
   Future fetchPosts() async {
-    final newPosts = await _fireStore.getPosts();
-    List<BetPosts> post =
-        newPosts!.docs.map((e) => BetPosts.fromMap(e)).toList();
-    posts = post;
+    isbusy = true;
+    try {
+      final newPosts = await _fireStore.getPosts();
+      List<BetPosts> post =
+          newPosts!.docs.map((e) => BetPosts.fromMap(e)).toList();
+      posts = post;
 
-    for (var item in post) {
-      await _fireStore.getUSerDetails(item.createdBy).then((value) {
-        users.add(
-          Users(
-            aboutMe: value!['aboutMe'],
-            createdAt: value['createdAt'],
-            email: value['email'],
-            loggedIn: value['loggedIn'],
-            photoUrl: value['photoUrl'],
-            userId: value['userId'],
-            userName: value['userName'],
-          ),
-        );
-        log.e(users.length);
-      });
+      for (var item in post) {
+        isbusy = false;
+        await _fireStore.getUSerDetails(item.createdBy).then((value) {
+          users.add(
+            Users(
+              aboutMe: value!['aboutMe'],
+              createdAt: value['createdAt'],
+              email: value['email'],
+              loggedIn: value['loggedIn'],
+              photoUrl: value['photoUrl'],
+              userId: value['userId'],
+              userName: value['userName'],
+            ),
+          );
+          log.e(users.length);
+        });
+      }
+    } on FirebaseException catch (e) {
+      isbusy = false;
+      _snackbar.showCustomSnackBar(
+          variant: SnackBarType.failure,
+          duration: const Duration(seconds: 2),
+          message: '${e.message}');
+    } on SocketException {
+      isbusy = false;
+      customtoast(toastmessage: 'Please check your internet and try again');
+    } catch (e) {
+      log.e(e.toString());
     }
+
     notifyListeners();
   }
 
@@ -86,7 +107,11 @@ class HomeScreenViewModel extends BaseViewModel {
     _navigation.navigateTo(Routes.settingsPage);
   }
 
-  void navigateToProfile({required String id, required String bio, required String photo, required String username}) {
+  void navigateToProfile(
+      {required String id,
+      required String bio,
+      required String photo,
+      required String username}) {
     _navigation.navigateTo(Routes.profile,
         arguments: ProfileArguments(
           uid: id,
@@ -95,8 +120,6 @@ class HomeScreenViewModel extends BaseViewModel {
           username: username,
         ));
   }
-
-  
 
   ///Logout functionality
   void logout() async {
