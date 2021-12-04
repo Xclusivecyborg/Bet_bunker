@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:spinchat/widgets/custom_snackbar.dart';
+import 'package:spinchat/widgets/package_widgets/custom_snackbar.dart';
 import 'package:stacked_services/stacked_services.dart';
 import '../app.locator.dart';
 import '../app.logger.dart';

@@ -14,7 +14,7 @@ import 'package:spinchat/app/services/firestore_service.dart';
 import 'package:spinchat/app/services/google_signin_service.dart';
 import 'package:spinchat/app/services/localdatabase.dart';
 import 'package:spinchat/view/settings/settings.dart';
-import 'package:spinchat/widgets/bottom_nav_bar.dart';
+import 'package:spinchat/widgets/app_wide_widgets/bottom_nav_bar.dart';
 import 'package:stacked/stacked_annotations.dart';
 import 'package:stacked_services/stacked_services.dart';
 

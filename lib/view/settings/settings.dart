@@ -4,7 +4,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:spinchat/utils/constants/color_constants.dart';
 import 'package:spinchat/view/chatView/chat_view_screen_viewmodel.dart';
 import 'package:spinchat/widgets/profile/profile_image_avatar.dart';
-import 'package:spinchat/widgets/rounded_button.dart';
+import 'package:spinchat/widgets/app_wide_widgets/rounded_button.dart';
 import 'package:stacked/stacked.dart';
 
 class SettingsPage extends StatelessWidget {

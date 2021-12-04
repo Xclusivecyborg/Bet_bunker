@@ -50,14 +50,6 @@ class FirebaseAuthService {
     }
   }
 
-  // User? getToken() {
-  //   try {
-  //     final user = _auth!.currentUser!.refreshToken;
-  //     return user;
-  //   } catch (e) {
-  //     log.e(e.toString());
-  //   }
-  // }
 
   void logout() {
     _auth!.signOut();

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:spinchat/utils/constants/color_constants.dart';
 import 'package:spinchat/view/chatView/chat_view_screen_viewmodel.dart';
-import 'package:spinchat/widgets/custom_search_field.dart';
-import 'package:spinchat/widgets/custom_tile.dart';
+import 'package:spinchat/widgets/chat/custom_search_field.dart';
+import 'package:spinchat/widgets/app_wide_widgets/custom_tile.dart';
 import 'package:spinchat/widgets/profile/users_circle_avatar.dart';
 import 'package:stacked/stacked.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -72,40 +72,43 @@ class ChatView extends StatelessWidget {
                             itemCount: model.matchingUsers.isNotEmpty
                                 ? model.matchingUsers.length
                                 : model.usersnapshot.length,
-                            itemBuilder: (context, index) => CustomTile(
-                              leading: LeadingAvatar(
-                                photo: model.matchingUsers.isNotEmpty
-                                    ? model.matchingUsers[index].photoUrl!
-                                    : model.usersnapshot[index].photoUrl!,
-                              ),
-                              isWhite: model.userStatus!,
-                              chatPage: true,
-                              isUserLoggedIn: model.matchingUsers.isNotEmpty
-                                  ? model.matchingUsers[index].loggedIn
-                                  : model.usersnapshot[index].loggedIn,
-                              username: model.matchingUsers.isNotEmpty
-                                  ? model.matchingUsers[index].userName
-                                  : model.usersnapshot[index].userName ??
-                                      'No data',
-                              ontap: () {
-                                model.naviagteToChatScreen(
-                                  uid: model.usersnapshot[index].userId!,
-                                  about: model.matchingUsers.isNotEmpty ? model.matchingUsers[index].aboutMe!
-                                      : model.usersnapshot[index].aboutMe!,
-                                  isUserOnline: model.matchingUsers.isNotEmpty
-                                      ? model.matchingUsers[index].loggedIn!
-                                      : model.usersnapshot[index].loggedIn!,
-                                  user: model.matchingUsers.isNotEmpty
-                                      ? model.matchingUsers[index].userName!
-                                      : model.usersnapshot[index].userName ??
-                                          'No data',
-                                  networkLink: model.matchingUsers.isNotEmpty
-                                      ? model.matchingUsers[index].photoUrl!
-                                      : model.usersnapshot[index].photoUrl!,
-                                );
-                                model.searchFieldController.clearComposing();
-                              },
-                            ),
+                            itemBuilder: (context, index) {
+                              var match = model.matchingUsers[index];
+                              var user = model.usersnapshot[index];
+                              return CustomTile(
+                                leading: LeadingAvatar(
+                                  photo: model.matchingUsers.isNotEmpty
+                                      ? match.photoUrl!
+                                      : user.photoUrl!,
+                                ),
+                                isWhite: model.userStatus!,
+                                chatPage: true,
+                                isUserLoggedIn: model.matchingUsers.isNotEmpty
+                                    ? match.loggedIn
+                                    : user.loggedIn,
+                                username: model.matchingUsers.isNotEmpty
+                                    ? match.userName
+                                    : user.userName ?? 'No data',
+                                ontap: () {
+                                  model.naviagteToChatScreen(
+                                    uid: user.userId!,
+                                    about: model.matchingUsers.isNotEmpty
+                                        ? match.aboutMe!
+                                        : user.aboutMe!,
+                                    isUserOnline: model.matchingUsers.isNotEmpty
+                                        ? match.loggedIn!
+                                        : user.loggedIn!,
+                                    user: model.matchingUsers.isNotEmpty
+                                        ? match.userName!
+                                        : user.userName ?? 'No data',
+                                    networkLink: model.matchingUsers.isNotEmpty
+                                        ? match.photoUrl!
+                                        : user.photoUrl!,
+                                  );
+                                  model.searchFieldController.clearComposing();
+                                },
+                              );
+                            },
                           ),
                         ),
                 ],

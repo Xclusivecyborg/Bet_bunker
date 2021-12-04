@@ -6,12 +6,13 @@ import 'package:image_picker/image_picker.dart';
 import 'package:spinchat/app/app.locator.dart';
 import 'package:spinchat/app/app.logger.dart';
 import 'package:spinchat/app/app.router.dart';
+import 'package:spinchat/app/models.dart/chat_model.dart';
 import 'package:spinchat/app/models.dart/user_model.dart';
 import 'package:spinchat/app/services/firebase_storage.dart';
 import 'package:spinchat/app/services/firestore_service.dart';
 import 'package:spinchat/app/services/localdatabase.dart';
 import 'package:spinchat/utils/storage_keys.dart';
-import 'package:spinchat/widgets/custom_snackbar.dart';
+import 'package:spinchat/widgets/package_widgets/custom_snackbar.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
@@ -82,8 +83,6 @@ class ChatViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  
-
 // Pick Image with Image picker on device
   Future pickImage(ImageSource source) async {
     try {
@@ -135,21 +134,15 @@ class ChatViewModel extends BaseViewModel {
 
 //Update user details on firestore
   Future? updateDetails({String? photoUrlString}) async {
-    Map<String, dynamic> dataUsername = {
-      'userName': username.text,
-    };
-    Map<String, dynamic> dataAboutMe = {
-      'aboutMe': aboutMe.text,
-    };
-    Map<String, dynamic> generalUpdate = {
-      'aboutMe': aboutMe.text,
-      'userName': username.text,
-    };
-
     if (aboutMe.text.isNotEmpty && username.text.isNotEmpty) {
       await _fireStore
           .updateDocument(
-              collPath: 'users', docPath: userId!, data: generalUpdate)
+              collPath: 'users',
+              docPath: userId!,
+              data: Users.toFireStore(
+                aboutMe: aboutMe.text,
+                userName: username.text,
+              ))
           .then((value) async {
         await _storage.setString(StorageKeys.username, username.text);
         _snackbar.showCustomSnackBar(
@@ -160,7 +153,9 @@ class ChatViewModel extends BaseViewModel {
     } else if (username.text.isNotEmpty) {
       await _fireStore
           .updateDocument(
-              collPath: 'users', docPath: userId!, data: dataUsername)
+              collPath: 'users',
+              docPath: userId!,
+              data: Users.toFireStore(userName: username.text))
           .then((value) async {
         await _storage.setString(StorageKeys.username, username.text);
         _snackbar.showCustomSnackBar(
@@ -171,7 +166,9 @@ class ChatViewModel extends BaseViewModel {
     } else if (aboutMe.text.isNotEmpty) {
       await _fireStore
           .updateDocument(
-              collPath: 'users', docPath: userId!, data: dataAboutMe)
+              collPath: 'users',
+              docPath: userId!,
+              data: Users.toFireStore(aboutMe: aboutMe.text))
           .then((value) {
         _snackbar.showCustomSnackBar(
             variant: SnackBarType.success,
@@ -205,20 +202,19 @@ class ChatViewModel extends BaseViewModel {
     return newSnapshot;
   }
 
-
-
   /////Method to create a chatroom for 2 users each
   void createChatRoom({@required String? friendUsername}) {
     String getdocPath = chatRoomId(currentUsername!, friendUsername!);
-    Map<String, dynamic> dataToSend = {
-      'chatRoomId': getdocPath,
-      'sender': currentUserEmail,
-      'createdAt': DateTime.now(),
-      'users': [currentUsername, friendUsername],
-    };
     try {
       _fireStore.createChatRoom(
-          collPath: 'messages', docPath: getdocPath, data: dataToSend);
+          collPath: 'messages',
+          docPath: getdocPath,
+          data: Chat.toFireStore(
+            chatRoomId: getdocPath,
+            createdAt: DateTime.now(),
+            sender: currentUserEmail,
+            users: [currentUsername!, friendUsername],
+          ));
     } catch (e) {
       log.e(e);
     }
@@ -241,11 +237,12 @@ class ChatViewModel extends BaseViewModel {
       {required String user,
       required String uid,
       required String networkLink,
-      required bool isUserOnline, required String about}) {
+      required bool isUserOnline,
+      required String about}) {
     _navigation.navigateTo(Routes.chatScreen,
         arguments: ChatScreenArguments(
           uid: uid,
-          aboutMe: about ,
+          aboutMe: about,
           usernameChattingWith: user,
           networkUrl: networkLink,
           isOnline: isUserOnline,

@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:spinchat/app/models.dart/icon_drawer.dart';
 import 'package:spinchat/utils/constants/color_constants.dart';
 import 'package:spinchat/view/chatView/chat_view_search_screen.dart';
-import 'package:spinchat/widgets/drawer.dart';
+import 'package:spinchat/widgets/app_wide_widgets/drawer.dart';
 import 'package:spinchat/widgets/profile/users_circle_avatar.dart';
 import 'package:stacked/stacked.dart';
 

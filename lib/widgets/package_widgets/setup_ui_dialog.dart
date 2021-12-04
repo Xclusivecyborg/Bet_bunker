@@ -1,5 +1,5 @@
 import 'package:spinchat/app/app.locator.dart';
-import 'package:spinchat/widgets/alert_dialog.dart';
+import 'package:spinchat/widgets/app_wide_widgets/alert_dialog.dart';
 import 'package:stacked_services/stacked_services.dart';
 
 void setupDialogUi() {

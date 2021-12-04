@@ -5,11 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:spinchat/app/app.locator.dart';
 import 'package:spinchat/app/app.logger.dart';
 import 'package:spinchat/app/app.router.dart';
+import 'package:spinchat/app/models.dart/user_model.dart';
 import 'package:spinchat/app/services/firebse_auth_service.dart';
 import 'package:spinchat/app/services/localdatabase.dart';
 import 'package:spinchat/utils/storage_keys.dart';
-import 'package:spinchat/widgets/custom_snackbar.dart';
-import 'package:spinchat/widgets/setup_ui_dialog.dart';
+import 'package:spinchat/widgets/package_widgets/custom_snackbar.dart';
+import 'package:spinchat/widgets/package_widgets/setup_ui_dialog.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
@@ -37,8 +38,7 @@ class RegistrationPageViewModel extends BaseViewModel {
             emailController.text, passwordController.text);
         if (registeredUSer != null) {
           updateUserinfo(registeredUSer.user!.uid);
-          await _storage.setBool(
-              StorageKeys.registered ,true);
+          await _storage.setBool(StorageKeys.registered, true);
           _navigation.back();
           _snackbar.showCustomSnackBar(
               variant: SnackBarType.success,
@@ -78,18 +78,15 @@ class RegistrationPageViewModel extends BaseViewModel {
   }
 
   void updateUserinfo(String uid) async {
-    Map<String, dynamic> userMap = {
-      'userId': uid,
-      'chattingWith': '',
-      'email': emailController.text,
-      'userName': userNameController.text,
-      'createdAt': DateTime.now().millisecondsSinceEpoch.toString(),
-      'photoUrl' : '',
-      'loggedIn' : false,
-      'aboutMe' : '',
-    };
     try {
-      await _fireStore.collection('users').doc(uid).set(userMap);
+      await _fireStore.collection('users').doc(uid).set(Users.toFireStore(
+          userId: uid,
+          email: emailController.text,
+          userName: userNameController.text,
+          createdAt: DateTime.now().millisecondsSinceEpoch.toString(),
+          aboutMe: '',
+          loggedIn: false,
+          photoUrl: ''));
     } catch (e) {
       log.e(Failure(message: e.toString()));
     }

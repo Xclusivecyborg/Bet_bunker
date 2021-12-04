@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:spinchat/utils/constants/color_constants.dart';
 import 'package:spinchat/view/chatscreen/chat_screen_viewmodel.dart';
-import 'package:spinchat/widgets/chat_textfield.dart';
-import 'package:spinchat/widgets/message_widget.dart';
+import 'package:spinchat/widgets/chat/chat_textfield.dart';
+import 'package:spinchat/widgets/chat/message_widget.dart';
 import 'package:spinchat/widgets/profile/users_circle_avatar.dart';
-import 'package:spinchat/widgets/status_dot.dart';
+import 'package:spinchat/widgets/app_wide_widgets/status_dot.dart';
 import 'package:stacked/stacked.dart';
 
 class ChatScreen extends StatelessWidget {

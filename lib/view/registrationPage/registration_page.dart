@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:spinchat/view/registrationPage/registration_page_viewmodel.dart';
 import 'package:spinchat/utils/constants/color_constants.dart';
 import 'package:spinchat/utils/validations.dart';
-import 'package:spinchat/widgets/custom_textfield.dart';
-import 'package:spinchat/widgets/rounded_button.dart';
+import 'package:spinchat/widgets/app_wide_widgets/custom_textfield.dart';
+import 'package:spinchat/widgets/app_wide_widgets/rounded_button.dart';
 import 'package:stacked/stacked.dart';
 
 class Registration extends StatelessWidget {

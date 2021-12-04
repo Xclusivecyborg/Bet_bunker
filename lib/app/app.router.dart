@@ -19,7 +19,7 @@ import '../view/posts/posts.dart';
 import '../view/profile/profile.dart';
 import '../view/registrationPage/registration_page.dart';
 import '../view/settings/settings.dart';
-import '../widgets/bottom_nav_bar.dart';
+import '../widgets/app_wide_widgets/bottom_nav_bar.dart';
 
 class Routes {
   static const String landingPage = '/';

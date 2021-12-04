@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:spinchat/utils/constants/color_constants.dart';
-import 'package:spinchat/widgets/custom_textfield.dart';
-import 'package:spinchat/widgets/custom_tile.dart';
+import 'package:spinchat/widgets/app_wide_widgets/custom_textfield.dart';
+import 'package:spinchat/widgets/app_wide_widgets/custom_tile.dart';
 
 import 'package:spinchat/widgets/profile/users_circle_avatar.dart';
 import 'package:stacked/stacked.dart';

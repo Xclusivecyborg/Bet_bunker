@@ -7,13 +7,14 @@ import 'package:flutter/material.dart';
 import 'package:spinchat/app/app.locator.dart';
 import 'package:spinchat/app/app.logger.dart';
 import 'package:spinchat/app/app.router.dart';
+import 'package:spinchat/app/models.dart/user_model.dart';
 import 'package:spinchat/app/services/firebse_auth_service.dart';
 import 'package:spinchat/app/services/firestore_service.dart';
 import 'package:spinchat/app/services/localdatabase.dart';
 import 'package:spinchat/utils/storage_keys.dart';
-import 'package:spinchat/widgets/custom_snackbar.dart';
-import 'package:spinchat/widgets/custom_toast.dart';
-import 'package:spinchat/widgets/setup_ui_dialog.dart';
+import 'package:spinchat/widgets/package_widgets/custom_snackbar.dart';
+import 'package:spinchat/widgets/package_widgets/custom_toast.dart';
+import 'package:spinchat/widgets/package_widgets/setup_ui_dialog.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
@@ -35,18 +36,14 @@ class LoginScreenViewModel extends BaseViewModel {
   TextEditingController newEmailController = TextEditingController();
   TextEditingController newPasswordController = TextEditingController();
   List<QueryDocumentSnapshot<Map<String, dynamic>>>? snapshot;
-   bool isWhite = false;
-   String? get currentUsername => _storage.getString(StorageKeys.username);
-    String? get myphotoUrl => _storage.getString(StorageKeys.photoUrl);
-   
- 
-
+  bool isWhite = false;
+  String? get currentUsername => _storage.getString(StorageKeys.username);
+  String? get myphotoUrl => _storage.getString(StorageKeys.photoUrl);
 
   void toggleTheme(val) {
     isWhite = val;
     notifyListeners();
   }
-  
 
   Future<UserCredential?> login() async {
     try {
@@ -62,20 +59,15 @@ class LoginScreenViewModel extends BaseViewModel {
           await _fireStore.updateDocument(
               collPath: 'users',
               docPath: createdUser.user!.uid,
-              data: {'loggedIn': true});
-         
+              data: Users.toFireStore(loggedIn: true));
+
           await _storage.setString(
               StorageKeys.currentUserId, createdUser.user!.uid);
           await _storage.setString(
               StorageKeys.userEmail, createdUser.user!.email!);
 
           _navigation.clearStackAndShow(Routes.indexScreen);
-                customtoast(toastmessage: 'Login successfull');
-
-          // _snackbar.showCustomSnackBar(
-          //     variant: SnackBarType.success,
-          //     duration: const Duration(seconds: 4),
-          //     message: 'Login Successful');
+          customtoast(toastmessage: 'Login successfull');
           return createdUser;
         }
       } else if (newEmailController.text.isEmpty ||
@@ -102,9 +94,8 @@ class LoginScreenViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-
-///NAVIGATION METHODS
-///Navigate to Registration page
+  ///NAVIGATION METHODS
+  ///Navigate to Registration page
   void navigateToRegistrationPage() {
     _navigation.replaceWith(Routes.registration);
   }
@@ -114,13 +105,15 @@ class LoginScreenViewModel extends BaseViewModel {
     _navigation.navigateTo(Routes.settingsPage);
   }
 
- ///Logout functionality
+  ///Logout functionality
   void logout() async {
     _dialog.showCustomDialog(
       variant: DialogType.signOut,
     );
     await _fireStore.updateDocument(
-        collPath: 'users', docPath: loggedInUSer!.uid, data: {'loggedIn': false});
+        collPath: 'users',
+        docPath: loggedInUSer!.uid,
+        data: Users.toFireStore(loggedIn: false));
     _authservice.logout();
     _storage.clearStorage();
     _navigation.clearStackAndShow(Routes.landingPage);
@@ -129,5 +122,4 @@ class LoginScreenViewModel extends BaseViewModel {
         duration: const Duration(seconds: 4),
         message: 'Logout Successful');
   }
-  
 }

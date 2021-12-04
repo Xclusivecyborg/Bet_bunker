@@ -1,5 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 class Users {
   final String? userName;
   final String? photoUrl;
@@ -30,16 +28,24 @@ class Users {
     );
   }
 
-  factory Users.fromStream(DocumentSnapshot<Map<String, dynamic>> json) {
-    return Users(
-      userName: json['userName'] ?? '',
-      photoUrl: json['photoUrl'] ?? '',
-      userId: json['userId'] ?? '',
-      email: json['email'] ?? '',
-      createdAt: json['createdAt'] ?? '',
-      aboutMe: json['aboutMe'] ?? '',
-      loggedIn: json['loggedIn'] ?? '',
-    );
+  static Map<String, dynamic> toFireStore({
+    String? userName,
+    String? photoUrl,
+    String? userId,
+    String? email,
+    String? createdAt,
+    String? aboutMe,
+    bool? loggedIn,
+  }) {
+    return {
+      'userName': userName,
+      'photoUrl': photoUrl,
+      'userId': userId,
+      'email': email,
+      'createdAt': createdAt,
+      'aboutMe': aboutMe,
+      'loggedIn': loggedIn
+    };
   }
 
   @override
@@ -47,4 +53,3 @@ class Users {
     return 'userName: $userName, photoUrl: $photoUrl, userId: $userId, email: $email, createdAt: $createdAt, aboutMe: $aboutMe, loggedIn: $loggedIn';
   }
 }
-

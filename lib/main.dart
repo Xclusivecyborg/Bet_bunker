@@ -1,8 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:spinchat/app/app.locator.dart';
-import 'package:spinchat/widgets/custom_snackbar.dart';
-import 'package:spinchat/widgets/setup_ui_dialog.dart';
+import 'package:spinchat/widgets/package_widgets/custom_snackbar.dart';
+import 'package:spinchat/widgets/package_widgets/setup_ui_dialog.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'app/app.logger.dart';
 import 'app/app.router.dart';

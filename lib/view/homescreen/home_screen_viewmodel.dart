@@ -10,9 +10,9 @@ import 'package:spinchat/app/services/firebse_auth_service.dart';
 import 'package:spinchat/app/services/firestore_service.dart';
 import 'package:spinchat/app/services/localdatabase.dart';
 import 'package:spinchat/utils/storage_keys.dart';
-import 'package:spinchat/widgets/custom_snackbar.dart';
-import 'package:spinchat/widgets/custom_toast.dart';
-import 'package:spinchat/widgets/setup_ui_dialog.dart';
+import 'package:spinchat/widgets/package_widgets/custom_snackbar.dart';
+import 'package:spinchat/widgets/package_widgets/custom_toast.dart';
+import 'package:spinchat/widgets/package_widgets/setup_ui_dialog.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 

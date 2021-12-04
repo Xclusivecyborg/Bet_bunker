@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:spinchat/app/app.locator.dart';
 import 'package:spinchat/app/app.logger.dart';
 import 'package:spinchat/app/app.router.dart';
+import 'package:spinchat/app/models.dart/user_message_model.dart';
 import 'package:spinchat/app/services/firebse_auth_service.dart';
 import 'package:spinchat/app/services/firestore_service.dart';
 import 'package:spinchat/app/services/localdatabase.dart';
@@ -17,7 +18,7 @@ class ChatScreenViewmodel extends BaseViewModel {
   ///SERVICES
   final _fireStore = locator<FirestoreService>();
   final _auth = locator<FirebaseAuthService>();
-    final _navigation = locator<NavigationService>();
+  final _navigation = locator<NavigationService>();
 
   ///Required Parameters in the view
   ScrollController scrollController = ScrollController();
@@ -54,20 +55,20 @@ class ChatScreenViewmodel extends BaseViewModel {
     }
   }
 
-
-
-  void navigateToProfile({required String user,
+  void navigateToProfile(
+      {required String user,
       required String networkLink,
       required String uid,
-       required String about}) {
-    _navigation.navigateTo(Routes.profile, arguments: ProfileArguments(uid:uid ,
-
-      aboutMe: about,
-      networkUrl: networkLink,
-      username: user,
-      
-    )  );
+      required String about}) {
+    _navigation.navigateTo(Routes.profile,
+        arguments: ProfileArguments(
+          uid: uid,
+          aboutMe: about,
+          networkUrl: networkLink,
+          username: user,
+        ));
   }
+
   ///Method that fetches the stream of messages
   Future<Stream<QuerySnapshot<Map<String, dynamic>>>?> messages(
       {required String friendUsername}) async {
@@ -84,20 +85,18 @@ class ChatScreenViewmodel extends BaseViewModel {
   void sendMessage({@required String? friendUsername}) async {
     String getdocPath = chatRoomId(currentUsername!, friendUsername!);
     messageText = messageController.text;
-    Map<String, dynamic> dataToSend = {
-      'text': messageText,
-      'sender': loggedInUSer!.email,
-      'createdAt': DateTime.now(),
-    };
-
     if (messageText!.isNotEmpty) {
       await _fireStore.sendMessages(
           collection2: 'usersMessages',
           collPath: 'messages',
           docPath: getdocPath,
-          data: dataToSend);
+          data: UserMessage.toFireStore(
+            createdAt: DateTime.now(),
+            sender: loggedInUSer!.email,
+            text: messageText,
+          ));
       messages(friendUsername: friendUsername);
       scrollController.jumpTo(scrollController.position.minScrollExtent);
-       }
+    }
   }
 }

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:spinchat/utils/constants/color_constants.dart';
 import 'package:stacked_services/stacked_services.dart';
 
-import '../app/app.locator.dart';
+import '../../app/app.locator.dart';
 
 class AppSnackBar {
   static void setupSnackbarUi() {
