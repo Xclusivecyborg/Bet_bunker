@@ -36,7 +36,7 @@ class FirestoreService {
     }
   }
 
-    Future<QuerySnapshot<Map<String, dynamic>>>? getPosts() {
+  Future<QuerySnapshot<Map<String, dynamic>>>? getPosts() {
     try {
       final snapshots = _fireStore!.collection('posts').get();
       return snapshots;
@@ -115,8 +115,6 @@ class FirestoreService {
     return _fireStore!.collection(collPath).doc(docPath).update(data);
   }
 
-
-
   Future<DocumentSnapshot<Map<String, dynamic>>?> getUSerDetails(
       String? uid) async {
     try {
@@ -126,8 +124,6 @@ class FirestoreService {
       log.e(Failure(message: e.toString()));
     }
   }
-
-  
 
   Stream<QuerySnapshot<Map<String, dynamic>>>? fetchMessages({
     required String docPath,
@@ -164,5 +160,9 @@ class FirestoreService {
         .doc(docPath)
         .collection(collection2)
         .add(data);
+  }
+
+  Future<void> post({required Map<String, dynamic> data}) async {
+    await _fireStore!.collection('posts').add(data);
   }
 }

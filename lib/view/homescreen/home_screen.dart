@@ -10,13 +10,12 @@ import 'package:stacked/stacked.dart';
 
 import 'home_screen_viewmodel.dart';
 
-var scaffoldKey = GlobalKey<ScaffoldState>();
-
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    var scaffoldKey = GlobalKey<ScaffoldState>();
     return ViewModelBuilder<HomeScreenViewModel>.reactive(
       viewModelBuilder: () => HomeScreenViewModel(),
       onModelReady: (model) => model.initialise(),
@@ -97,7 +96,9 @@ class HomeScreen extends StatelessWidget {
             children: [
               FloatingActionButton(
                 backgroundColor: AppColors.myGreen,
-                onPressed: () {},
+                onPressed: () {
+                  model.navigateToPost();
+                },
                 child: const Icon(
                   CupertinoIcons.pen,
                 ),

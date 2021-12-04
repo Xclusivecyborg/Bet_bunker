@@ -14,9 +14,16 @@ static Future<FirebaseDataStorage> getInstance() async {
   }
 
 
-//Upload a particular image to firebase storage
+//Upload profile image to firebase storage
   UploadTask uploadTask({File? image, String? fileName}) {
     Reference reference = _storage!.ref().child(fileName!);
+    UploadTask upload = reference.putFile(image!);
+    return upload;
+  }
+
+  //Upload image from posts to firebase storage
+  UploadTask uploadPostImage({File? image, String? path}) {
+    Reference reference = _storage!.ref(path);
     UploadTask upload = reference.putFile(image!);
     return upload;
   }

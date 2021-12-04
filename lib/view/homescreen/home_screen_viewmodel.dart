@@ -107,6 +107,10 @@ class HomeScreenViewModel extends BaseViewModel {
     _navigation.navigateTo(Routes.settingsPage);
   }
 
+ void navigateToPost() {
+    _navigation.navigateTo(Routes.posts);
+  }
+
   void navigateToProfile(
       {required String id,
       required String bio,
