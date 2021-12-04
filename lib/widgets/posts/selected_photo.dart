@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:spinchat/utils/constants/color_constants.dart';
 import 'package:spinchat/view/posts/posts_viewmodel.dart';

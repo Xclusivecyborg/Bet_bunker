@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:spinchat/app/models.dart/posts_model.dart';
 import 'package:spinchat/app/services/firebse_auth_service.dart';
 
 import '../app.logger.dart';
@@ -38,7 +39,10 @@ class FirestoreService {
 
   Future<QuerySnapshot<Map<String, dynamic>>>? getPosts() {
     try {
-      final snapshots = _fireStore!.collection('posts').get();
+      final snapshots = _fireStore!
+          .collection('posts')
+          .orderBy('createdAt', descending: true)
+          .get();
       return snapshots;
     } catch (e) {
       log.e(Failure(message: e.toString()));
@@ -164,5 +168,26 @@ class FirestoreService {
 
   Future<void> post({required Map<String, dynamic> data}) async {
     await _fireStore!.collection('posts').add(data);
+  }
+
+  Future likePost({BetPosts? post, bool? isLiked, String? uid}) async {
+    if (isLiked!) {
+      print(post!.id);
+      await _fireStore!
+          .collection('posts')
+          .doc(post.id)
+          .collection('likes')
+          .doc(uid)
+          .delete();
+    }
+    if (!isLiked) {
+      print(post!.id);
+      await _fireStore!
+          .collection('posts')
+          .doc(post.id)
+          .collection('likes')
+          .doc(uid)
+          .set({});
+    }
   }
 }

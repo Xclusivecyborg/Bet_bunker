@@ -20,7 +20,7 @@ class PostsViewModel extends FormViewModel {
   //Services
   final _fireStore = locator<FirestoreService>();
   final _snackbar = locator<SnackbarService>();
-  // final _navigation = locator<NavigationService>();
+  final _navigation = locator<NavigationService>();
   final _storage = locator<SharedPreferenceLocalStorage>();
   final _firebaseStorage = locator<FirebaseDataStorage>();
 
@@ -37,6 +37,10 @@ class PostsViewModel extends FormViewModel {
     photoFile = null;
     mediaAdded = false;
     notifyListeners();
+  }
+
+  void onChnage(String value) {
+    textBody = value;
   }
 
   Future pickImage(ImageSource source) async {
@@ -62,7 +66,7 @@ class PostsViewModel extends FormViewModel {
   Future uploadFile() async {
     try {
       final tasksnapshot = await _firebaseStorage.uploadPostImage(
-          image: photoFile, path: 'Posts/$currentUserEmail');
+          image: photoFile, path: 'Posts/${photoFile!}/');
       final photoUrl = await tasksnapshot.ref.getDownloadURL();
       downloadUrl = photoUrl;
     } on FirebaseException catch (e) {
@@ -78,16 +82,18 @@ class PostsViewModel extends FormViewModel {
 
   Future createPost() async {
     try {
+      customtoast(toastmessage: 'Creating...');
       if (mediaAdded && photoFile != null) {
         await uploadFile();
         await _fireStore.post(
             data: BetPosts.toFireStore(
           body: textBody,
           sentBy: currentUsername,
-          createdAt: DateTime.now().millisecondsSinceEpoch.toString(),
+          createdAt: DateTime.now(),
           createdBy: userId,
           photoUrl: downloadUrl,
         ));
+        pop();
         customtoast(toastmessage: 'Post created successfully');
       }
       if (!mediaAdded && photoFile == null) {
@@ -95,15 +101,25 @@ class PostsViewModel extends FormViewModel {
             data: BetPosts.toFireStore(
           body: textBody,
           sentBy: currentUsername,
-          createdAt: DateTime.now().millisecondsSinceEpoch.toString(),
+          createdAt: DateTime.now(),
           createdBy: userId,
           photoUrl: '',
         ));
+
+        pop();
         customtoast(toastmessage: 'Post created successfully');
       }
+    } on SocketException {
+        pop();
+      customtoast(toastmessage: 'Please check your internet connection');
     } catch (e) {
       log.e(e.toString());
     }
+    notifyListeners();
+  }
+
+  void pop() {
+    _navigation.back();
   }
 
   @override

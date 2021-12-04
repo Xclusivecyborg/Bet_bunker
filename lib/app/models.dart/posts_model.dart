@@ -4,15 +4,17 @@ class BetPosts {
   final String? createdBy;
   final String? body;
   final String? photoUrl;
-  final String? createdAt;
+  final Timestamp? createdAt;
+  final String? id;
   final String? sentBy;
 
-  BetPosts(
-      {this.sentBy, this.createdBy, this.body, this.photoUrl, this.createdAt});
+  BetPosts( 
+      {this.id,this.sentBy, this.createdBy, this.body, this.photoUrl, this.createdAt});
 
   factory BetPosts.fromMap(QueryDocumentSnapshot<Map<String, dynamic>> json) {
     return BetPosts(
-      photoUrl: json['photoUrl'] ?? '',
+      id: json.id,
+      photoUrl: json ['photoUrl'] ?? '',
       createdBy: json['createdBy'] ?? '',
       body: json['body'] ?? '',
       createdAt: json['createdAt'] ?? '',
@@ -24,7 +26,7 @@ class BetPosts {
     String? createdBy,
     String? body,
     String? photoUrl,
-    String? createdAt,
+    DateTime? createdAt,
     String? sentBy,
   }) {
     return {

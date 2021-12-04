@@ -34,15 +34,31 @@ class HomeScreenViewModel extends BaseViewModel {
   List<BetPosts> posts = [];
   List<Users> users = [];
   bool isbusy = false;
-
+  bool isLiked = false;
   Future<void> initialise() async {
     getUserDetails();
     await fetchPosts();
   }
 
+  void toggleLike() {
+    isLiked = !isLiked;
+    notifyListeners();
+  }
+
   void toggleTheme(val) {
     isWhite = val;
     notifyListeners();
+  }
+
+  Future<void> like(
+    bool liked,
+    BetPosts post
+  ) async {
+    await _fireStore.likePost(
+      isLiked: liked,
+      uid: userId,
+      post: post
+    );
   }
 
   void getUserDetails() async {
@@ -107,7 +123,7 @@ class HomeScreenViewModel extends BaseViewModel {
     _navigation.navigateTo(Routes.settingsPage);
   }
 
- void navigateToPost() {
+  void navigateToPost() {
     _navigation.navigateTo(Routes.posts);
   }
 

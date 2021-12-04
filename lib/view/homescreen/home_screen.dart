@@ -226,7 +226,7 @@ class ListOfPosts extends StatelessWidget {
                         borderRadius: BorderRadius.circular(10),
                         image: DecorationImage(
                             image: NetworkImage(model.posts[index].photoUrl!),
-                            fit: BoxFit.fill),
+                            fit: BoxFit.cover),
                       ),
                     ),
                   ],
@@ -237,9 +237,11 @@ class ListOfPosts extends StatelessWidget {
                 child: Row(
                   children: [
                     IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        model.like(false, model.posts[index]);
+                      },
                       icon: const Icon(
-                        CupertinoIcons.heart,
+                        Icons.favorite_border,
                         size: 25,
                       ),
                     ),
