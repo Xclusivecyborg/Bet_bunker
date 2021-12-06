@@ -120,8 +120,16 @@ class FirestoreService {
     return _fireStore!.collection(collPath).doc(docPath).update(data);
   }
 
-  Stream<Users>? getUSerDetails(
-      String? uid)  {
+  Future<DocumentSnapshot<Map<String, dynamic>>>? getMyDetails(String? uid) {
+    try {
+      final snapshots = _fireStore!.collection('users').doc('$uid').get();
+      return snapshots;
+    } catch (e) {
+      log.e(Failure(message: e.toString()));
+    }
+  }
+
+  Stream<Users>? getUSerDetails(String? uid) {
     try {
       final snapshots = _fireStore!.collection('users').doc('$uid').snapshots();
       return snapshots.map((event) => Users.fromMap(event));

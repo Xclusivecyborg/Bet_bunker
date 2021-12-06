@@ -34,7 +34,7 @@ class HomeScreenViewModel extends BaseViewModel {
   List<BetPosts> posts = [];
   bool isbusy = false;
   bool isLiked = false;
-  initialise() {
+  initialize() {
     getUserDetails();
     fetchPosts();
   }
@@ -54,12 +54,11 @@ class HomeScreenViewModel extends BaseViewModel {
   }
 
   void getUserDetails() async {
-    final value = _fireStore.getUSerDetails(userId);
-    value!.map((value) {
-      String userUsername = value.userName!;
-      String photoLink = value.photoUrl!;
-      String about = value.aboutMe!;
-      String uid = value.userId!;
+    await _fireStore.getMyDetails(userId)!.then((value) {
+      String userUsername = value['userName']!;
+      String photoLink = value['photoUrl'];
+      String about = value['aboutMe'];
+      String uid = value['userId'];
       _storage.setString(StorageKeys.username, userUsername);
       _storage.setString(StorageKeys.photoUrl, photoLink);
       _storage.setString(StorageKeys.aboutMe, about);

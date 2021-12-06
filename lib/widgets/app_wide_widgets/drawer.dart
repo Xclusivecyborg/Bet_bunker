@@ -40,11 +40,11 @@ class AppDrawer extends StatelessWidget {
                               );
                             },
                             child: ProfileAvatar(
-                              photosUrl: model.myPhoto!,
+                              photosUrl: model.myPhoto ?? '',
                             ),
                           ),
                           Text(
-                            'Hey!👋🏽 ${model.myUsername!}',
+                            'Hey!👋🏽 ${model.myUsername ?? ''}',
                             style: GoogleFonts.poppins(
                               color: model.isWhite
                                   ? AppColors.myGreen
