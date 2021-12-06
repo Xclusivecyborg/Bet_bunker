@@ -32,12 +32,11 @@ class HomeScreenViewModel extends BaseViewModel {
   String? get myUsername => _storage.getString(StorageKeys.username);
   bool isWhite = false;
   List<BetPosts> posts = [];
-  List<Users> users = [];
   bool isbusy = false;
   bool isLiked = false;
-  Future<void> initialise() async {
+  initialise() {
     getUserDetails();
-    await fetchPosts();
+    fetchPosts();
   }
 
   void toggleLike() {
@@ -50,28 +49,23 @@ class HomeScreenViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  Future<void> like(
-    bool liked,
-    BetPosts post
-  ) async {
-    await _fireStore.likePost(
-      isLiked: liked,
-      uid: userId,
-      post: post
-    );
+  Future<void> like(bool liked, BetPosts post) async {
+    await _fireStore.likePost(isLiked: liked, uid: userId, post: post);
   }
 
   void getUserDetails() async {
-    await _fireStore.getUSerDetails(userId).then((value) {
-      String userUsername = value!['userName'];
-      String photoLink = value['photoUrl'];
-      String about = value['aboutMe'];
-      String uid = value['userId'];
+    final value = _fireStore.getUSerDetails(userId);
+    value!.map((value) {
+      String userUsername = value.userName!;
+      String photoLink = value.photoUrl!;
+      String about = value.aboutMe!;
+      String uid = value.userId!;
       _storage.setString(StorageKeys.username, userUsername);
       _storage.setString(StorageKeys.photoUrl, photoLink);
       _storage.setString(StorageKeys.aboutMe, about);
       _storage.setString(StorageKeys.currentUserId, uid);
     });
+
     notifyListeners();
   }
 
@@ -84,24 +78,7 @@ class HomeScreenViewModel extends BaseViewModel {
       List<BetPosts> post =
           newPosts!.docs.map((e) => BetPosts.fromMap(e)).toList();
       posts = post;
-
-      for (var item in post) {
-        isbusy = false;
-        await _fireStore.getUSerDetails(item.createdBy).then((value) {
-          users.add(
-            Users(
-              aboutMe: value!['aboutMe'],
-              createdAt: value['createdAt'],
-              email: value['email'],
-              loggedIn: value['loggedIn'],
-              photoUrl: value['photoUrl'],
-              userId: value['userId'],
-              userName: value['userName'],
-            ),
-          );
-          log.e(users.length);
-        });
-      }
+      isbusy = false;
     } on FirebaseException catch (e) {
       isbusy = false;
       _snackbar.showCustomSnackBar(

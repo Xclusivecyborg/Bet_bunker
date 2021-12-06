@@ -44,7 +44,7 @@ class AppDrawer extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            'Hey!👋 ${model.myUsername!}',
+                            'Hey!👋🏽 ${model.myUsername!}',
                             style: GoogleFonts.poppins(
                               color: model.isWhite
                                   ? AppColors.myGreen

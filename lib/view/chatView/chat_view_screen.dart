@@ -73,36 +73,36 @@ class ChatView extends StatelessWidget {
                                 ? model.matchingUsers.length
                                 : model.usersnapshot.length,
                             itemBuilder: (context, index) {
-                              var match = model.matchingUsers[index];
+                              // var match = model.matchingUsers[index];
                               var user = model.usersnapshot[index];
                               return CustomTile(
                                 leading: LeadingAvatar(
                                   photo: model.matchingUsers.isNotEmpty
-                                      ? match.photoUrl!
+                                      ? model.matchingUsers[index].photoUrl!
                                       : user.photoUrl!,
                                 ),
                                 isWhite: model.userStatus!,
                                 chatPage: true,
                                 isUserLoggedIn: model.matchingUsers.isNotEmpty
-                                    ? match.loggedIn
+                                    ? model.matchingUsers[index].loggedIn
                                     : user.loggedIn,
                                 username: model.matchingUsers.isNotEmpty
-                                    ? match.userName
+                                    ? model.matchingUsers[index].userName
                                     : user.userName ?? 'No data',
                                 ontap: () {
                                   model.naviagteToChatScreen(
                                     uid: user.userId!,
                                     about: model.matchingUsers.isNotEmpty
-                                        ? match.aboutMe!
+                                        ? model.matchingUsers[index].aboutMe!
                                         : user.aboutMe!,
                                     isUserOnline: model.matchingUsers.isNotEmpty
-                                        ? match.loggedIn!
+                                        ? model.matchingUsers[index].loggedIn!
                                         : user.loggedIn!,
                                     user: model.matchingUsers.isNotEmpty
-                                        ? match.userName!
+                                        ? model.matchingUsers[index].userName!
                                         : user.userName ?? 'No data',
                                     networkLink: model.matchingUsers.isNotEmpty
-                                        ? match.photoUrl!
+                                        ? model.matchingUsers[index].photoUrl!
                                         : user.photoUrl!,
                                   );
                                   model.searchFieldController.clearComposing();

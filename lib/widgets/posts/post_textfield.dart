@@ -30,10 +30,10 @@ class TextEditor extends StatelessWidget with $Posts {
               focusedBorder: InputBorder.none,
               disabledBorder: InputBorder.none,
               focusedErrorBorder: InputBorder.none,
-              hintText: 'Let\'s share some booking codes',
+              hintText: 'Oya boss, drop something..🙌🏽',
               hintStyle: GoogleFonts.poppins(
                 color: AppColors.myDarkGrey,
-                fontSize: 20,
+                fontSize: 15,
               ),
               contentPadding: const EdgeInsets.only(top: 30, bottom: 20),
             ),

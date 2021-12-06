@@ -136,14 +136,10 @@ class ChatViewModel extends BaseViewModel {
   Future? updateDetails({String? photoUrlString}) async {
     if (aboutMe.text.isNotEmpty && username.text.isNotEmpty) {
       await _fireStore
-          .updateDocument(
-              collPath: 'users',
-              docPath: userId!,
-              data: Users.toFireStore(
-                aboutMe: aboutMe.text,
-                userName: username.text,
-              ))
-          .then((value) async {
+          .updateDocument(collPath: 'users', docPath: userId!, data: {
+        'aboutMe': aboutMe.text,
+        'userName': username.text,
+      }).then((value) async {
         await _storage.setString(StorageKeys.username, username.text);
         _snackbar.showCustomSnackBar(
             variant: SnackBarType.success,
@@ -152,11 +148,9 @@ class ChatViewModel extends BaseViewModel {
       });
     } else if (username.text.isNotEmpty) {
       await _fireStore
-          .updateDocument(
-              collPath: 'users',
-              docPath: userId!,
-              data: Users.toFireStore(userName: username.text))
-          .then((value) async {
+          .updateDocument(collPath: 'users', docPath: userId!, data: {
+        'userName': username.text,
+      }).then((value) async {
         await _storage.setString(StorageKeys.username, username.text);
         _snackbar.showCustomSnackBar(
             variant: SnackBarType.success,
@@ -165,11 +159,9 @@ class ChatViewModel extends BaseViewModel {
       });
     } else if (aboutMe.text.isNotEmpty) {
       await _fireStore
-          .updateDocument(
-              collPath: 'users',
-              docPath: userId!,
-              data: Users.toFireStore(aboutMe: aboutMe.text))
-          .then((value) {
+          .updateDocument(collPath: 'users', docPath: userId!, data: {
+        'aboutMe': aboutMe.text,
+      }).then((value) {
         _snackbar.showCustomSnackBar(
             variant: SnackBarType.success,
             duration: const Duration(seconds: 3),

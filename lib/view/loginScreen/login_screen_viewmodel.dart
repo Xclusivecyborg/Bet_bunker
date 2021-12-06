@@ -59,7 +59,7 @@ class LoginScreenViewModel extends BaseViewModel {
           await _fireStore.updateDocument(
               collPath: 'users',
               docPath: createdUser.user!.uid,
-              data: Users.toFireStore(loggedIn: true));
+              data: {'loggedIn': true});
 
           await _storage.setString(
               StorageKeys.currentUserId, createdUser.user!.uid);
@@ -110,10 +110,10 @@ class LoginScreenViewModel extends BaseViewModel {
     _dialog.showCustomDialog(
       variant: DialogType.signOut,
     );
-    await _fireStore.updateDocument(
-        collPath: 'users',
-        docPath: loggedInUSer!.uid,
-        data: Users.toFireStore(loggedIn: false));
+    await _fireStore
+        .updateDocument(collPath: 'users', docPath: loggedInUSer!.uid, data: {
+      'loggedIn': false,
+    });
     _authservice.logout();
     _storage.clearStorage();
     _navigation.clearStackAndShow(Routes.landingPage);

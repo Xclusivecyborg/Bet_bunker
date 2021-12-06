@@ -1,7 +1,12 @@
+// ignore_for_file: curly_braces_in_flow_control_structures
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:spinchat/app/app.locator.dart';
 import 'package:spinchat/app/models.dart/icon_drawer.dart';
+import 'package:spinchat/app/models.dart/user_model.dart';
+import 'package:spinchat/app/services/firestore_service.dart';
 import 'package:spinchat/utils/constants/color_constants.dart';
 import 'package:spinchat/view/chatView/chat_view_search_screen.dart';
 import 'package:spinchat/widgets/app_wide_widgets/drawer.dart';
@@ -9,6 +14,8 @@ import 'package:spinchat/widgets/profile/users_circle_avatar.dart';
 import 'package:stacked/stacked.dart';
 
 import 'home_screen_viewmodel.dart';
+
+final _fireStore = locator<FirestoreService>();
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -85,7 +92,9 @@ class HomeScreen extends StatelessWidget {
           body: model.isbusy
               ? const Center(child: CircularProgressIndicator())
               : RefreshIndicator(
-                  onRefresh: model.initialise,
+                  onRefresh: () async {
+                    await model.fetchPosts();
+                  },
                   color: AppColors.myGreen,
                   child: ListOfPosts(
                     model: model,
@@ -129,142 +138,154 @@ class ListOfPosts extends StatelessWidget {
     BuildContext context,
   ) {
     return ListView.separated(
+      physics: const BouncingScrollPhysics(),
       padding: const EdgeInsets.all(10),
       separatorBuilder: (_, index) => const Divider(),
       itemCount: model.posts.length,
       itemBuilder: (_, index) {
-        return SizedBox(
-          width: double.infinity,
-          child: Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
+        return StreamBuilder(
+            stream: _fireStore.getUSerDetails(model.posts[index].createdBy),
+            builder: (BuildContext ctx, AsyncSnapshot<Users> snapshot) {
+              if (!snapshot.hasData)
+                return const Center(child: CircularProgressIndicator());
+              else
+                return SizedBox(
+                  width: double.infinity,
+                  child: Column(
                     children: [
-                      if (model.users.length < model.posts.length)
-                        const SizedBox()
-                      else
-                        GestureDetector(
-                          onTap: () {
-                            model.navigateToProfile(
-                              id: model.users[index].userId!,
-                              bio: model.users[index].aboutMe!,
-                              photo: model.users[index].photoUrl!,
-                              username: model.users[index].userName!,
-                            );
-                          },
-                          child: Container(
-                            height: 50,
-                            width: 50,
-                            padding: const EdgeInsets.all(4),
-                            decoration: const BoxDecoration(
-                              gradient: LinearGradient(
-                                begin: Alignment.topLeft,
-                                end: Alignment.bottomRight,
-                                colors: [
-                                  AppColors.myGreen,
-                                  AppColors.myYellow,
-                                ],
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  model.navigateToProfile(
+                                    id: snapshot.data!.userId!,
+                                    bio: snapshot.data!.aboutMe!,
+                                    photo: snapshot.data!.photoUrl!,
+                                    username: snapshot.data!.userName!,
+                                  );
+                                },
+                                child: Container(
+                                  height: 50,
+                                  width: 50,
+                                  padding: const EdgeInsets.all(4),
+                                  decoration: const BoxDecoration(
+                                    gradient: LinearGradient(
+                                      begin: Alignment.topLeft,
+                                      end: Alignment.bottomRight,
+                                      colors: [
+                                        AppColors.myGreen,
+                                        AppColors.myYellow,
+                                      ],
+                                    ),
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: LeadingAvatar(
+                                    photo: snapshot.data!.photoUrl!,
+                                  ),
+                                ),
                               ),
-                              shape: BoxShape.circle,
-                            ),
-                            child: LeadingAvatar(
-                                photo: model.users[index].photoUrl!),
+                              const SizedBox(width: 10),
+                              Text(
+                                '@${model.posts[index].sentBy!}',
+                                style: GoogleFonts.poppins(
+                                  fontWeight: FontWeight.w500,
+                                  color: AppColors.myDarkGrey,
+                                  fontSize: 14,
+                                ),
+                              ),
+                            ],
                           ),
+                          IconButton(
+                            onPressed: () {},
+                            icon: const Icon(Icons.more_vert),
+                          ),
+                        ],
+                      ),
+                      if (model.posts[index].photoUrl!.isEmpty)
+                        Container(
+                          margin: const EdgeInsets.only(left: 60, right: 15),
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Text(
+                            model.posts[index].body!,
+                            style: GoogleFonts.mulish(
+                              fontSize: 15,
+                            ),
+                          ),
+                        )
+                      else
+                        Column(
+                          children: [
+                            Container(
+                              margin:
+                                  const EdgeInsets.only(left: 60, right: 15),
+                              width: double.infinity,
+                              child: Text(
+                                model.posts[index].body!,
+                                style: GoogleFonts.mulish(
+                                  fontSize: 15,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 8),
+                            Container(
+                              margin:
+                                  const EdgeInsets.only(left: 50, right: 15),
+                              height: 250,
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                border:
+                                    Border.all(color: AppColors.myMediumGrey),
+                                borderRadius: BorderRadius.circular(10),
+                                image: DecorationImage(
+                                    image: NetworkImage(
+                                        model.posts[index].photoUrl!),
+                                    fit: BoxFit.cover),
+                              ),
+                            ),
+                          ],
                         ),
-                      const SizedBox(width: 10),
-                      Text(
-                        '@${model.posts[index].sentBy!}',
-                        style: GoogleFonts.poppins(
-                          fontWeight: FontWeight.w500,
-                          color: AppColors.myDarkGrey,
-                          fontSize: 14,
+                      const SizedBox(height: 10),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 45.0),
+                        child: Row(
+                          children: [
+                            IconButton(
+                              onPressed: () {
+                                model.like(false, model.posts[index]);
+                              },
+                              icon: const Icon(
+                                Icons.favorite_border,
+                                color: AppColors.myDarkGrey,
+                                size: 22,
+                              ),
+                            ),
+                            IconButton(
+                              onPressed: () {},
+                              icon: const Icon(
+                                CupertinoIcons.conversation_bubble,
+                                size: 20,
+                              ),
+                            ),
+                            IconButton(
+                              onPressed: () {},
+                              icon: const Icon(
+                                CupertinoIcons.arrowshape_turn_up_right,
+                                size: 20,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ],
                   ),
-                  IconButton(
-                    onPressed: () {},
-                    icon: const Icon(Icons.more_vert),
-                  ),
-                ],
-              ),
-              if (model.posts[index].photoUrl!.isEmpty)
-                Container(
-                  margin: const EdgeInsets.only(left: 60, right: 15),
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Text(
-                    model.posts[index].body!,
-                    style: GoogleFonts.mulish(
-                      fontSize: 15,
-                    ),
-                  ),
-                )
-              else
-                Column(
-                  children: [
-                    Container(
-                      margin: const EdgeInsets.only(left: 60, right: 15),
-                      width: double.infinity,
-                      child: Text(
-                        model.posts[index].body!,
-                        style: GoogleFonts.mulish(
-                          fontSize: 15,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    Container(
-                      margin: const EdgeInsets.only(left: 50, right: 15),
-                      height: 250,
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        image: DecorationImage(
-                            image: NetworkImage(model.posts[index].photoUrl!),
-                            fit: BoxFit.cover),
-                      ),
-                    ),
-                  ],
-                ),
-              const SizedBox(height: 10),
-              Padding(
-                padding: const EdgeInsets.only(left: 45.0),
-                child: Row(
-                  children: [
-                    IconButton(
-                      onPressed: () {
-                        model.like(false, model.posts[index]);
-                      },
-                      icon: const Icon(
-                        Icons.favorite_border,
-                        size: 25,
-                      ),
-                    ),
-                    IconButton(
-                      onPressed: () {},
-                      icon: const Icon(
-                        CupertinoIcons.bubble_right,
-                        size: 22,
-                      ),
-                    ),
-                    IconButton(
-                      onPressed: () {},
-                      icon: const Icon(
-                        CupertinoIcons.arrowshape_turn_up_right,
-                        size: 22,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        );
+                );
+            });
       },
     );
   }
