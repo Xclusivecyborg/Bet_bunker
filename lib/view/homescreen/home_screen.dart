@@ -10,7 +10,6 @@ import 'package:spinchat/view/chatView/chat_view_search_screen.dart';
 import 'package:spinchat/widgets/app_wide_widgets/drawer.dart';
 import 'package:spinchat/widgets/profile/users_circle_avatar.dart';
 import 'package:stacked/stacked.dart';
-
 import 'home_screen_viewmodel.dart';
 
 final _fireStore = locator<FirestoreService>();

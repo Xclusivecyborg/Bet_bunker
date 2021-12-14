@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
@@ -25,7 +23,7 @@ class Posts extends StatelessWidget {
         return Scaffold(
           appBar: AppBar(
             leading: IconButton(
-              icon: Icon(
+              icon: const Icon(
                 Icons.arrow_back_ios,
                 color: AppColors.naveyBlue,
               ),
@@ -42,9 +40,7 @@ class Posts extends StatelessWidget {
             actions: [
               TextButton(
                 onPressed: () async {
-                  model.textBody.isNotEmpty
-                      ? await model.createPost()
-                      : print('body is empty');
+                  model.textBody.isNotEmpty ? await model.createPost() : null;
                 },
                 child: Text(
                   'post',
@@ -55,47 +51,47 @@ class Posts extends StatelessWidget {
               ),
             ],
           ),
-          body:  SizedBox(
-                  child: Stack(children: [
-                    Positioned.fill(
-                      left: 20,
-                      right: 20,
-                      bottom: 50,
-                      child: SingleChildScrollView(
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            TextEditor(
-                              updatePostBody: model.onChnage,
-                            ),
-                            SelectedPhoto(
-                              photo: model.photoFile,
-                              unpickImage: () {
-                                model.unPickImage();
-                              },
-                            ),
-                          ],
-                        ),
+          body: SizedBox(
+            child: Stack(children: [
+              Positioned.fill(
+                left: 20,
+                right: 20,
+                bottom: 50,
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      TextEditor(
+                        updatePostBody: model.onChange,
                       ),
-                    ),
-                    Align(
-                      alignment: Alignment.bottomCenter,
-                      child: BottomBar(
-                        pickImageCam: () {
-                          model.pickImage(ImageSource.camera);
-                        },
-                        pickImageGal: () {
-                          model.pickImage(ImageSource.gallery);
-                        },
+                      SelectedPhoto(
                         photo: model.photoFile,
                         unpickImage: () {
                           model.unPickImage();
                         },
                       ),
-                    ),
-                  ]),
+                    ],
+                  ),
                 ),
+              ),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: BottomBar(
+                  pickImageCam: () {
+                    model.pickImage(ImageSource.camera);
+                  },
+                  pickImageGal: () {
+                    model.pickImage(ImageSource.gallery);
+                  },
+                  photo: model.photoFile,
+                  unpickImage: () {
+                    model.unPickImage();
+                  },
+                ),
+              ),
+            ]),
+          ),
         );
       },
     );

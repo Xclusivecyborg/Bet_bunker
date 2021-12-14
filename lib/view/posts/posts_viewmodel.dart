@@ -39,7 +39,7 @@ class PostsViewModel extends FormViewModel {
     notifyListeners();
   }
 
-  void onChnage(String value) {
+  void onChange(String value) {
     textBody = value;
   }
 

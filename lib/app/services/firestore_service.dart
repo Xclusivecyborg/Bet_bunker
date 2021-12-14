@@ -181,19 +181,17 @@ class FirestoreService {
 
   Future likePost({BetPosts? post, bool? isLiked, String? uid}) async {
     if (isLiked!) {
-      print(post!.id);
       await _fireStore!
           .collection('posts')
-          .doc(post.id)
+          .doc(post!.id)
           .collection('likes')
           .doc(uid)
           .delete();
     }
     if (!isLiked) {
-      print(post!.id);
       await _fireStore!
           .collection('posts')
-          .doc(post.id)
+          .doc(post!.id)
           .collection('likes')
           .doc(uid)
           .set({});
