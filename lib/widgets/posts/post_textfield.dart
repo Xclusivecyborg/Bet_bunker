@@ -11,6 +11,8 @@ class TextEditor extends StatelessWidget with $Posts {
 
   @override
   Widget build(BuildContext context) {
+     var theme = Theme.of(context);
+    final bool _light = Theme.of(context).brightness == Brightness.light;
     return ViewModelBuilder<PostsViewModel>.reactive(
         viewModelBuilder: () => PostsViewModel(),
         builder: (ctx, model, child) {
@@ -32,7 +34,7 @@ class TextEditor extends StatelessWidget with $Posts {
               focusedErrorBorder: InputBorder.none,
               hintText: 'Oya boss, drop something..🙌🏽',
               hintStyle: GoogleFonts.poppins(
-                color: AppColors.myDarkGrey,
+                color: _light ? AppColors.myDarkGrey : null,
                 fontSize: 15,
               ),
               contentPadding: const EdgeInsets.only(top: 30, bottom: 20),

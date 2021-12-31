@@ -30,6 +30,8 @@ class HomeScreenViewModel extends BaseViewModel {
   String? get myBio => _storage.getString(StorageKeys.aboutMe);
   String? get myUsername => _storage.getString(StorageKeys.username);
   bool isWhite = false;
+  bool? get themePref => _storage.getBool(StorageKeys.themePref);
+  bool toggle = false;
   List<BetPosts> posts = [];
   bool isbusy = false;
   bool isLiked = false;
@@ -44,7 +46,9 @@ class HomeScreenViewModel extends BaseViewModel {
   }
 
   void toggleTheme(val) {
-    isWhite = val;
+    toggle = val;
+    _storage.setBool(StorageKeys.themePref, toggle);
+    log.e(toggle);
     notifyListeners();
   }
 

@@ -13,14 +13,15 @@ class SearchScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var theme = Theme.of(context);
+    final bool _light = Theme.of(context).brightness == Brightness.light;
     return ViewModelBuilder<ChatViewModel>.reactive(
       onModelReady: (model) => model.initialise(),
       viewModelBuilder: () => ChatViewModel(),
       builder: (ctx, model, child) => Scaffold(
-        backgroundColor: AppColors.white,
         appBar: AppBar(
+          backgroundColor: theme.scaffoldBackgroundColor,
           automaticallyImplyLeading: false,
-          backgroundColor: AppColors.white,
           title: CustomTextField(
             focusNode: model.searchFocus,
             autofocus: false,
@@ -33,7 +34,10 @@ class SearchScreen extends StatelessWidget {
           actions: [
             IconButton(
               onPressed: model.getUsersByUsername,
-              icon: const Icon(Icons.search, color: AppColors.naveyBlue),
+              icon: Icon(
+                Icons.search,
+                color: _light ? AppColors.naveyBlue : null,
+              ),
             ),
           ],
         ),
@@ -44,7 +48,7 @@ class SearchScreen extends StatelessWidget {
                   children: [
                     Visibility(
                       visible: model.searchFocus.hasFocus ? false : true,
-                      child: const CircularProgressIndicator(),
+                      child: const CircularProgressIndicator.adaptive(),
                     ),
                     model.searchFocus.hasFocus
                         ? const Text('NO DATA')

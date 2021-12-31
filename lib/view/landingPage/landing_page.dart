@@ -11,6 +11,7 @@ class LandingPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return ViewModelBuilder<LandingPageViewModel>.reactive(
         viewModelBuilder: () => LandingPageViewModel(),
+        onModelReady: (model) => model.setTheme(),
         builder: (context, model, child) {
           return Scaffold(
             body: SingleChildScrollView(
@@ -36,15 +37,15 @@ class LandingPage extends StatelessWidget {
                         height: MediaQuery.of(context).size.height / 5,
                         width: MediaQuery.of(context).size.height / 2,
                         decoration: const BoxDecoration(
-                          image:  DecorationImage(
+                          image: DecorationImage(
                             fit: BoxFit.contain,
                             image: AssetImage('assets/Group.png'),
                           ),
                         ),
                       ),
-                    const  SizedBox(height: 20),
-                     const Text('Connect With Friends, Family and more'),
-                    const  SizedBox(height: 80),
+                      const SizedBox(height: 20),
+                      const Text('Connect With Friends, Family and more'),
+                      const SizedBox(height: 80),
                       CustomButton(
                         label: 'Click to get started',
                         onTap: () {
@@ -52,11 +53,11 @@ class LandingPage extends StatelessWidget {
                         },
                         color: AppColors.naveyBlue,
                       ),
-                     const SizedBox(height: 20),
+                      const SizedBox(height: 20),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                      const    Text('Already have an account? '),
+                          const Text('Already have an account? '),
                           GestureDetector(
                             onTap: () {
                               model.navigateToLogin();

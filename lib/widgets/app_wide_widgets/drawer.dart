@@ -16,12 +16,13 @@ class AppDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool _light = Theme.of(context).brightness == Brightness.light;
     return ViewModelBuilder<HomeScreenViewModel>.reactive(
         viewModelBuilder: () => HomeScreenViewModel(),
         builder: (ctx, model, child) => Drawer(
               child: Container(
-                decoration: const BoxDecoration(
-                  color: AppColors.myGreen,
+                decoration: BoxDecoration(
+                  color: _light ? AppColors.myGreen : null,
                 ),
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(15.0, 100, 15.0, 45.0),
@@ -46,9 +47,9 @@ class AppDrawer extends StatelessWidget {
                           Text(
                             'Hey!👋🏽 ${model.myUsername ?? ''}',
                             style: GoogleFonts.poppins(
-                              color: model.isWhite
-                                  ? AppColors.myGreen
-                                  : AppColors.naveyBlue,
+                              color: _light
+                                  ? AppColors.naveyBlue
+                                  : AppColors.mylightGreen,
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
                             ),
@@ -67,9 +68,9 @@ class AppDrawer extends StatelessWidget {
                               Text(
                                 listChoices[index].title,
                                 style: GoogleFonts.poppins(
-                                  color: model.isWhite
-                                      ? AppColors.myGreen
-                                      : AppColors.naveyBlue,
+                                  color: _light
+                                      ? AppColors.naveyBlue
+                                      : AppColors.mylightGreen,
                                   fontSize: 14,
                                   fontWeight: FontWeight.bold,
                                 ),

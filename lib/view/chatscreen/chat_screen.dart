@@ -104,7 +104,7 @@ class ChatScreen extends StatelessWidget {
                     stream: model.messageSnapshot,
                     builder: (context, snapshot) {
                       if (!snapshot.hasData) {
-                        return const Center(child: CircularProgressIndicator());
+                        return const Center(child: CircularProgressIndicator.adaptive());
                       }
                       List<MessageTextWidget> messageList = [];
                       for (var message in snapshot.data!.docs.reversed) {

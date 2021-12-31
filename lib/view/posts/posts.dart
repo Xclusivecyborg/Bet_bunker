@@ -17,24 +17,26 @@ class Posts extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var theme = Theme.of(context);
+    final bool _light = Theme.of(context).brightness == Brightness.light;
     return ViewModelBuilder<PostsViewModel>.reactive(
       viewModelBuilder: () => PostsViewModel(),
       builder: (ctx, model, child) {
         return Scaffold(
           appBar: AppBar(
+            backgroundColor: theme.scaffoldBackgroundColor,
             leading: IconButton(
-              icon: const Icon(
+              icon: Icon(
                 Icons.arrow_back_ios,
-                color: AppColors.naveyBlue,
+                color: _light ? AppColors.naveyBlue : null,
               ),
               onPressed: model.pop,
             ),
-            backgroundColor: AppColors.white,
-            elevation: 1,
+            elevation: 2,
             title: Text(
               'create Post',
               style: GoogleFonts.poppins(
-                color: AppColors.naveyBlue,
+                color: _light ? AppColors.naveyBlue : null,
               ),
             ),
             actions: [
@@ -45,7 +47,7 @@ class Posts extends StatelessWidget {
                 child: Text(
                   'post',
                   style: GoogleFonts.poppins(
-                    color: AppColors.naveyBlue,
+                    color: _light ? AppColors.naveyBlue : AppColors.white,
                   ),
                 ),
               ),

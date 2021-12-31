@@ -39,11 +39,7 @@ class LoginScreenViewModel extends BaseViewModel {
   String? get currentUsername => _storage.getString(StorageKeys.username);
   String? get myphotoUrl => _storage.getString(StorageKeys.photoUrl);
 
-  void toggleTheme(val) {
-    isWhite = val;
-    notifyListeners();
-  }
-
+ 
   Future<UserCredential?> login() async {
     try {
       if (resetForm.currentState!.validate()) {

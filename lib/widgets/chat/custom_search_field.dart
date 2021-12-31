@@ -12,13 +12,15 @@ class CustomSearchField extends StatelessWidget {
     Key? key,
     @required this.hint,
     this.preixIcon,
-    this.suffixIcon, required this.onChanged, required this.controller,
+    this.suffixIcon,
+    required this.onChanged,
+    required this.controller,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final bool _light = Theme.of(context).brightness == Brightness.light;
     return Container(
-      
       child: TextFormField(
         onChanged: onChanged,
         textAlign: TextAlign.left,
@@ -37,8 +39,9 @@ class CustomSearchField extends StatelessWidget {
       height: 43.5,
       width: double.infinity,
       decoration: BoxDecoration(
-        color: AppColors.whiteGrey,
+        color: _light ? AppColors.whiteGrey : null,
         borderRadius: BorderRadius.circular(10),
+        border: _light ? null : Border.all(color: AppColors.whiteGrey),
       ),
     );
   }

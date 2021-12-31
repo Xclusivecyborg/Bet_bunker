@@ -19,8 +19,6 @@ class ChatView extends StatelessWidget {
         viewModelBuilder: () => ChatViewModel(),
         builder: (context, model, child) {
           return Scaffold(
-            backgroundColor:
-                model.isWhite ? AppColors.naveyBlue : AppColors.white,
             body: SafeArea(
               child: Column(
                 children: [
@@ -34,7 +32,6 @@ class ChatView extends StatelessWidget {
                           "Chat",
                           style: GoogleFonts.poppins(
                             fontWeight: FontWeight.w700,
-                            color: AppColors.black,
                             fontSize: 34,
                           ),
                         ),
@@ -43,12 +40,12 @@ class ChatView extends StatelessWidget {
                           onChanged: model.onSearchUser,
                           preixIcon: Icons.search,
                           hint: 'search',
-                          // suffixIcon: Padding(
-                          //   padding: const EdgeInsets.only(top: 5.0),
-                          //   child: Image.asset(
-                          //     'assets/Filter.png',
-                          //   ),
-                          // ),
+                          suffixIcon: Padding(
+                            padding: const EdgeInsets.only(top: 5.0),
+                            child: Image.asset(
+                              'assets/Filter.png',
+                            ),
+                          ),
                         ),
                       ],
                     ),
@@ -72,37 +69,37 @@ class ChatView extends StatelessWidget {
                             itemCount: model.matchingUsers.isNotEmpty
                                 ? model.matchingUsers.length
                                 : model.usersnapshot.length,
-                            itemBuilder: (context, index) {
+                            itemBuilder: (context, __) {
                               // var match = model.matchingUsers[index];
-                              var user = model.usersnapshot[index];
+                              var user = model.usersnapshot[__];
                               return CustomTile(
                                 leading: LeadingAvatar(
                                   photo: model.matchingUsers.isNotEmpty
-                                      ? model.matchingUsers[index].photoUrl!
+                                      ? model.matchingUsers[__].photoUrl!
                                       : user.photoUrl!,
                                 ),
                                 isWhite: model.userStatus!,
                                 chatPage: true,
                                 isUserLoggedIn: model.matchingUsers.isNotEmpty
-                                    ? model.matchingUsers[index].loggedIn
+                                    ? model.matchingUsers[__].loggedIn
                                     : user.loggedIn,
                                 username: model.matchingUsers.isNotEmpty
-                                    ? model.matchingUsers[index].userName
+                                    ? model.matchingUsers[__].userName
                                     : user.userName ?? 'No data',
                                 ontap: () {
                                   model.naviagteToChatScreen(
                                     uid: user.userId!,
                                     about: model.matchingUsers.isNotEmpty
-                                        ? model.matchingUsers[index].aboutMe!
+                                        ? model.matchingUsers[__].aboutMe!
                                         : user.aboutMe!,
                                     isUserOnline: model.matchingUsers.isNotEmpty
-                                        ? model.matchingUsers[index].loggedIn!
+                                        ? model.matchingUsers[__].loggedIn!
                                         : user.loggedIn!,
                                     user: model.matchingUsers.isNotEmpty
-                                        ? model.matchingUsers[index].userName!
+                                        ? model.matchingUsers[__].userName!
                                         : user.userName ?? 'No data',
                                     networkLink: model.matchingUsers.isNotEmpty
-                                        ? model.matchingUsers[index].photoUrl!
+                                        ? model.matchingUsers[__].photoUrl!
                                         : user.photoUrl!,
                                   );
                                   model.searchFieldController.clearComposing();

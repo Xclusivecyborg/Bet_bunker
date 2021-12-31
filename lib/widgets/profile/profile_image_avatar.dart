@@ -12,6 +12,7 @@ class ProfileAvatar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool _light = Theme.of(context).brightness == Brightness.light;
     return ViewModelBuilder<ChatViewModel>.reactive(
       viewModelBuilder: () => ChatViewModel(),
       builder: (ctx, model, child) => Container(
@@ -24,10 +25,12 @@ class ProfileAvatar extends StatelessWidget {
                     color: AppColors.whiteGrey,
                     width: 2,
                   ),
-                  boxShadow: const [
+                  boxShadow: [
                     BoxShadow(
                       spreadRadius: 2,
-                      blurRadius: 10,
+                      blurRadius: 7,
+                      color:
+                          _light ? AppColors.naveyBlue : AppColors.mylightGreen,
                     ),
                   ],
                 ),
@@ -54,7 +57,7 @@ class ProfileAvatar extends StatelessWidget {
                           height: 90,
                           width: 90,
                           child: Center(
-                            child: CircularProgressIndicator(
+                            child: CircularProgressIndicator.adaptive(
                               value: loadingProgress.expectedTotalBytes != null
                                   ? loadingProgress.cumulativeBytesLoaded /
                                       loadingProgress.expectedTotalBytes!

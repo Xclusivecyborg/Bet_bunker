@@ -25,6 +25,7 @@ class CustomTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool _light = Theme.of(context).brightness == Brightness.light;
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 15),
       child: ListTile(
@@ -33,7 +34,7 @@ class CustomTile extends StatelessWidget {
         title: Text(
           username!,
           style: GoogleFonts.poppins(
-            color: AppColors.naveyBlue,
+            color: _light ? AppColors.naveyBlue : null,
             fontSize: 20.0,
           ),
         ),
@@ -72,7 +73,6 @@ class CustomTile extends StatelessWidget {
                       color: isWhite ? AppColors.myGreen : AppColors.naveyBlue),
                 ),
               ),
-      
       ),
     );
   }

@@ -27,8 +27,8 @@ class SignOutDialog extends StatelessWidget {
           height: 60,
           width: 30,
           child:  Center(
-            child: CircularProgressIndicator(
-              color: AppColors.naveyBlue,
+            child: CircularProgressIndicator.adaptive(
+              backgroundColor: AppColors.naveyBlue,
             ),
           ),
         ),
