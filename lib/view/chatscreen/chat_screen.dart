@@ -15,7 +15,8 @@ class ChatScreen extends StatelessWidget {
       this.usernameChattingWith,
       this.networkUrl,
       this.isOnline,
-      this.aboutMe, required this.uid})
+      this.aboutMe,
+      required this.uid})
       : super(key: key);
   final String? usernameChattingWith;
   final String? networkUrl;
@@ -25,15 +26,16 @@ class ChatScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return ViewModelBuilder<ChatScreenViewmodel>.reactive(
         onModelReady: (model) => model.initialize(user2: usernameChattingWith!),
         viewModelBuilder: () => ChatScreenViewmodel(),
         builder: (context, model, child) {
           return Scaffold(
             appBar: AppBar(
+              backgroundColor: theme.scaffoldBackgroundColor,
               automaticallyImplyLeading: false,
               elevation: 2,
-              backgroundColor: AppColors.white,
               title: Row(
                 children: [
                   GestureDetector(
@@ -42,7 +44,6 @@ class ChatScreen extends StatelessWidget {
                     },
                     child: const Icon(
                       Icons.arrow_back_ios,
-                      color: AppColors.black,
                       size: 20,
                     ),
                   ),
@@ -70,7 +71,6 @@ class ChatScreen extends StatelessWidget {
                         '$usernameChattingWith',
                         style: GoogleFonts.poppins(
                           fontWeight: FontWeight.w700,
-                          color: AppColors.black,
                           fontSize: 17,
                         ),
                       ),
@@ -104,7 +104,8 @@ class ChatScreen extends StatelessWidget {
                     stream: model.messageSnapshot,
                     builder: (context, snapshot) {
                       if (!snapshot.hasData) {
-                        return const Center(child: CircularProgressIndicator.adaptive());
+                        return const Center(
+                            child: CircularProgressIndicator.adaptive());
                       }
                       List<MessageTextWidget> messageList = [];
                       for (var message in snapshot.data!.docs.reversed) {

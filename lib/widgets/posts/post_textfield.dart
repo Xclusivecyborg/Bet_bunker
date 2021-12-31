@@ -11,7 +11,6 @@ class TextEditor extends StatelessWidget with $Posts {
 
   @override
   Widget build(BuildContext context) {
-     var theme = Theme.of(context);
     final bool _light = Theme.of(context).brightness == Brightness.light;
     return ViewModelBuilder<PostsViewModel>.reactive(
         viewModelBuilder: () => PostsViewModel(),

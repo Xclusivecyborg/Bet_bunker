@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:spinchat/utils/constants/color_constants.dart';
 import 'package:spinchat/view/chatView/chat_view_screen_viewmodel.dart';
 import 'package:spinchat/widgets/chat/custom_search_field.dart';
 import 'package:spinchat/widgets/app_wide_widgets/custom_tile.dart';

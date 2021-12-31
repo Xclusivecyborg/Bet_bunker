@@ -22,6 +22,7 @@ class ChatTextfield extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool _light = Theme.of(context).brightness == Brightness.light;
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -50,8 +51,11 @@ class ChatTextfield extends StatelessWidget {
           height: 50,
           width: MediaQuery.of(context).size.width / 1.3,
           decoration: BoxDecoration(
-            color: AppColors.whiteGrey,
+            color: _light ? AppColors.whiteGrey : null,
             borderRadius: BorderRadius.circular(10),
+            border: Border.all(
+              color: _light ? AppColors.white : Colors.transparent,
+            ),
           ),
         ),
         const SizedBox(
@@ -59,72 +63,17 @@ class ChatTextfield extends StatelessWidget {
         ),
         GestureDetector(
           onTap: onPressed,
-          child: const Icon(
-            CupertinoIcons.paperplane_fill,
-            size: 30,
-          ),
+          child: _light
+              ? const Icon(
+                  CupertinoIcons.paperplane_fill,
+                  size: 30,
+                )
+              : const Icon(
+                  CupertinoIcons.paperplane,
+                  color: AppColors.myLightGrey,
+                ),
         )
       ],
     );
   }
 }
-
-
-// class ChatTextfield extends StatelessWidget {
-//   final IconData? icon;
-//   final String? hint;
-//   final String? label;
-//   final bool? obscure;
-//   final TextEditingController? controller;
-//   const ChatTextfield({
-//     Key? key,
-//     this.icon,
-//     @required this.hint,
-//     this.obscure = false,
-//     @required this.label,
-//     @required this.controller,
-//   }) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(
-//       padding: const EdgeInsets.only(left: 16, top: 10),
-//       child: Stack(
-//         children: [
-//           Text(
-//             label!,
-//             style: GoogleFonts.poppins(
-//               fontWeight: FontWeight.w500,
-//               color: AppColors.lighterGrey,
-//               fontSize: 11,
-//             ),
-//           ),
-//           TextFormField(
-//             key: const Key('My Textfield '),
-//             controller: controller,
-//             obscureText: obscure!,
-//             decoration: InputDecoration(
-//               suffixIcon: Icon(
-//                 icon,
-//                 size: 15,
-//               ),
-//               hintText: hint!,
-//               hintStyle: GoogleFonts.poppins(
-//                 fontWeight: FontWeight.w500,
-//                 color: AppColors.black,
-//                 fontSize: 16,
-//               ),
-//               border: InputBorder.none,
-//             ),
-//           ),
-//         ],
-//       ),
-//       height: 60,
-//       width: double.infinity,
-//       decoration: BoxDecoration(
-//         color: AppColors.whiteGrey,
-//         borderRadius: BorderRadius.circular(10),
-//       ),
-//     );
-//   }
-// }
