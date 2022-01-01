@@ -18,7 +18,7 @@ import 'package:stacked_services/stacked_services.dart';
 class HomeScreenViewModel extends BaseViewModel {
   final log = getLogger('Home Screen');
   //Services
-  final _fireStore = locator<FirestoreService>();
+  final fireStore = locator<FirestoreService>();
   final _snackbar = locator<SnackbarService>();
   final _storage = locator<SharedPreferenceLocalStorage>();
   final _navigation = locator<NavigationService>();
@@ -31,7 +31,6 @@ class HomeScreenViewModel extends BaseViewModel {
   String? get myUsername => _storage.getString(StorageKeys.username);
   bool isWhite = false;
   bool? get themePref => _storage.getBool(StorageKeys.themePref);
-  bool toggle = false;
   List<BetPosts> posts = [];
   bool isbusy = false;
   bool isLiked = false;
@@ -46,18 +45,17 @@ class HomeScreenViewModel extends BaseViewModel {
   }
 
   void toggleTheme(val) {
-    toggle = val;
-    _storage.setBool(StorageKeys.themePref, toggle);
-    log.e(toggle);
+    _storage.setBool(StorageKeys.themePref, val);
+    log.e(val);
     notifyListeners();
   }
 
   Future<void> like(bool liked, BetPosts post) async {
-    await _fireStore.likePost(isLiked: liked, uid: userId, post: post);
+    await fireStore.likePost(isLiked: liked, uid: userId, post: post);
   }
 
   void getUserDetails() async {
-    await _fireStore.getMyDetails(userId)!.then((value) {
+    await fireStore.getMyDetails(userId)!.then((value) {
       String userUsername = value['userName']!;
       String photoLink = value['photoUrl'];
       String about = value['aboutMe'];
@@ -76,7 +74,7 @@ class HomeScreenViewModel extends BaseViewModel {
   Future fetchPosts() async {
     isbusy = true;
     try {
-      final newPosts = await _fireStore.getPosts();
+      final newPosts = await fireStore.getPosts();
       List<BetPosts> post =
           newPosts!.docs.map((e) => BetPosts.fromMap(e)).toList();
       posts = post;
@@ -125,7 +123,7 @@ class HomeScreenViewModel extends BaseViewModel {
     _dialog.showCustomDialog(
       variant: DialogType.signOut,
     );
-    await _fireStore.updateDocument(
+    await fireStore.updateDocument(
         collPath: 'users', docPath: userId!, data: {'loggedIn': false});
     _authservice.logout();
     _storage.clearStorage();
