@@ -36,7 +36,7 @@ ThemeBuilder getMaterialApp(registered) {
     );
   } else if (registered == null) {
     return ThemeBuilder(
-      defaultThemeMode: ThemeMode.light,
+      defaultThemeMode: themePref == false  ? ThemeMode.light : ThemeMode.dark,
       darkTheme: ThemeData(
         brightness: Brightness.dark,
         backgroundColor: AppColors.black,

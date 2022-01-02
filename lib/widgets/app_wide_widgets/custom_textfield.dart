@@ -64,13 +64,9 @@ class _CustomTextFieldState extends State<CustomTextField> {
         Container(
           height: widget.height,
           width: widget.width ?? MediaQuery.of(context).size.width,
-          decoration: BoxDecoration(
-            border: Border.all(
-              color: widget.bordercolor == null
-                  ? AppColors.naveyBlue
-                  : widget.bordercolor!,
-            ),
-            borderRadius: const BorderRadius.all(
+          decoration: const BoxDecoration(
+            color: AppColors.whiteGrey,
+            borderRadius: BorderRadius.all(
               Radius.circular(15),
             ),
           ),
@@ -115,9 +111,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
                   suffixIcon: widget.suffixIcon,
                   filled: false,
                   hintText: widget.hintText,
-                  hintStyle: const TextStyle(
-                    color: AppColors.myMediumGrey
-                  ),
+                  hintStyle: const TextStyle(color: AppColors.myMediumGrey),
                   errorBorder: kBorderStyle,
                   errorStyle: const TextStyle(
                       height: 0.0, fontSize: 0.0, color: Colors.yellow),

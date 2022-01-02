@@ -18,7 +18,8 @@ class SettingsPage extends StatelessWidget {
         return Scaffold(
           appBar: AppBar(
             elevation: 2,
-            title: const Text('Settings', style: TextStyle(color: AppColors.black)),
+            title: const Text('Settings',
+                style: TextStyle(color: AppColors.black)),
             backgroundColor: AppColors.white,
           ),
           body: Stack(
@@ -77,7 +78,7 @@ class SettingsPage extends StatelessWidget {
                           ),
                         );
                       },
-                      child:  ProfileAvatar(
+                      child: ProfileAvatar(
                         photosUrl: model.myphotoUrl!,
                       ),
                     ),
@@ -85,7 +86,8 @@ class SettingsPage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Container(
-                          margin: const EdgeInsets.only(left: 10, top: 30, bottom: 5),
+                          margin: const EdgeInsets.only(
+                              left: 10, top: 30, bottom: 5),
                           child: const Text('username'),
                         ),
                         Container(
@@ -114,7 +116,8 @@ class SettingsPage extends StatelessWidget {
                           ),
                         ),
                         Container(
-                          margin: const EdgeInsets.only(left: 10, top: 30, bottom: 5),
+                          margin: const EdgeInsets.only(
+                              left: 10, top: 30, bottom: 5),
                           child: const Text('About me'),
                         ),
                         Container(
@@ -144,7 +147,6 @@ class SettingsPage extends StatelessWidget {
                         Center(
                           child: CustomButton(
                             label: 'Update',
-                            color: AppColors.naveyBlue,
                             onTap: () {
                               model.updateDetails();
                             },

@@ -2,13 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:spinchat/app/models.dart/icon_drawer.dart';
-import 'package:spinchat/app/models.dart/user_model.dart';
 import 'package:spinchat/utils/constants/color_constants.dart';
 import 'package:spinchat/view/chatView/chat_view_search_screen.dart';
 import 'package:spinchat/widgets/app_wide_widgets/drawer.dart';
 import 'package:spinchat/widgets/app_wide_widgets/shimmer_loader.dart';
 import 'package:spinchat/widgets/posts/list_of_posts.dart';
-import 'package:spinchat/widgets/profile/users_circle_avatar.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_themes/stacked_themes.dart';
 import 'home_screen_viewmodel.dart';
@@ -41,20 +39,6 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
             actions: [
-              IconButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => const SearchScreen(),
-                    ),
-                  );
-                },
-                icon: Icon(
-                  Icons.search,
-                  color: _light ? AppColors.naveyBlue : AppColors.white,
-                ),
-              ),
               IconButton(
                 onPressed: () {
                   model.logout();

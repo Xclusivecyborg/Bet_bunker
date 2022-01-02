@@ -119,7 +119,7 @@ class HomeScreenViewModel extends BaseViewModel {
   }
 
   ///Logout functionality
-  void logout() async {
+  Future logout() async {
     _dialog.showCustomDialog(
       variant: DialogType.signOut,
     );

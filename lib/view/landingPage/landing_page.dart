@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:spinchat/view/landingPage/landing_page_viewmodel.dart';
 import 'package:spinchat/utils/constants/color_constants.dart';
 import 'package:spinchat/widgets/app_wide_widgets/rounded_button.dart';
@@ -11,7 +12,9 @@ class LandingPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return ViewModelBuilder<LandingPageViewModel>.reactive(
         viewModelBuilder: () => LandingPageViewModel(),
-        onModelReady: (model) => model.setTheme(),
+        onModelReady: (model) {
+          model.setTheme();
+        },
         builder: (context, model, child) {
           return Scaffold(
             body: SingleChildScrollView(
@@ -22,15 +25,28 @@ class LandingPage extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Container(
-                        height: 100,
-                        width: 100,
-                        decoration: const BoxDecoration(
-                          image: DecorationImage(
-                            fit: BoxFit.contain,
-                            image: AssetImage('assets/rectangle.png'),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            height: 30,
+                            width: 30,
+                            decoration: const BoxDecoration(
+                              image: DecorationImage(
+                                fit: BoxFit.contain,
+                                image: AssetImage('assets/rectangle.png'),
+                              ),
+                            ),
                           ),
-                        ),
+                          Text(
+                            'BetBunker',
+                            style: GoogleFonts.poppins(
+                              fontWeight: FontWeight.w900,
+                              color: AppColors.mydeepGreen,
+                              fontSize: 40,
+                            ),
+                          ),
+                        ],
                       ),
                       const SizedBox(height: 30),
                       Container(
@@ -44,29 +60,43 @@ class LandingPage extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 20),
-                      const Text('Connect With Friends, Family and more'),
+                      Text(
+                        'Share booking codes, connect with friends',
+                        style: GoogleFonts.poppins(
+                          fontWeight: FontWeight.w500,
+                          color: AppColors.myDarkGrey,
+                          fontSize: 15,
+                        ),
+                      ),
                       const SizedBox(height: 80),
                       CustomButton(
                         label: 'Click to get started',
                         onTap: () {
                           model.navigateToRegistrationPage();
                         },
-                        color: AppColors.naveyBlue,
                       ),
                       const SizedBox(height: 20),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const Text('Already have an account? '),
+                          Text(
+                            'Already have an account? ',
+                            style: GoogleFonts.poppins(
+                              fontWeight: FontWeight.w500,
+                              color: AppColors.myDarkGrey,
+                              fontSize: 15,
+                            ),
+                          ),
                           GestureDetector(
                             onTap: () {
                               model.navigateToLogin();
                             },
-                            child: const Text(
+                            child: Text(
                               'Login',
-                              style: TextStyle(
-                                fontSize: 15,
+                              style: GoogleFonts.poppins(
+                                fontWeight: FontWeight.w500,
                                 color: AppColors.myRed,
+                                fontSize: 15,
                               ),
                             ),
                           ),

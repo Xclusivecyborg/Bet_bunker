@@ -1,6 +1,8 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:spinchat/view/registrationPage/registration_page_viewmodel.dart';
 import 'package:spinchat/utils/constants/color_constants.dart';
 import 'package:spinchat/utils/validations.dart';
@@ -17,81 +19,118 @@ class Registration extends StatelessWidget {
       viewModelBuilder: () => RegistrationPageViewModel(),
       builder: (ctx, model, child) => Scaffold(
         backgroundColor: AppColors.white,
-        body: SingleChildScrollView(
+        body: SafeArea(
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(25, 150, 25, 50),
+            padding: const EdgeInsets.fromLTRB(25, 20, 25, 50),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
-                  height: 100,
-                  width: 100,
-                  decoration: const BoxDecoration(
-                    image: DecorationImage(
-                      fit: BoxFit.contain,
-                      image: AssetImage('assets/rectangle.png'),
-                    ),
+                GestureDetector(
+                  onTap: () => Navigator.pop(context),
+                  child: Icon(
+                    CupertinoIcons.arrow_left,
+                    color: AppColors.black,
+                    size: 40,
                   ),
                 ),
-                const SizedBox(height: 30),
-                Form(
-                  key: model.resetForm,
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                  child: Column(
-                    children: [
-                      CustomTextField(
-                          hintText: 'Username',
-                          controller: model.userNameController,
-                          validateFunction: Validations.validateName,
-                          onChange: (val) {}),
-                      const SizedBox(height: 10),
-                      CustomTextField(
-                          hintText: 'Email',
-                          controller: model.emailController,
-                          validateFunction: Validations.validateEmail,
-                          onChange: (val) {}),
-                      const SizedBox(height: 10),
-                      CustomTextField(
-                          validateFunction: Validations.validatePassword,
-                          hintText: 'Password',
-                          controller: model.passwordController,
-                          onChange: (val) {}),
-                      const SizedBox(height: 10),
-                      CustomTextField(
-                          obscureText: true,
-                          hintText: "Confirm Password",
-                          controller: model.confirmPassword,
-                          keyboardType: TextInputType.visiblePassword,
-                          validateFunction: model.confirmPasswordFields,
-                          onChange: (val) {}),
-                      const SizedBox(height: 30),
-                      CustomButton(
-                        label: 'Register',
-                        color: AppColors.naveyBlue,
-                        onTap: () async {
-                          model.signUp();
-                        },
-                      ),
-                        const SizedBox(height: 20),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text('Already have an account? '),
-                          GestureDetector(
-                            onTap: () {
-                              model.navigateToLogin();
-                            },
-                            child: const Text(
-                              'Login',
-                              style: TextStyle(
-                                fontSize: 15,
-                                color: AppColors.myRed,
+                const SizedBox(
+                  height: 20,
+                ),
+                Text(
+                  "Let's start here",
+                  style: GoogleFonts.poppins(
+                    fontWeight: FontWeight.w700,
+                    color: AppColors.black,
+                    fontSize: 34,
+                  ),
+                ),
+                Text(
+                  "Fill in your details to begin",
+                  style: GoogleFonts.poppins(
+                    fontWeight: FontWeight.w500,
+                    color: AppColors.myDarkGrey,
+                    fontSize: 17,
+                  ),
+                ),
+                SizedBox(
+                  height: 22,
+                ),
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Form(
+                          key: model.resetForm,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          child: Column(
+                            children: [
+                              CustomTextField(
+                                  hintText: 'Username',
+                                  controller: model.userNameController,
+                                  validateFunction: Validations.validateName,
+                                  onChange: (val) {}),
+                              const SizedBox(height: 10),
+                              CustomTextField(
+                                  hintText: 'Email',
+                                  controller: model.emailController,
+                                  validateFunction: Validations.validateEmail,
+                                  onChange: (val) {}),
+                              const SizedBox(height: 10),
+                              CustomTextField(
+                                  validateFunction:
+                                      Validations.validatePassword,
+                                  hintText: 'Password',
+                                  controller: model.passwordController,
+                                  onChange: (val) {}),
+                              const SizedBox(height: 10),
+                              CustomTextField(
+                                  obscureText: true,
+                                  hintText: "Confirm Password",
+                                  controller: model.confirmPassword,
+                                  keyboardType: TextInputType.visiblePassword,
+                                  validateFunction: model.confirmPasswordFields,
+                                  onChange: (val) {}),
+                              const SizedBox(height: 30),
+                              CustomButton(
+                                width: double.infinity,
+                                label: 'Register',
+                                onTap: () async {
+                                  model.signUp();
+                                },
                               ),
-                            ),
+                              const SizedBox(height: 20),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    'Already have an account? ',
+                                    style: GoogleFonts.poppins(
+                                      fontWeight: FontWeight.w500,
+                                      color: AppColors.myDarkGrey,
+                                      fontSize: 15,
+                                    ),
+                                  ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      model.navigateToLogin();
+                                    },
+                                    child: Text(
+                                      'Login',
+                                      style: GoogleFonts.poppins(
+                                        fontWeight: FontWeight.w500,
+                                        color: AppColors.myRed,
+                                        fontSize: 15,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              )
+                            ],
                           ),
-                        ],
-                      )
-                    ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],

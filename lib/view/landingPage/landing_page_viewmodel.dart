@@ -7,18 +7,17 @@ import 'package:stacked_services/stacked_services.dart';
 
 class LandingPageViewModel extends BaseViewModel {
   final _navigation = locator<NavigationService>();
-   final _storage = locator<SharedPreferenceLocalStorage>();
+  final _storage = locator<SharedPreferenceLocalStorage>();
 
   void navigateToLogin() {
-
     _navigation.navigateTo(Routes.loginScreen);
   }
 
-  void setTheme(){
-     _storage.setBool(StorageKeys.themePref, false);
+  void setTheme() async {
+    await _storage.setBool(StorageKeys.themePref, false);
   }
 
-   void navigateToRegistrationPage() {
+  void navigateToRegistrationPage() {
     _navigation.navigateTo(Routes.registration);
   }
 }

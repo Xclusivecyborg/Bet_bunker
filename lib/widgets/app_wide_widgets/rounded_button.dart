@@ -1,55 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:spinchat/utils/constants/color_constants.dart';
-
-// class RoundedButton extends StatefulWidget {
-//   final String? title;
-//   final Color? color;
-//   final void Function()? onPressed;
-
-//   RoundedButton({
-//     Key? key,
-//     @required this.title,
-//     @required this.color,
-//     @required this.onPressed,
-//   }) : super(key: key);
-
-//   @override
-//   _RoundedButtonState createState() => _RoundedButtonState();
-// }
-
-// class _RoundedButtonState extends State<RoundedButton> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Padding(
-//       padding: EdgeInsets.symmetric(vertical: 16.0),
-//       child: Material(
-//         elevation: 5.0,
-//         color: widget.color,
-//         borderRadius: BorderRadius.circular(30.0),
-//         child: MaterialButton(
-//           onPressed: widget.onPressed,
-//           minWidth: 200.0,
-//           height: 42.0,
-//           child: Text(
-//             widget.title!,
-//             style: TextStyle(color: Colors.white),
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
 
 class CustomButton extends StatelessWidget {
   final String? label;
   final Function()? onTap;
-  final Color? color;
+
   final double? width;
   const CustomButton({
     Key? key,
     this.label = 'Label',
     this.onTap,
-    @required this.color,
     this.width,
   }) : super(key: key);
 
@@ -58,18 +19,27 @@ class CustomButton extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        height: 48,
+        height: 55,
         width: width ?? MediaQuery.of(context).size.width / 2,
         decoration: BoxDecoration(
-          color: color,
-          borderRadius: const BorderRadius.all(
-            Radius.circular(30),
+          gradient: const LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              AppColors.naveyBlue,
+              AppColors.myGreen,
+            ],
           ),
+          borderRadius: BorderRadius.circular(15),
         ),
         child: Center(
           child: Text(
             label!,
-            style: const TextStyle(color: AppColors.myGreen),
+            style: GoogleFonts.poppins(
+              fontWeight: FontWeight.w500,
+              color: AppColors.white,
+              fontSize: 15,
+            ),
           ),
         ),
       ),
