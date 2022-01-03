@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:spinchat/app/models.dart/icon_drawer.dart';
 import 'package:spinchat/utils/constants/color_constants.dart';
-import 'package:spinchat/view/chatView/chat_view_search_screen.dart';
 import 'package:spinchat/widgets/app_wide_widgets/drawer.dart';
 import 'package:spinchat/widgets/app_wide_widgets/shimmer_loader.dart';
 import 'package:spinchat/widgets/posts/list_of_posts.dart';
@@ -71,14 +70,24 @@ class HomeScreen extends StatelessWidget {
           floatingActionButton: Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              FloatingActionButton(
-                backgroundColor: AppColors.myGreen,
-                onPressed: () {
+              GestureDetector(
+                onTap: () {
                   model.navigateToPost();
                 },
-                child: Icon(
-                  CupertinoIcons.pen,
-                  color: _light ? AppColors.black : AppColors.white,
+                child: Container(
+                  height: 60,
+                  width: 60,
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                    gradient: LinearGradient(colors: [
+                      AppColors.myGreen,
+                      AppColors.myYellow,
+                    ]),
+                  ),
+                  child: Icon(
+                    CupertinoIcons.pen,
+                    color: _light ? AppColors.black : AppColors.white,
+                  ),
                 ),
               ),
               Text(

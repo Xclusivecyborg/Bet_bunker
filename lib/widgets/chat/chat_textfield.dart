@@ -10,6 +10,8 @@ class ChatTextfield extends StatelessWidget {
   final FocusNode? focusNode;
   final Function()? onPressed;
   final TextEditingController? controller;
+  final Function(String) onChanged;
+  final Function() onLongPress;
   const ChatTextfield({
     Key? key,
     @required this.hint,
@@ -18,6 +20,8 @@ class ChatTextfield extends StatelessWidget {
     @required this.controller,
     this.onPressed,
     this.focusNode,
+    required this.onChanged,
+    required this.onLongPress,
   }) : super(key: key);
 
   @override
@@ -31,6 +35,7 @@ class ChatTextfield extends StatelessWidget {
             children: [
               Expanded(
                 child: TextField(
+                  onChanged: onChanged,
                   controller: controller,
                   textAlign: TextAlign.left,
                   decoration: InputDecoration(
@@ -62,6 +67,7 @@ class ChatTextfield extends StatelessWidget {
           width: 5,
         ),
         GestureDetector(
+          onLongPress: onLongPress,
           onTap: onPressed,
           child: _light
               ? const Icon(

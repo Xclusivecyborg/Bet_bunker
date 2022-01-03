@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:spinchat/utils/constants/color_constants.dart';
 import 'package:spinchat/view/chatscreen/chat_screen_viewmodel.dart';
+import 'package:spinchat/widgets/app_wide_widgets/alert_dialog.dart';
+import 'package:spinchat/widgets/app_wide_widgets/dialog_actions.dart';
 import 'package:spinchat/widgets/chat/chat_textfield.dart';
 import 'package:spinchat/widgets/chat/message_widget.dart';
 import 'package:spinchat/widgets/profile/users_circle_avatar.dart';
@@ -27,6 +29,7 @@ class ChatScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final _light = Theme.of(context).brightness == Brightness.light;
     return ViewModelBuilder<ChatScreenViewmodel>.reactive(
         onModelReady: (model) => model.initialize(user2: usernameChattingWith!),
         viewModelBuilder: () => ChatScreenViewmodel(),
@@ -39,12 +42,11 @@ class ChatScreen extends StatelessWidget {
               title: Row(
                 children: [
                   GestureDetector(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: const Icon(
+                    onTap: () => model.pop(),
+                    child: Icon(
                       Icons.arrow_back_ios,
                       size: 20,
+                      color: _light ? AppColors.naveyBlue : null,
                     ),
                   ),
                   const SizedBox(width: 10),
@@ -70,9 +72,9 @@ class ChatScreen extends StatelessWidget {
                       Text(
                         '$usernameChattingWith',
                         style: GoogleFonts.poppins(
-                          fontWeight: FontWeight.w700,
-                          fontSize: 17,
-                        ),
+                            fontWeight: FontWeight.w700,
+                            fontSize: 17,
+                            color: _light ? AppColors.naveyBlue : null),
                       ),
                       Row(
                         children: [
@@ -134,6 +136,19 @@ class ChatScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 20),
                   ChatTextfield(
+                    onLongPress: () {
+                      return showDialog(
+                        context: context,
+                        builder: (context) => ScheduleDialog(
+                          title: 'Schedule Message',
+                          action: getMesageSchedule(
+                              context: context,
+                              model: model,
+                              friend: usernameChattingWith!),
+                        ),
+                      );
+                    },
+                    onChanged: model.onChange,
                     hint: 'Type your message',
                     controller: model.messageController,
                     onPressed: () {

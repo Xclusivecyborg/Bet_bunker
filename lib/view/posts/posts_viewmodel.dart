@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:spinchat/app/app.locator.dart';
 import 'package:spinchat/app/app.logger.dart';
+import 'package:spinchat/app/app.router.dart';
 import 'package:spinchat/app/models.dart/posts_model.dart';
 import 'package:spinchat/app/services/firebase_storage.dart';
 import 'package:spinchat/app/services/firestore_service.dart';
@@ -12,6 +13,7 @@ import 'package:spinchat/app/services/localdatabase.dart';
 import 'package:spinchat/utils/storage_keys.dart';
 import 'package:spinchat/widgets/package_widgets/custom_snackbar.dart';
 import 'package:spinchat/widgets/package_widgets/custom_toast.dart';
+import 'package:spinchat/widgets/package_widgets/setup_ui_dialog.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
@@ -23,13 +25,14 @@ class PostsViewModel extends FormViewModel {
   final _navigation = locator<NavigationService>();
   final _storage = locator<SharedPreferenceLocalStorage>();
   final _firebaseStorage = locator<FirebaseDataStorage>();
+  final _dialogService = locator<DialogService>();
 
   String? get currentUserEmail => _storage.getString(StorageKeys.userEmail);
   String? get userId => _storage.getString(StorageKeys.currentUserId);
   String? get currentUsername => _storage.getString(StorageKeys.username);
 
   bool mediaAdded = false;
-  String textBody = '';
+  String textBody = 'away';
   String? downloadUrl;
   File? photoFile;
 
@@ -110,7 +113,7 @@ class PostsViewModel extends FormViewModel {
         customtoast(toastmessage: 'Post created successfully');
       }
     } on SocketException {
-        pop();
+      pop();
       customtoast(toastmessage: 'Please check your internet connection');
     } catch (e) {
       log.e(e.toString());
@@ -120,6 +123,27 @@ class PostsViewModel extends FormViewModel {
 
   void pop() {
     _navigation.back();
+  }
+
+  void showDialog() {
+    _dialogService.showCustomDialog(
+      variant: DialogType.schedulePost,
+    );
+  }
+
+  Future<void> scheduleMessage(double delay, String message) async {
+    delay = delay * 60; //Converting from hour to minutes
+    int value = delay.toInt();
+
+    if (textBody.trim().isNotEmpty) {
+      customtoast(toastmessage: 'Creating in $value minutes');
+      _navigation.clearStackAndShow(Routes.homeScreen);
+      Future.delayed(Duration(minutes: value), () async {
+        await createPost();
+      });
+    } else {
+      customtoast(toastmessage: 'Message body is empty');
+    }
   }
 
   @override

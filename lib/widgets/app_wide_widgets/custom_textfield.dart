@@ -58,15 +58,19 @@ class _CustomTextFieldState extends State<CustomTextField> {
   String? error;
   @override
   Widget build(BuildContext context) {
+    final _light = Theme.of(context).brightness == Brightness.light;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
           height: widget.height,
           width: widget.width ?? MediaQuery.of(context).size.width,
-          decoration: const BoxDecoration(
-            color: AppColors.whiteGrey,
-            borderRadius: BorderRadius.all(
+          decoration: BoxDecoration(
+            border: Border.all(
+              width: 0.3,
+              color: _light ? AppColors.myDarkGrey : AppColors.whiteGrey,
+            ),
+            borderRadius: const BorderRadius.all(
               Radius.circular(15),
             ),
           ),

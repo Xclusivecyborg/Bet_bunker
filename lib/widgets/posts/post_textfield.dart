@@ -18,7 +18,7 @@ class TextEditor extends StatelessWidget with $Posts {
           return TextFormField(
             textCapitalization: TextCapitalization.sentences,
             autofocus: true,
-            controller: postsController,
+            // controller: postsController,
             maxLines: null,
             keyboardType: TextInputType.multiline,
             cursorColor: AppColors.myGreen,

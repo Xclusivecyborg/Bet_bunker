@@ -9,6 +9,7 @@ import 'package:spinchat/app/services/firebse_auth_service.dart';
 import 'package:spinchat/app/services/firestore_service.dart';
 import 'package:spinchat/app/services/localdatabase.dart';
 import 'package:spinchat/utils/storage_keys.dart';
+import 'package:spinchat/widgets/package_widgets/custom_toast.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
@@ -25,7 +26,7 @@ class ChatScreenViewmodel extends BaseViewModel {
   User? get loggedInUSer => _auth.getCurrentUSer();
   final _storage = locator<SharedPreferenceLocalStorage>();
   String? get currentUsername => _storage.getString(StorageKeys.username);
-  String? messageText;
+  String messageText = '';
   TextEditingController messageController = TextEditingController();
   Stream<QuerySnapshot<Map<String, dynamic>>>? messageSnapshot;
 
@@ -34,6 +35,10 @@ class ChatScreenViewmodel extends BaseViewModel {
 //onModelReady is Similar to initState in a stateful widget
   void initialize({required String user2}) async {
     await messages(friendUsername: user2);
+  }
+
+  void onChange(String value) {
+    messageText = value;
   }
 
   User? getCurrentUSer() {
@@ -82,10 +87,10 @@ class ChatScreenViewmodel extends BaseViewModel {
   }
 
 //Method that handles sending messages to the database
-  void sendMessage({@required String? friendUsername}) async {
+  Future<void> sendMessage({@required String? friendUsername}) async {
     String getdocPath = chatRoomId(currentUsername!, friendUsername!);
     messageText = messageController.text;
-    if (messageText!.isNotEmpty) {
+    if (messageText.isNotEmpty) {
       await _fireStore.sendMessages(
           collection2: 'usersMessages',
           collPath: 'messages',
@@ -97,6 +102,26 @@ class ChatScreenViewmodel extends BaseViewModel {
           ));
       messages(friendUsername: friendUsername);
       scrollController.jumpTo(scrollController.position.minScrollExtent);
+    }
+  }
+
+  void pop() {
+    _navigation.back();
+  }
+
+  Future scheduleMessage(double delay, String text,
+      {required String friend}) async {
+    delay = delay * 60; //Converting from hour to minutes
+    int value = delay.toInt();
+    if (text.trim().isNotEmpty) {
+      customtoast(toastmessage: 'Will send message in $value minutes');
+      Future.delayed(Duration(minutes: value), () async {
+        await sendMessage(
+          friendUsername: friend,
+        );
+      });
+    } else {
+      customtoast(toastmessage: 'Message body is empty');
     }
   }
 }

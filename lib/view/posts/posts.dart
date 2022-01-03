@@ -40,10 +40,10 @@ class Posts extends StatelessWidget {
               ),
             ),
             actions: [
-              TextButton(
-                onPressed: () async {
-                  model.textBody.isNotEmpty ? await model.createPost() : null;
-                },
+              GestureDetector(
+                onTap: () async =>
+                    model.textBody.isNotEmpty ? await model.createPost() : null,
+                onLongPress: () => model.showDialog(),
                 child: Text(
                   'post',
                   style: GoogleFonts.poppins(
