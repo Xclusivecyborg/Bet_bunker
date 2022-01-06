@@ -67,7 +67,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
           width: widget.width ?? MediaQuery.of(context).size.width,
           decoration: BoxDecoration(
             border: Border.all(
-              width: 0.3,
+              width: 0.1,
               color: _light ? AppColors.myDarkGrey : AppColors.whiteGrey,
             ),
             borderRadius: const BorderRadius.all(
