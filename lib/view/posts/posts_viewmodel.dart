@@ -142,7 +142,7 @@ class PostsViewModel extends FormViewModel {
         await createPost();
       });
     } else {
-      customtoast(toastmessage: 'Message body is empty');
+      customtoast(toastmessage: 'Post body is empty');
     }
   }
 

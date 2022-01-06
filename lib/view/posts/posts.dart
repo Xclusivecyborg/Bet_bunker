@@ -40,14 +40,18 @@ class Posts extends StatelessWidget {
               ),
             ),
             actions: [
-              GestureDetector(
-                onTap: () async =>
-                    model.textBody.isNotEmpty ? await model.createPost() : null,
-                onLongPress: () => model.showDialog(),
-                child: Text(
-                  'post',
-                  style: GoogleFonts.poppins(
-                    color: _light ? AppColors.naveyBlue : AppColors.white,
+              Padding(
+                padding: const EdgeInsets.only(right: 12.0, top: 15.0),
+                child: GestureDetector(
+                  onTap: () async => model.textBody.isNotEmpty
+                      ? await model.createPost()
+                      : null,
+                  onLongPress: () => model.showDialog(),
+                  child: Text(
+                    'post',
+                    style: GoogleFonts.poppins(
+                      color: _light ? AppColors.naveyBlue : AppColors.white,
+                    ),
                   ),
                 ),
               ),
